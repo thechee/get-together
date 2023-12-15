@@ -8,7 +8,7 @@ const LoginFormPage = () => {
   const dispatch = useDispatch()
   const [ credential, setCredential ] = useState('')
   const [ password, setPassword ] = useState('')
-  const [ errors, setErrors ] = useState({})
+  const [ errors, setErrors ] = useState('')
   const sessionUser = useSelector(state => state.session.user)
 
   if (sessionUser) return <Navigate to='/' replace= {true}/>
@@ -27,12 +27,12 @@ const LoginFormPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
+    setErrors('');
     return dispatch(thunkLoginUser({credential, password})).catch(
       async (res) => {
         const data = await res.json();
         console.log(data)
-        if (data?.errors) setErrors(data.errors);
+        if (data?.message) setErrors(data.message);
       }
     );
   };
@@ -57,7 +57,7 @@ const LoginFormPage = () => {
           required
         />
       </label>
-      {errors.credential && <p>{errors.credential}</p>}
+      {errors && <p>{errors}</p>}
       <button type="submit">Log In</button>
     </form>
   )
