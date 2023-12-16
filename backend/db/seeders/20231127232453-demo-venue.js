@@ -51,6 +51,46 @@ module.exports = {
         lat: 40.14,
         lng: 111.39
       },
+      {
+        groupId: 3,
+        address: '456 Main Street',
+        city: 'Seattle',
+        state: 'WA',
+        lat: 47.61,
+        lng: -122.33
+      },
+      {
+        groupId: 7,
+        address: '789 Park Avenue',
+        city: 'Los Angeles',
+        state: 'CA',
+        lat: 34.05,
+        lng: -118.24
+      },
+      {
+        groupId: 2,
+        address: '101 Pine Street',
+        city: 'New York',
+        state: 'NY',
+        lat: 40.71,
+        lng: -74.01
+      },
+      {
+        groupId: 8,
+        address: '202 Oak Lane',
+        city: 'Chicago',
+        state: 'IL',
+        lat: 41.88,
+        lng: -87.63
+      }, 
+      {
+        groupId: 5,
+        address: '303 Elm Court',
+        city: 'San Francisco',
+        state: 'CA',
+        lat: 37.77,
+        lng: -122.42
+      }
     ])
   },
 
@@ -58,7 +98,7 @@ module.exports = {
     options.tableName = 'Venues';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      groupId: { [Op.in]: [1, 2, 3]}
+      groupId: { [Op.in]: [1, 2, 3, 7, 8, 5]}
     }, {});
   }
 };
