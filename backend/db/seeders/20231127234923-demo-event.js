@@ -66,6 +66,61 @@ module.exports = {
         startDate: "2024-02-27 12:00:00",
         endDate: "2024-02-27 20:00:00"
       },
+      {
+        venueId: 2,
+        groupId: 2,
+        name: 'Tech Talk',
+        type: 'Online',
+        capacity: 500,
+        price: 10.50,
+        description: 'Explore the latest in technology trends.',
+        startDate: '2024-03-15 14:30:00',
+        endDate: '2024-03-15 16:30:00'
+      },
+      {
+        venueId: 4,
+        groupId: 2,
+        name: 'Fitness Fiesta',
+        type: 'In Person',
+        capacity: 200,
+        price: 5.75,
+        description: 'Join us for a high-energy workout session.',
+        startDate: '2024-04-10 18:00:00',
+        endDate: '2024-04-10 20:00:00'
+      },
+      {
+        venueId: 6,
+        groupId: 3,
+        name: 'Book Club Gathering',
+        type: 'In Person',
+        capacity: 150,
+        price: 0.99,
+        description: 'Discussing the latest bestsellers.',
+        startDate: '2024-05-05 19:00:00',
+        endDate: '2024-05-05 21:00:00'
+      },
+      {
+        venueId: 8,
+        groupId: 2,
+        name: 'Virtual Cooking Class',
+        type: 'Online',
+        capacity: 300,
+        price: 15.25,
+        description: 'Learn to cook delicious dishes from home.',
+        startDate: '2024-06-20 13:00:00',
+        endDate: '2024-06-20 15:00:00'
+      },
+      {
+        venueId: 10,
+        groupId: 5,
+        name: 'Art Expo',
+        type: 'In Person',
+        capacity: 400,
+        price: 7.99,
+        description: 'Showcasing local artists and their creations.',
+        startDate: '2024-07-12 16:00:00',
+        endDate: '2024-07-12 19:00:00'
+      }
     ])
   },
 
@@ -73,7 +128,7 @@ module.exports = {
     options.tableName = 'Events';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      groupId: { [Op.in]: [1, 2, 3]}
+      groupId: { [Op.in]: [1, 2, 3, 5]}
     }, {});
   }
 };
