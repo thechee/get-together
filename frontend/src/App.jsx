@@ -3,10 +3,13 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
 import * as sessionActions from './store/session';
+import Home from './components/Home';
+import { CreateGroupForm, EditGroupForm, GroupDetails, GroupsList, ManageGroups} from './components/Groups';
+import { CreateEventForm, EditEventForm, EventDetails, EventsList, ManageEvents} from './components/Events'
 
 function Layout() {
   const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [ isLoaded, setIsLoaded ] = useState(false)
 
   useEffect(() => {
     dispatch(sessionActions.thunkRestoreUser()).then(() => {
@@ -16,7 +19,7 @@ function Layout() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
+      <Navigation isLoaded={isLoaded}/>
       {isLoaded && <Outlet />}
     </>
   );
@@ -28,7 +31,55 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome!</h1>
+        element: <Home />
+      },
+      {
+        path: 'groups',
+        element: <GroupsList />,
+        children: [
+          {
+            path: 'new',
+            element: <CreateGroupForm />
+          },
+          {
+            path: ':groupId',
+            element: <GroupDetails />,
+            children: [
+              {
+                path: 'edit',
+                element: <EditGroupForm />
+              },
+              {
+                path: 'events/new',
+                element: <CreateEventForm />
+              }
+            ]
+          },
+          {
+            path: 'current',
+            element: <ManageGroups />
+          }
+        ]
+      },
+      {
+        path: 'events',
+        element: <EventsList />,
+        children: [
+          {
+            path: ':eventId',
+            element: <EventDetails />,
+            children: [
+              {
+                path: 'edit',
+                element: <EditEventForm />
+              }
+            ]
+          },
+          {
+            path: 'current',
+            element: <ManageEvents />
+          }
+        ]
       }
     ]
   }

@@ -1,22 +1,37 @@
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
+import OpenModalButton from '../OpenModalButton'
+import LoginFormModal from '../LoginFormModal'
+import SignupFormModal from '../SignupFormModal'
+import ProfileButton from './ProfileButton'
 import './Navigation.css';
-
-function Navigation({ isLoaded }) {
+/*{isLoaded} belongs in Navigation parameter*/
+function Navigation() {
   const sessionUser = useSelector(state => state.session.user);
-
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
-      </li>
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
-      )}
-    </ul>
+    <nav>
+      <div className='nav-bar-logo'>
+        <img src="logo.com" alt="" />
+      </div>
+      <div className='nav-bar-user-links'>
+        {
+          sessionUser ? 
+          <ProfileButton user={sessionUser} /> :
+          <div> 
+            <OpenModalButton
+              buttonText="Log In"
+              modalComponent={<LoginFormModal />}
+            />
+            <OpenModalButton
+              buttonText="Sign Up"
+              modalComponent={<SignupFormModal />}
+            />
+          </div>
+        }
+      </div>
+      
+    </nav>
+
   );
 }
 

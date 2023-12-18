@@ -13,7 +13,7 @@ export const removeUser = () => ({
   type: REMOVE_USER
 })
 
-// given thunk 
+// Session Thunks
 export const thunkLoginUser = (user) => async (dispatch) => {
   const { credential, password } = user;
   const response = await csrfFetch("/api/session", {
@@ -30,9 +30,10 @@ export const thunkLoginUser = (user) => async (dispatch) => {
 
 export const thunkRestoreUser = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");
+  // console.log("thunkRestoreUser response:", response)
   const data = await response.json();
   dispatch(loginUser(data.user));
-  return response;
+  return data;
 };
 
 export const thunkSignup = (user) => async (dispatch) => {
@@ -59,6 +60,7 @@ export const thunkLogout = () => async (dispatch) => {
   dispatch(removeUser());
   return response;
 };
+
 
 // .then.catch with throwing res
 // export const thunkLoginUser = (credential, password ) => async (dispatch) => {
