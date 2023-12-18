@@ -35,16 +35,24 @@ const router = createBrowserRouter([
       },
       {
         path: 'groups',
-        element: <GroupsList />,
+        element: <Outlet />,
         children: [
+          {
+            index: true,
+            element: <GroupsList />,
+          },
           {
             path: 'new',
             element: <CreateGroupForm />
           },
           {
             path: ':groupId',
-            element: <GroupDetails />,
+            element: <Outlet />,
             children: [
+              {
+                index: true,
+                element: <GroupDetails />,
+              },
               {
                 path: 'edit',
                 element: <EditGroupForm />
