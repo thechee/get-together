@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import './HomeLinkCard.css'
 
-export const HomeLinkCard = ({ image, path, linkText, description }) => {
+export const HomeLinkCard = ({ image, path, linkText }) => {
   return (
     <div>
       <img src={image}></img>
