@@ -10,26 +10,28 @@ const EventDetails = () => {
   const { eventId } = useParams();
   const event = useSelector(state => state.events[eventId])
   const groupsObj = useSelector(state => state.groups)
-  const [ group, setGroup ] = useState({})
-  console.log('groupsObj', groupsObj)
+  const [ ueRan, setUeRan ] = useState(false)
 
-  const groups = Object.values(groupsObj)
-  console.log("groups:", groups)
-
-  if (JSON.stringify(group) == JSON.stringify({})) {
-    setGroup(groups?.find(group => event.Group.id == group.id))
-  }
-
+  const group = groupsObj[event?.groupId]
+  
   console.log('event:', event)
-  console.log("group:", group)
+  // console.log("group:", group)
 
   useEffect(() => {
-    dispatch(thunkEventDetails(eventId))
-    dispatch(thunkLoadGroups())
-    if (JSON.stringify(group) == JSON.stringify({})) {
-      setGroup(dispatch(thunkGroupDetails(group.id)))
+    const helper = async () => {
+      // console.log('condition 2 ran')
+      await dispatch(thunkEventDetails(eventId))
+      await dispatch(thunkLoadGroups())
+      setUeRan(true)
     }
-  }, [dispatch, group])
+    if (ueRan) {
+      // console.log('condition 1 ran')
+      dispatch(thunkGroupDetails(group.id))
+    } else {
+      helper()
+    }
+  }, [dispatch, ueRan])
+
 
   
   return (
@@ -37,17 +39,17 @@ const EventDetails = () => {
       <div>
         <Link to={'/events'}>Events</Link>
         <h1>{event?.name}</h1>
-        <h4>Hosted by {} {}</h4>
+        <h4>Hosted by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
       </div>
       <section className='event-detail'>
         <div>
           <div className='event-img'>
-            <img src={event?.EventImages[0]} alt="" />
+            {/* <img src={event?.EventImages ? } alt="" /> */}
           </div>
           <div className='event-stats-section'>
             <div className='event-group-stats'>
               <div>
-                {/* {group.previewImage} */}
+                {group?.previewImage}
               </div>
               <div>
                 <h3>{group?.name}</h3>
@@ -55,10 +57,26 @@ const EventDetails = () => {
               </div>
             </div>
             <div className="event-stats">
-
+              <div className='event-stats-times'>
+                <i class="fa-regular fa-clock"></i>
+                <div>
+                  <p><span>START</span> {event?.startDate}</p>
+                  <p><span>END</span> {event?.endDate}</p>
+                </div>
+              </div>
+              <div className='event-stats-cost'>
+                <i class="fa-solid fa-dollar-sign"></i> <span>{event.price !== 0 ? event.price : FREE}</span>
+              </div>
+              <div className='event-stats-type'>
+                <i class="fa-solid fa-map-pin"></i><span>{event.type}</span>
+              </div>
             </div>
           </div>
         </div>
+      </section>
+      <section className='event-description'>
+        <h2>Details</h2>
+        {event.description}
       </section>
     </>
   );

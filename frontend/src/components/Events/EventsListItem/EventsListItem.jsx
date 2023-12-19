@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const EventsListItem = ({ event }) => {
   const dispatch = useDispatch()
   const eventDetails = useSelector(state => state.events[event.id])
-  // console.log(eventDetails)
+  // console.log("eventDetails: ", eventDetails)
   // const preview = event.EventImages.find(image => preview === true)
   let preview;
   if (eventDetails.EventImages) {
@@ -18,7 +18,7 @@ const EventsListItem = ({ event }) => {
   }, [dispatch])
   
   // console.log('preview:', preview)
-  console.log('eventImages:', eventDetails.EventImages)
+  // console.log('eventImages:', eventDetails.EventImages)
   return (
     <li>
       <Link to={`/events/${event.id}`} event={event}>
