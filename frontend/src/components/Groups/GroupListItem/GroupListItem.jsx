@@ -16,7 +16,7 @@ const GroupListItem = ({ group }) => {
           <p>{group.about}</p>
           <span>{group.events.length} Events</span>
           <span> · </span>
-          <span>{group.private ? "Private" : "Public" }</span>
+          <h5>{group.private ? "Private" : "Public" }</h5>
         </div>
         </Link>
       </div>
