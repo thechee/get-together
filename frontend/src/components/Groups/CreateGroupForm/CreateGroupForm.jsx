@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import Select from 'react-select'
-import { useEffect, useState } from 'react'
-import Select from 'react-select'
 import './CreateGroupForm.css'
 import { useNavigate } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+
 
 const CreateGroupForm = () => {
   const navigate = useNavigate()
