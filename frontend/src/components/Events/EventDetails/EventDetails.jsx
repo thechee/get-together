@@ -15,22 +15,19 @@ const EventDetails = () => {
   const group = groupsObj[event?.groupId]
   
   console.log('event:', event)
-  // console.log("group:", group)
 
   useEffect(() => {
     const helper = async () => {
-      // console.log('condition 2 ran')
       await dispatch(thunkEventDetails(eventId))
       await dispatch(thunkLoadGroups())
       setUeRan(true)
     }
     if (ueRan) {
-      // console.log('condition 1 ran')
       dispatch(thunkGroupDetails(group.id))
     } else {
       helper()
     }
-  }, [dispatch, ueRan])
+  }, [dispatch, ueRan, eventId, group.id])
 
 
   
@@ -58,17 +55,17 @@ const EventDetails = () => {
             </div>
             <div className="event-stats">
               <div className='event-stats-times'>
-                <i class="fa-regular fa-clock"></i>
+                <i className="fa-regular fa-clock"></i>
                 <div>
                   <p><span>START</span> {event?.startDate}</p>
                   <p><span>END</span> {event?.endDate}</p>
                 </div>
               </div>
               <div className='event-stats-cost'>
-                <i class="fa-solid fa-dollar-sign"></i> <span>{event.price !== 0 ? event.price : FREE}</span>
+                <i className="fa-solid fa-dollar-sign"></i> <span>{event.price !== 0 ? event.price : "FREE"}</span>
               </div>
               <div className='event-stats-type'>
-                <i class="fa-solid fa-map-pin"></i><span>{event.type}</span>
+                <i className="fa-solid fa-map-pin"></i><span>{event.type}</span>
               </div>
             </div>
           </div>

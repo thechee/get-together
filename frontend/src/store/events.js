@@ -20,9 +20,15 @@ export const loadGroupEvents = (events) => ({
 })
 
 // Thunk Action Creators
+
+// Look into promise.allSettled()
 export const thunkLoadEvents = () => async (dispatch) => {
   const response = await fetch('/api/events')
   const events = await response.json()
+  // loop over events
+    // for each event, dispatch thunkEventDetails
+    // push into new array
+  // dispatch the new array to loadEvents
   dispatch(loadEvents(events))
 }
 
@@ -43,7 +49,7 @@ export const thunkLoadGroupEvents = (groupId) => async (dispatch) => {
 const eventReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_EVENTS: {
-      const eventsState = {};
+      const eventsState = { ...state };
       action.events.Events.forEach(event => {
         eventsState[event.id] = event
       })
