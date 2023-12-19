@@ -25,6 +25,7 @@ export const thunkGroupDetails = (groupId) => async (dispatch) => {
   const group = await response.json()
   console.log("thunk group:", group)
   dispatch(loadGroupDetails(group))
+  return group;
 }
 
 // Reducer

@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import Select from 'react-select'
+import { useEffect, useState } from 'react'
+import Select from 'react-select'
 import './CreateGroupForm.css'
+import { useNavigate } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
 const CreateGroupForm = () => {
@@ -18,7 +21,6 @@ const CreateGroupForm = () => {
 
   }, [])
   
-  
   const typeOptions = [
     { label: "In person", value: 'In person' },
     { label: "Online", value: 'Online' }
@@ -32,14 +34,15 @@ const CreateGroupForm = () => {
     e.preventDefault()
 
     const errors = {};
-    const imageArr = imageUrl.split('.')
+    const urlEndings = ['png', 'jgp', 'jpeg']
+    const urlEnding = imageUrl.split('.')[1]
 
     if (!location) errors.location = "Location is required"
     if (!name) errors.name = 'Name is required'
     if (description.length < 30) errors.description = 'Description must be at least 30 characters long'
     if (!type) errors.type = 'Group Type is required'
     if (!privacy) errors.privacy = 'Visibility Type is required'
-    if (imageArr[1] !== 'png' || imageArr[1] !== 'jgp' || imageArr[1] !== 'jpeg') errors.imageUrl = 'Image URL must end in .png, .jgp, or .jpeg'
+    if (!urlEndings.includes(urlEnding)) errors.imageUrl = 'Image URL must end in .png, .jgp, or .jpeg'
 
     setValidationErrors(errors)
 
@@ -54,6 +57,7 @@ const CreateGroupForm = () => {
     }
 
     console.log(reqBody)
+    navigate()
   }
 
   return (

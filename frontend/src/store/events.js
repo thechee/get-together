@@ -52,6 +52,7 @@ const eventReducer = (state = {}, action) => {
     case LOAD_EVENT_DETAILS: {
       const eventsState = { ...state };
       eventsState[action.event.id] = action.event
+      console.log('eventsState:', eventsState)
       return eventsState;
     }
     case LOAD_GROUP_EVENTS: {
