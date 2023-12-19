@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom'
 
 const CreateGroupForm = () => {
   const navigate = useNavigate()
-  const [ location, setLocation ] = useState('')
+  const [ city, setCity ] = useState('')
+  const [ state, setState ] = useState('')
   const [ name, setName ] = useState('')
   const [ description, setDescription ] = useState('')
   const [ type, setType ] = useState('')
@@ -43,7 +44,8 @@ const CreateGroupForm = () => {
     setValidationErrors(errors)
 
     const reqBody = {
-      location,
+      city,
+      state,
       name,
       description,
       type,
@@ -61,12 +63,14 @@ const CreateGroupForm = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <h2>First, set your group's location.</h2>
-          <label>
+          <p>
             Meetup groups meet locally, in person and online, We'll connect you with people 
             <br />in your area, and more can join you online.
-          </label>
-          <input type="text" placeholder='City, STATE' value={location} onChange={e => setLocation(e.target.value)}/>
-          {"location" in validationErrors && <p className='errors'>{validationErrors.location}</p>}
+          </p>
+          <input type="text" placeholder='City' value={city} onChange={e => setCity(e.target.value)}/>
+          {"city" in validationErrors && <p className='errors'>{validationErrors.location}</p>}
+          <input type="text" placeholder='State' value={state} onChange={e => setState(e.target.value)}/>
+          {"state" in validationErrors && <p className='errors'>{validationErrors.location}</p>}
         </div>
         <div>
           <h2>What will your group's name be?</h2>
