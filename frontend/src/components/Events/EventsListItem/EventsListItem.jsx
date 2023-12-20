@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { thunkEventDetails } from '../../../store/events';
 import './EventsListItem.css'
@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const EventsListItem = ({ event }) => {
   const dispatch = useDispatch()
-  const eventDetails = useSelector(state => state.events[event.id])
+  // const eventDetails = useSelector(state => state.events[event.id])
   // console.log("eventDetails: ", eventDetails)
   // const preview = event.EventImages.find(image => preview === true)
   let preview;
@@ -18,7 +18,7 @@ const EventsListItem = ({ event }) => {
   }
   useEffect(() => {
     dispatch(thunkEventDetails(event.id))
-  }, [dispatch])
+  }, [dispatch, event.id])
   
   return (
     <li>

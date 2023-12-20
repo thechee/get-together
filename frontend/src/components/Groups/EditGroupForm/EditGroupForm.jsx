@@ -20,7 +20,7 @@ const EditGroupForm = () => {
   
   useEffect(() => {
     dispatch(thunkGroupDetails(groupId))
-  }, [dispatch])
+  }, [dispatch, groupId])
 
   console.log(group)
 

@@ -24,7 +24,7 @@ const CreateEventForm = () => {
 
   useEffect(() => {
     dispatch(thunkGroupDetails(groupId))
-  }, [dispatch])
+  }, [dispatch, groupId])
 
 
   const handleSubmit = async (e) => {
