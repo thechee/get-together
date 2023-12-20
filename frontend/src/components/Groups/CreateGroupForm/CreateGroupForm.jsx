@@ -58,7 +58,7 @@ const CreateGroupForm = () => {
       const createdGroup = await dispatch(thunkCreateGroup(newGroupReqBody))
       
       if (createdGroup.errors) {
-        console.log("createdGroup.errors:", createdGroup.errors)
+        // console.log("createdGroup.errors:", createdGroup.errors)
         // set validation errors
       } else {
         // dispatch the image to the new group's id

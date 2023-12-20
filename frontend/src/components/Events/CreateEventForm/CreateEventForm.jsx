@@ -69,10 +69,10 @@ const CreateEventForm = () => {
     
     const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
     if (createdEvent.errors) {
-      console.log("createdEvent.errors:", createdEvent.errors)
+      // console.log("createdEvent.errors:", createdEvent.errors)
       // set validation errors
     } else {
-        console.log(createdEvent)
+        // console.log(createdEvent)
         // dispatch the image to the new group's id
         // the dispatch needs the group id AND the body
         await dispatch(thunkAddEventImage(createdEvent.id, newEventImgBody))

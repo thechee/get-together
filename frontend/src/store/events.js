@@ -78,11 +78,11 @@ export const thunkCreateEvent = (groupId, event) => async (dispatch) => {
   if (response.ok) {
     const event = await response.json()
     dispatch(createEvent(event))
-    console.log("event:", event)
+    // console.log("event:", event)
     return event;
   } else {
     const error = await response.json()
-    console.log("error:", error)
+    // console.log("error:", error)
     return error
   }
 }
@@ -102,7 +102,7 @@ export const thunkAddEventImage = (eventId, image) => async (dispatch) => {
     return group;
   } else {
     const error = await response.json()
-    console.log(error)
+    // console.log(error)
     return error
   }
 }
