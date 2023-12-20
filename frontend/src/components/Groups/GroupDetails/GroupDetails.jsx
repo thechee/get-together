@@ -50,19 +50,19 @@ const GroupDetails = () => {
             <h4>{events?.length ? events?.length : 0} events · {group?.private ? "Private" : "Public" }</h4>
             <h4>Organized by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
           </div>
-          {user.id !== group?.organizerId && <button 
+          {user?.id !== group?.organizerId && <button 
             onClick={() => alert('Feature Coming Soon...')}>
             Join this group
           </button>}
-          {user.id == group?.organizerId && <button 
+          {user?.id == group?.organizerId && <button 
             onClick={() => navigate(`/groups/${groupId}/events/new`)}>
             Create event
           </button>}
-          {user.id == group?.organizerId && <button 
+          {user?.id == group?.organizerId && <button 
             onClick={() => navigate(`/groups/${groupId}/edit`)}>
             Update
           </button>}
-          {user.id == group?.organizerId && 
+          {user?.id == group?.organizerId && 
             <OpenModalButton
               buttonText="Delete"
               modalComponent={<DeleteGroupModal groupId={group?.id}/>}
