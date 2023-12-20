@@ -4,23 +4,44 @@ import GroupListItem from '../GroupListItem/GroupListItem';
 import { useEffect } from 'react';
 import { thunkLoadGroups } from '../../../store/groups';
 import { Link } from 'react-router-dom';
+import { thunkLoadEvents } from '../../../store/events';
 
 const GroupsList = () => {
   const dispatch = useDispatch();
   const groupsObj = useSelector(state => state.groups)
+  const eventsObj = useSelector(state => state.events)
   const groups = Object.values(groupsObj)
-  console.log("groupsObj:", groupsObj)
+  const events = Object.values(eventsObj)
+  
+  if (groups.length) {
+    groups?.forEach(group => {
+      group.events = [];  
+      events?.forEach(event => {
+        if (event?.groupId == group.id) {
+          group.events.push(event)
+        }
+      })
+    })
+  }
+
   // console.log("groups:", groups)
+  // console.log('events:', events)
 
   useEffect(() => {
     dispatch(thunkLoadGroups())
+    dispatch(thunkLoadEvents())
   }, [dispatch])
 
   return (
     <div className='group-list-page'>
       <section>
-       <Link to='/events'>Events</Link>
-       <Link to='/groups'>Groups</Link>
+        <div>
+          <Link to='/events'>Events</Link>
+          <Link to='/groups'>Groups</Link>
+        </div>
+        <div>
+          <span>Groups in Meetup</span>
+        </div>
       </section>
       <section>
         <ul>

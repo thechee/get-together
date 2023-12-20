@@ -6,6 +6,7 @@ import * as sessionActions from './store/session';
 import Home from './components/Home';
 import { CreateGroupForm, EditGroupForm, GroupDetails, GroupsList, ManageGroups} from './components/Groups';
 import { CreateEventForm, EditEventForm, EventDetails, EventsList, ManageEvents} from './components/Events'
+import { Modal } from './context/Modal';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function Layout() {
   return (
     <>
       <Navigation isLoaded={isLoaded}/>
+      <Modal />
       {isLoaded && <Outlet />}
     </>
   );
@@ -35,16 +37,24 @@ const router = createBrowserRouter([
       },
       {
         path: 'groups',
-        element: <GroupsList />,
+        element: <Outlet />,
         children: [
+          {
+            index: true,
+            element: <GroupsList />,
+          },
           {
             path: 'new',
             element: <CreateGroupForm />
           },
           {
             path: ':groupId',
-            element: <GroupDetails />,
+            element: <Outlet />,
             children: [
+              {
+                index: true,
+                element: <GroupDetails />,
+              },
               {
                 path: 'edit',
                 element: <EditGroupForm />
@@ -63,12 +73,21 @@ const router = createBrowserRouter([
       },
       {
         path: 'events',
-        element: <EventsList />,
+        element: <Outlet />,
         children: [
           {
+            index: true,
+            element: <EventsList />
+          },
+          {
             path: ':eventId',
-            element: <EventDetails />,
+            element: <Outlet />,
+
             children: [
+              {
+                index: true,
+                element: <EventDetails />
+              },
               {
                 path: 'edit',
                 element: <EditEventForm />

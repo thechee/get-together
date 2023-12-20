@@ -53,8 +53,8 @@ const validateVenueData = [
 ]
 const validateEventData = [
   check('venueId')
-    .exists({ checkFalsy: true })
-    .withMessage("Venue does not exist"),
+    .optional(),
+    // .withMessage("Venue does not exist"),
   check('name')
     .exists({ checkFalsy: true })
     .isLength({ min: 5 })
@@ -69,12 +69,18 @@ const validateEventData = [
     .withMessage("Capacity must be an integer"),
   check('price')
     .exists({ checkFalsy: true })
-    .custom((value) => {
-      value = value.toFixed(2);
-      if(value.toString().split('.')[1].length > 2) {
-        throw new Error("Price is invalid")
-      }
-      return true;
+    // .custom((value) => {
+    //   value = value.toFixed(2);
+    //   // if(value.toString().split('.')[1].length > 2) {
+    //   //   throw new Error("Price is invalid")
+    // //   // }
+    //   return true;
+    // })
+    .isCurrency({
+      allow_negatives: false,
+      decimal_separator: ".",
+      require_decimal: false,
+      digits_after_decimal: [2]
     })
     .withMessage("Price is invalid"),
   check('description')
