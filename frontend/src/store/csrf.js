@@ -13,7 +13,7 @@ export const csrfFetch = async (url, options = {}) => {
 
   // if using async await, comment out line 16
   // easier to handle failures without throwing exceptions to async await
-  if (res.status >= 400) throw res;
+  // if (res.status >= 400) throw res;
 
   return res;
 }

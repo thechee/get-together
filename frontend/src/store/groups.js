@@ -105,8 +105,6 @@ const groupReducer = (state = {}, action) => {
     }
     case ADD_IMAGE: {
       const groupsState = { ...state };
-      console.log("groupsState:", groupsState)
-      console.log("action:", action)
       if ("GroupImages" in groupsState[action.groupId]) {
         groupsState[action.groupId].GroupImages.push(action.image)
       } else {

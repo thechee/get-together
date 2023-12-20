@@ -39,30 +39,33 @@ const CreateGroupForm = () => {
 
     setValidationErrors(errors)
 
-    const newGroupReqBody = {
-      name,
-      about,
-      type,
-      private: privacy,
-      city,
-      state,
-    }
+    if (!Object.values(validationErrors).length) {
 
-    const newImageReqBody = {
-      url: imageUrl,
-      preview: true
-    }
-    
-    const createdGroup = await dispatch(thunkCreateGroup(newGroupReqBody))
-    
-    if (createdGroup.errors) {
-      console.log("createdGroup.errors:", createdGroup.errors)
-      // set validation errors
-    } else {
-      // dispatch the image to the new group's id
-      // the dispatch needs the group id AND the body
-      await dispatch(thunkAddImage(createdGroup.id, newImageReqBody))
-      navigate(`/groups/${createdGroup.id}`)
+      const newGroupReqBody = {
+        name,
+        about,
+        type,
+        private: privacy,
+        city,
+        state,
+      }
+
+      const newImageReqBody = {
+        url: imageUrl,
+        preview: true
+      }
+      
+      const createdGroup = await dispatch(thunkCreateGroup(newGroupReqBody))
+      
+      if (createdGroup.errors) {
+        console.log("createdGroup.errors:", createdGroup.errors)
+        // set validation errors
+      } else {
+        // dispatch the image to the new group's id
+        // the dispatch needs the group id AND the body
+        await dispatch(thunkAddImage(createdGroup.id, newImageReqBody))
+        navigate(`/groups/${createdGroup.id}`)
+      }
     }
   }
 
