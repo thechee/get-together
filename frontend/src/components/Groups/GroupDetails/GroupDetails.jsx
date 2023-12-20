@@ -4,6 +4,8 @@ import { thunkGroupDetails } from '../../../store/groups';
 import { thunkLoadGroupEvents } from '../../../store/events';
 import { useEffect } from 'react';
 import EventsListItem from '../../Events/EventsListItem/';
+import OpenModalButton from '../../OpenModalButton';
+import DeleteGroupModal from '../DeleteGroupModal'
 import './GroupDetails.css'
 
 const GroupDetails = () => {
@@ -13,16 +15,14 @@ const GroupDetails = () => {
   const user = useSelector(state => state.session.user)
   const group = useSelector(state => state.groups[groupId])
   const eventsObj = useSelector(state => state.events)
-  let events = Object.values(eventsObj);
+  let events = Object.values(eventsObj)
   const now = new Date()
 
   events = events.filter(event => event.groupId == groupId)
-  console.log("events:", events)
-  console.log("group:", group)
 
   const upcoming = []
   const past = []
-  events.forEach(event => {
+  events?.forEach(event => {
     new Date(event.startDate) < now ?
       past.push(event) :
       upcoming.push(event)
@@ -62,10 +62,12 @@ const GroupDetails = () => {
             onClick={() => navigate(`/groups/${groupId}/edit`)}>
             Update
           </button>}
-          {user.id == group?.organizerId && <button 
-            onClick={() => alert('Feature Coming Soon...')}>
-            Delete
-          </button>}
+          {user.id == group?.organizerId && 
+            <OpenModalButton
+              buttonText="Delete"
+              modalComponent={<DeleteGroupModal groupId={group?.id}/>}
+            />
+            }
         </div>
       </section>
       <section>

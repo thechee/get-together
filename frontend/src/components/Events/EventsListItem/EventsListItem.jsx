@@ -10,22 +10,24 @@ const EventsListItem = ({ event }) => {
   // console.log("eventDetails: ", eventDetails)
   // const preview = event.EventImages.find(image => preview === true)
   let preview;
-  if (eventDetails.EventImages) {
-    preview = eventDetails.EventImages.find(image => image.preview === true)
+  let eventImagesPreview;
+  if (event.previewImage) {
+    preview  = event.previewImage
+  } else if (event.EventImages) {
+    eventImagesPreview = event.EventImages.find(image => image.preview === true)
   }
   useEffect(() => {
     dispatch(thunkEventDetails(event.id))
   }, [dispatch])
   
-  // console.log('preview:', preview)
-  // console.log('eventImages:', eventDetails.EventImages)
   return (
     <li>
       <Link to={`/events/${event.id}`} event={event}>
         <div className='event-card'>
           <div className='event-card-info'>
             <div className='event-card-img'>
-              {preview && <img src={preview.url} alt="" />}
+              {preview && <img src={preview} alt="" />}
+              {eventImagesPreview && <img src={eventImagesPreview.url} alt="" />}
             </div>
             <div className='event-card-stats'>
               <h4>{event.startDate}</h4>

@@ -6,6 +6,7 @@ import * as sessionActions from './store/session';
 import Home from './components/Home';
 import { CreateGroupForm, EditGroupForm, GroupDetails, GroupsList, ManageGroups} from './components/Groups';
 import { CreateEventForm, EditEventForm, EventDetails, EventsList, ManageEvents} from './components/Events'
+import { Modal } from './context/Modal';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function Layout() {
   return (
     <>
       <Navigation isLoaded={isLoaded}/>
+      <Modal />
       {isLoaded && <Outlet />}
     </>
   );

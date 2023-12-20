@@ -6,6 +6,7 @@ export const LOAD_GROUP_DETAILS = 'groups/LOAD_GROUP_DETAILS'
 export const CREATE_GROUP = 'groups/CREATE_GROUP'
 export const ADD_IMAGE = 'groups/ADD_IMAGE'
 export const EDIT_GROUP = 'groups/EDIT_GROUP'
+export const DELETE_GROUP = 'groups/DELETE_GROUP'
 
 // Action Creators
 export const loadGroups = (groups) => ({
@@ -33,6 +34,11 @@ export const editGroup = (groupId, group) => ({
   type: EDIT_GROUP,
   groupId,
   group
+})
+
+export const deleteGroup = (groupId) => ({
+  type: DELETE_GROUP,
+  groupId
 })
 
 // Thunk Action Creators
@@ -111,6 +117,26 @@ export const thunkEditGroup = (groupId, group) => async (dispatch) => {
   }
 }
 
+export const thunkDeleteGroup = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  if (response.ok) {
+    const message = await response.json()
+    dispatch(deleteGroup(groupId))
+    // console.log("group:", group)
+    return message;
+  } else {
+    const error = await response.json()
+    // console.log("error:", error)
+    return error
+  }
+}
+
 // Reducer
 const groupReducer = (state = {}, action) => {
   switch (action.type) {
@@ -143,6 +169,11 @@ const groupReducer = (state = {}, action) => {
     case EDIT_GROUP: {
       const groupsState = { ...state };
       groupsState[action.groupId] = action.group
+      return groupsState;
+    }
+    case DELETE_GROUP: {
+      const groupsState = { ...state };
+      delete groupsState[action.groupId]
       return groupsState;
     }
     default: 

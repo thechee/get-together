@@ -6,6 +6,7 @@ export const LOAD_EVENT_DETAILS = 'events/LOAD_EVENT_DETAILS'
 export const LOAD_GROUP_EVENTS = 'events/LOAD_GROUP_EVENTS'
 export const CREATE_EVENT = 'events/CREATE_EVENT'
 export const ADD_EVENT_IMAGE = 'events/ADD_EVENT_IMAGE'
+export const DELETE_EVENT = 'event/DELETE_GROUP'
 
 // Action Creators
 export const loadEvents = (events) => ({
@@ -32,6 +33,11 @@ export const addEventImage = (eventId, image) => ({
   type: ADD_EVENT_IMAGE,
   eventId,
   image
+})
+
+export const deleteEvent = (eventId) => ({
+  type: DELETE_EVENT,
+  eventId
 })
 
 // Thunk Action Creators
@@ -101,6 +107,26 @@ export const thunkAddEventImage = (eventId, image) => async (dispatch) => {
   }
 }
 
+export const thunkDeleteEvent = (eventId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  if (response.ok) {
+    const message = await response.json()
+    dispatch(deleteEvent(eventId))
+    // console.log("group:", group)
+    return message;
+  } else {
+    const error = await response.json()
+    // console.log("error:", error)
+    return error
+  }
+}
+
 // Reducer
 const eventReducer = (state = {}, action) => {
   switch (action.type) {
@@ -114,7 +140,7 @@ const eventReducer = (state = {}, action) => {
     case LOAD_EVENT_DETAILS: {
       const eventsState = { ...state };
       eventsState[action.event.id] = action.event
-      console.log('eventsState:', eventsState)
+      // console.log('eventsState:', eventsState)
       return eventsState;
     }
     case LOAD_GROUP_EVENTS: {
@@ -122,6 +148,7 @@ const eventReducer = (state = {}, action) => {
       action.events.Events.forEach(event => {
         eventsState[event.id] = event
       })
+      // eventsState[action.events].Events = [action.events.Events]
       return eventsState
     }
     case CREATE_EVENT: {
@@ -136,6 +163,11 @@ const eventReducer = (state = {}, action) => {
       } else {
         eventsState[action.eventId].EventImages = [action.image]
       }
+      return eventsState;
+    }
+    case DELETE_EVENT: {
+      const eventsState = { ...state };
+      delete eventsState[action.eventId]
       return eventsState;
     }
     default: 
