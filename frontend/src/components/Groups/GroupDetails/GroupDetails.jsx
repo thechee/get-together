@@ -59,7 +59,7 @@ const GroupDetails = () => {
             Create event
           </button>}
           {user.id == group?.organizerId && <button 
-            onClick={() => alert('Feature Coming Soon...')}>
+            onClick={() => navigate(`/groups/${groupId}/edit`)}>
             Update
           </button>}
           {user.id == group?.organizerId && <button 

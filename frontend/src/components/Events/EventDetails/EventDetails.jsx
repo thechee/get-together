@@ -11,11 +11,8 @@ const EventDetails = () => {
   const event = useSelector(state => state.events[eventId])
   const groupsObj = useSelector(state => state.groups)
   const [ ueRan, setUeRan ] = useState(false)
-
   const group = groupsObj[event?.groupId]
   
-  console.log('event:', event)
-
   useEffect(() => {
     const helper = async () => {
       await dispatch(thunkEventDetails(eventId))
@@ -27,9 +24,14 @@ const EventDetails = () => {
     } else {
       helper()
     }
-  }, [dispatch, ueRan, eventId, group.id])
+  }, [dispatch, ueRan, eventId, group?.id])
 
-
+  let preview;
+  if (event.EventImages) {
+    preview = event.EventImages.find(image => image.preview === true)
+  }
+  console.log('event:', event)
+  console.log('preview.url:', preview.url)
   
   return (
     <>
@@ -41,7 +43,7 @@ const EventDetails = () => {
       <section className='event-detail'>
         <div>
           <div className='event-img'>
-            {/* <img src={event?.EventImages ? } alt="" /> */}
+            {event.EventImages && <img src={preview.url} alt="" />}
           </div>
           <div className='event-stats-section'>
             <div className='event-group-stats'>

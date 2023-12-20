@@ -13,7 +13,7 @@ const CreateEventForm = () => {
   const [ name, setName ] = useState('')
   const [ type, setType ] = useState('placeholder')
   const [ capacity, setCapacity ] = useState('placeholder')
-  const [ price, setPrice ] = useState(0)
+  const [ price, setPrice ] = useState('placeholder')
   const [ startDate, setStartDate ] = useState('')
   const [ endDate, setEndDate ] = useState('')
   const [ description, setDescription ] = useState('')
@@ -28,21 +28,22 @@ const CreateEventForm = () => {
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const urlEndings = ['png', 'jgp', 'jpeg']
-    // loop over array from the end and slice off then end to find the last slice
-    // const urlEnding = imageUrl.split('.')[1]
+    const urlEndings = ['.png', '.jpg', '.jpeg'];
+    const urlEnding3 = url.slice(-4);
+    const urlEnding4 = url.slice(-5);
 
-    const errors = {}
-    if (!name) errors.name = 'Name is required'
-    if (!type) errors.type = 'Event Type is required'
-    if (!capacity) errors.capacity = 'Event capacity is required'
-    if (!price) errors.price = 'Price is required'
-    if (!startDate) errors.startDate = 'Event start is required'
-    if (!endDate) errors.endDate = 'Event end is required'
-    // if (!urlEndings.includes(urlEnding)) errors.imageUrl = 'Image URL must end in .png, .jgp, or .jpeg'
-    if (description.length < 30) errors.description = 'Description must be at least 30 characters long'
+    const errors = {};
+    if (!name) errors.name = 'Name is required';
+    if (name.length < 5) errors.name = 'Name must be at least 5 characters'
+    if (type == 'placeholder') errors.type = 'Event Type is required';
+    if (capacity == 'placeholder' || !capacity) errors.capacity = 'Event capacity is required';
+    if (price == 'placeholder' || !price) errors.price = 'Price is required';
+    if (!startDate) errors.startDate = 'Event start is required';
+    if (!endDate) errors.endDate = 'Event end is required';
+    if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
+    if (description.length < 30) errors.description = 'Description must be at least 30 characters long';
 
     setValidationErrors(errors)
 
@@ -93,6 +94,7 @@ const CreateEventForm = () => {
             value={name}
             onChange={e => setName(e.target.value)}
           />
+          {"name" in validationErrors && <p className='errors'>{validationErrors.name}</p>}
       </div>
       <div>
         <label htmlFor="">
@@ -106,6 +108,7 @@ const CreateEventForm = () => {
           <option value="In person">In person</option>
           <option value="Online">Online</option>
         </select>
+        {"type" in validationErrors && <p className='errors'>{validationErrors.type}</p>}
         <label htmlFor="">
           What is the capacity of the event?
         </label>
@@ -116,16 +119,19 @@ const CreateEventForm = () => {
           value={capacity}
           onChange={e => setCapacity(e.target.value)}
         />
+        {"capacity" in validationErrors && <p className='errors'>{validationErrors.capacity}</p>}
         <label htmlFor="">
           What is the price for your event?
         </label>
         <i className="fa-solid fa-dollar-sign"></i>
         <input 
           type="number"
+          placeholder='0.00'
           min={0}
           value={price}
           onChange={e => setPrice(e.target.value)}
         />
+        {"price" in validationErrors && <p className='errors'>{validationErrors.price}</p>}
       </div>
       <div>
         <label htmlFor="">
@@ -137,6 +143,7 @@ const CreateEventForm = () => {
           value={startDate}
           onChange={e => setStartDate(e.target.value)}
         />
+        {"startDate" in validationErrors && <p className='errors'>{validationErrors.startDate}</p>}
         <label htmlFor="">
           When does your event end?
         </label>
@@ -146,6 +153,7 @@ const CreateEventForm = () => {
           value={endDate}
           onChange={e => setEndDate(e.target.value)}
         />
+        {"endDate" in validationErrors && <p className='errors'>{validationErrors.endDate}</p>}
       </div>
       <div>
         <label htmlFor="">
@@ -157,6 +165,7 @@ const CreateEventForm = () => {
           value={url}
           onChange={e => setUrl(e.target.value)}
         />
+        {"imageUrl" in validationErrors && <p className='errors'>{validationErrors.imageUrl}</p>}
         <label htmlFor="">
           Set this image as a preview of the Event:
         </label>
@@ -175,6 +184,7 @@ const CreateEventForm = () => {
           value={description}
           onChange={e => setDescription(e.target.value)}
         ></textarea>
+        {"description" in validationErrors && <p className='errors'>{validationErrors.description}</p>}
       </div>
       <button>Create Event</button>
     </form>

@@ -25,17 +25,17 @@ const CreateGroupForm = () => {
     e.preventDefault()
 
     const errors = {};
-    const urlEndings = ['png', 'jgp', 'jpeg']
-    // loop over array from the end and slice off then end to find the last slice
-    // const urlEnding = imageUrl.split('.')[1]
+    const urlEndings = ['.png', '.jpg', '.jpeg']
+    const urlEnding3 = imageUrl.slice(-4)
+    const urlEnding4 = imageUrl.slice(-5)
 
     if (!city) errors.city = "City is required"
     if (!state) errors.state = "State is required"
     if (!name) errors.name = 'Name is required'
     if (about.length < 30) errors.about = 'Description must be at least 30 characters long'
-    if (!type) errors.type = 'Group Type is required'
-    if (!privacy) errors.privacy = 'Visibility Type is required'
-    // if (!urlEndings.includes(urlEnding)) errors.imageUrl = 'Image URL must end in .png, .jgp, or .jpeg'
+    if (type == 'placeholder' || !type) errors.type = 'Group Type is required'
+    if (privacy == 'placeholder' || !privacy) errors.privacy = 'Visibility Type is required'
+    if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg'
 
     setValidationErrors(errors)
 
@@ -81,9 +81,9 @@ const CreateGroupForm = () => {
             <br />in your area, and more can join you online.
           </p>
           <input type="text" placeholder='City' value={city} onChange={e => setCity(e.target.value)}/>
-          {"city" in validationErrors && <p className='errors'>{validationErrors.location}</p>}
+          {"city" in validationErrors && <p className='errors'>{validationErrors.city}</p>}
           <input type="text" placeholder='State' value={state} onChange={e => setState(e.target.value)}/>
-          {"state" in validationErrors && <p className='errors'>{validationErrors.location}</p>}
+          {"state" in validationErrors && <p className='errors'>{validationErrors.state}</p>}
         </div>
         <div>
           <h2>What will your group&apos;s name be?</h2>

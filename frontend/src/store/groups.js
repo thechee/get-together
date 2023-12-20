@@ -5,6 +5,7 @@ export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
 export const LOAD_GROUP_DETAILS = 'groups/LOAD_GROUP_DETAILS'
 export const CREATE_GROUP = 'groups/CREATE_GROUP'
 export const ADD_IMAGE = 'groups/ADD_IMAGE'
+export const EDIT_GROUP = 'groups/EDIT_GROUP'
 
 // Action Creators
 export const loadGroups = (groups) => ({
@@ -26,6 +27,12 @@ export const addImage = (groupId, image) => ({
   type: ADD_IMAGE,
   groupId,
   image
+})
+
+export const editGroup = (groupId, group) => ({
+  type: EDIT_GROUP,
+  groupId,
+  group
 })
 
 // Thunk Action Creators
@@ -83,6 +90,27 @@ export const thunkAddImage = (groupId, image) => async (dispatch) => {
   }
 }
 
+export const thunkEditGroup = (groupId, group) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(group)
+  })
+
+  if (response.ok) {
+    const group = await response.json()
+    dispatch(editGroup(group))
+    // console.log("group:", group)
+    return group;
+  } else {
+    const error = await response.json()
+    // console.log("error:", error)
+    return error
+  }
+}
+
 // Reducer
 const groupReducer = (state = {}, action) => {
   switch (action.type) {
@@ -110,6 +138,11 @@ const groupReducer = (state = {}, action) => {
       } else {
         groupsState[action.groupId].GroupImages = [action.image]
       }
+      return groupsState;
+    }
+    case EDIT_GROUP: {
+      const groupsState = { ...state };
+      groupsState[action.groupId] = action.group
       return groupsState;
     }
     default: 

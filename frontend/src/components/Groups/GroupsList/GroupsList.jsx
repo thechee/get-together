@@ -12,7 +12,8 @@ const GroupsList = () => {
   const eventsObj = useSelector(state => state.events)
   const groups = Object.values(groupsObj)
   const events = Object.values(eventsObj)
-  groups.forEach(group => {
+  
+  groups?.forEach(group => {
     group.events = [];  
     events.forEach(event => {
       if (event.Group.id == group.id) {
