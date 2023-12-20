@@ -28,7 +28,7 @@ const EventsListItem = ({ event }) => {
               {preview && <img src={preview.url} alt="" />}
             </div>
             <div className='event-card-stats'>
-              <h4>{event.startTime}</h4>
+              <h4>{event.startDate}</h4>
               <h3>{event.name}</h3>
               <h5>{event.Venue?.city}, {event.Venue?.state}</h5>
             </div>

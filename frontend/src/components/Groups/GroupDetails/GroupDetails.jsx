@@ -13,11 +13,12 @@ const GroupDetails = () => {
   const user = useSelector(state => state.session.user)
   const group = useSelector(state => state.groups[groupId])
   const eventsObj = useSelector(state => state.events)
-  const events = Object.values(eventsObj);
+  let events = Object.values(eventsObj);
   const now = new Date()
 
-  events.filter(event => event.groupId == groupId)
+  events = events.filter(event => event.groupId == groupId)
   console.log("events:", events)
+  console.log("group:", group)
 
   const upcoming = []
   const past = []
@@ -46,7 +47,7 @@ const GroupDetails = () => {
           <div className='group-info'>
             <h1>{group?.name}</h1>
             <h4>{group?.city}, {group?.state}</h4>
-            <h4>{group?.events?.length ? group?.events?.length : 0} events · {group?.private ? "Private" : "Public" }</h4>
+            <h4>{events?.length ? events?.length : 0} events · {group?.private ? "Private" : "Public" }</h4>
             <h4>Organized by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
           </div>
           {user.id !== group?.organizerId && <button 
