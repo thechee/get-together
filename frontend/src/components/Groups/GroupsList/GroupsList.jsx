@@ -13,17 +13,19 @@ const GroupsList = () => {
   const groups = Object.values(groupsObj)
   const events = Object.values(eventsObj)
   
-  groups?.forEach(group => {
-    group.events = [];  
-    events.forEach(event => {
-      if (event.Group.id == group.id) {
-        group.events.push(event)
-      }
+  if (groups.length) {
+    groups?.forEach(group => {
+      group.events = [];  
+      events?.forEach(event => {
+        if (event?.groupId == group.id) {
+          group.events.push(event)
+        }
+      })
     })
-  })
+  }
 
-  console.log("groups:", groups)
-  console.log('events:', events)
+  // console.log("groups:", groups)
+  // console.log('events:', events)
 
   useEffect(() => {
     dispatch(thunkLoadGroups())

@@ -11,7 +11,7 @@ const EventsList = () => {
   const events = Object.values(eventsObj)
 
   useEffect(() => {
-    if (!events.length) dispatch(thunkLoadEvents())
+    dispatch(thunkLoadEvents())
   }, [dispatch])
   
   return (

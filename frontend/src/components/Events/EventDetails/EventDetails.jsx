@@ -12,10 +12,13 @@ const EventDetails = () => {
   const { eventId } = useParams();
   const user = useSelector(state => state.session.user)
   const event = useSelector(state => state.events[eventId])
-  const groupsObj = useSelector(state => state.groups)
+  const group = useSelector(state => state.groups[event?.groupId])
   const [ ueRan, setUeRan ] = useState(false)
-  const group = groupsObj[event?.groupId]
+  // const group = groupsObj[event?.groupId]
   const isUserOwner = group?.organizerId == user.id
+
+  console.log("Group:", group)
+  console.log("Event:", event)
   
   useEffect(() => {
     const helper = async () => {
@@ -30,16 +33,20 @@ const EventDetails = () => {
     }
   }, [dispatch, ueRan, eventId, group?.id])
 
-  let preview;
-  let eventImagesPreview;
 
+  let eventImagesPreview;
   if (event?.previewImage) {
-    preview  = event.previewImage
+    eventImagesPreview  = event.previewImage
   } else if (event?.EventImages) {
-    eventImagesPreview = event.EventImages.find(image => image.preview === true)
+    eventImagesPreview = event.EventImages.find(image => image.preview === true).url
   }
 
-  // console.log(isUserOwner)
+  let groupPreview;
+  if (group?.GroupImages) {
+    groupPreview = group?.GroupImages?.find(image => image.preview === true).url
+  } else if (group?.previewImage) {
+    groupPreview = group.previewImage
+  }
   
   return (
     <>
@@ -51,12 +58,12 @@ const EventDetails = () => {
       <section className='event-detail'>
         <div>
           <div className='event-img'>
-            {event?.EventImages && <img src={preview?.url} alt="" />}
+            {event?.EventImages && <img src={eventImagesPreview} alt="" />}
           </div>
           <div className='event-stats-section'>
             <div className='event-group-stats'>
               <div>
-                {group?.previewImage}
+                {group?.GroupImages && <img src={groupPreview}/>}
               </div>
               <div>
                 <h3>{group?.name}</h3>
