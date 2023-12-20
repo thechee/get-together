@@ -22,8 +22,6 @@ const EditGroupForm = () => {
     dispatch(thunkGroupDetails(groupId))
   }, [dispatch, groupId])
 
-  console.log(group)
-
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -61,7 +59,7 @@ const EditGroupForm = () => {
       const editedGroup = await dispatch(thunkEditGroup(groupId, newGroupReqBody))
       
       if (editedGroup.errors) {
-        console.log("editedGroup.errors:", editedGroup.errors)
+        // console.log("editedGroup.errors:", editedGroup.errors)
         // set validation errors
       } else {
         // the dispatch needs the group id AND the body

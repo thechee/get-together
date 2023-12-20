@@ -15,10 +15,10 @@ const EventDetails = () => {
   const group = useSelector(state => state.groups[event?.groupId])
   const [ ueRan, setUeRan ] = useState(false)
   // const group = groupsObj[event?.groupId]
-  const isUserOwner = group?.organizerId == user.id
+  const isUserOwner = group?.organizerId == user?.id
 
-  console.log("Group:", group)
-  console.log("Event:", event)
+  // console.log("Group:", group)
+  // console.log("Event:", event)
   
   useEffect(() => {
     const helper = async () => {
@@ -27,7 +27,7 @@ const EventDetails = () => {
       setUeRan(true)
     }
     if (ueRan) {
-      dispatch(thunkGroupDetails(group.id))
+      dispatch(thunkGroupDetails(group?.id))
     } else {
       helper()
     }
@@ -38,16 +38,17 @@ const EventDetails = () => {
   if (event?.previewImage) {
     eventImagesPreview  = event.previewImage
   } else if (event?.EventImages) {
-    eventImagesPreview = event.EventImages.find(image => image.preview === true).url
+    eventImagesPreview = event?.EventImages?.find(image => image?.preview === true)?.url
   }
 
   let groupPreview;
   if (group?.GroupImages) {
-    groupPreview = group?.GroupImages?.find(image => image.preview === true).url
+    groupPreview = group?.GroupImages?.find(image => image.preview === true)?.url
   } else if (group?.previewImage) {
     groupPreview = group.previewImage
   }
-  
+  // console.log("eventImagesPreview:", eventImagesPreview)
+  // console.log("groupPreview:", groupPreview)
   return (
     <>
       <div>

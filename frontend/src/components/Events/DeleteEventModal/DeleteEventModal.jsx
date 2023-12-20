@@ -9,7 +9,6 @@ const DeleteEventModal = ({ event }) => {
   const navigate = useNavigate()
   const { closeModal } = useModal()
 
-  console.log(event)
   const handleDelete = (e) => {
     e.preventDefault()
     dispatch(thunkDeleteEvent(event.id))
