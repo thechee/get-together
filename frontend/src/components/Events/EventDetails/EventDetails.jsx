@@ -21,6 +21,9 @@ const EventDetails = () => {
   // console.log("Event:", event)
   
   useEffect(() => {
+    // do I have all the data a need?
+      // if not, run the thunks
+      // check if the event has the detail key yet or not
     const helper = async () => {
       await dispatch(thunkEventDetails(eventId))
       await dispatch(thunkLoadGroups())
@@ -49,6 +52,7 @@ const EventDetails = () => {
   }
   // console.log("eventImagesPreview:", eventImagesPreview)
   // console.log("groupPreview:", groupPreview)
+
   return (
     <>
       <div>

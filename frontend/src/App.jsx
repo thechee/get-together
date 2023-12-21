@@ -7,12 +7,16 @@ import Home from './components/Home';
 import { CreateGroupForm, EditGroupForm, GroupDetails, GroupsList, ManageGroups} from './components/Groups';
 import { CreateEventForm, EditEventForm, EventDetails, EventsList, ManageEvents} from './components/Events'
 import { Modal } from './context/Modal';
+import { thunkLoadGroups } from './store/groups';
+import { thunkLoadEvents } from './store/events';
 
 function Layout() {
   const dispatch = useDispatch();
   const [ isLoaded, setIsLoaded ] = useState(false)
 
   useEffect(() => {
+    dispatch(thunkLoadGroups())
+    dispatch(thunkLoadEvents())
     dispatch(sessionActions.thunkRestoreUser()).then(() => {
       setIsLoaded(true)
     });
