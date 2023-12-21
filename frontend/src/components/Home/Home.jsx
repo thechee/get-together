@@ -10,7 +10,7 @@ const Home = () => {
           <p>Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Meetup. Events are happening every day—sign up to join the fun.</p>
         </div>
         <div className='landing-img'>
-          <img src="" alt="" />
+          <img src="https://v.fastcdn.co/t/f91f856b/8a35655b/1687613214-55703691-1306x600-Online-event.png" alt="" />
         </div>
       </div>
       <div className='lower-landing'>
@@ -19,9 +19,9 @@ const Home = () => {
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem provident quis, ut blanditiis facere, architecto doloremque fuga, veniam a modi error iure! Dolorem at modi quidem facere quae placeat voluptatum.</p>
         </div>
         <div className='cards'>
-          <HomeLinkCard image={`img.com`} path={`groups`} linkText={`See all groups`} />
-          <HomeLinkCard image={`img.com`} path={`events`} linkText={`Find an event`} />
-          <HomeLinkCard image={`img.com`} path={`groups/new`} linkText={`Start a new group`} />
+          <HomeLinkCard image={`../../../public/high-five.png`} path={`groups`} linkText={`See all groups`} />
+          <HomeLinkCard image={`https://v.fastcdn.co/u/f91f856b/56343282-0-Tickets.png`} path={`events`} linkText={`Find an event`} />
+          <HomeLinkCard image={`../../../public/three-people.png`} path={`groups/new`} linkText={`Start a new group`} />
         </div>
       </div>
 

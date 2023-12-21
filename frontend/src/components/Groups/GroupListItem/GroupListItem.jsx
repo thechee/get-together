@@ -8,7 +8,7 @@ const GroupListItem = ({ group }) => {
       <div className="group-list-item">
         <Link to={`${group.id}`}>
         <div>
-          <img src={group.previewImage} alt="" />
+          <img id={'group-list-image'} src={group.previewImage} alt="" />
         </div>
         <div>
           <h3>{group.name}</h3>
