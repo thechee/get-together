@@ -1,4 +1,6 @@
 import './Home.css'
+import highfive from '/high-five.png'
+import threepeople from '/three-people.png'
 import { HomeLinkCard } from './HomeLinkCard';
 
 const Home = () => {
@@ -19,9 +21,9 @@ const Home = () => {
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem provident quis, ut blanditiis facere, architecto doloremque fuga, veniam a modi error iure! Dolorem at modi quidem facere quae placeat voluptatum.</p>
         </div>
         <div className='cards'>
-          <HomeLinkCard image={`../../../public/high-five.png`} path={`groups`} linkText={`See all groups`} />
+          <HomeLinkCard image={highfive} path={`groups`} linkText={`See all groups`} />
           <HomeLinkCard image={`https://v.fastcdn.co/u/f91f856b/56343282-0-Tickets.png`} path={`events`} linkText={`Find an event`} />
-          <HomeLinkCard image={`../../../public/three-people.png`} path={`groups/new`} linkText={`Start a new group`} />
+          <HomeLinkCard image={threepeople} path={`groups/new`} linkText={`Start a new group`} />
         </div>
       </div>
 

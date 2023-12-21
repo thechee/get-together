@@ -14,7 +14,7 @@ function Navigation() {
     <nav>
       <div className='nav-bar-logo'>
         <Link to='/'>
-          <img id='logo' src="../../public/Together_Master_Logo.png" alt="" />
+          <img id='logo' src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Together_Master_Logo.png/1600px-Together_Master_Logo.png?20181005101630" alt="" />
         </Link>
       </div>
       <div className='nav-bar-user-links'>

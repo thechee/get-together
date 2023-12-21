@@ -32,7 +32,7 @@ const CreateGroupForm = () => {
     if (!city) errors.city = "City is required"
     if (!state) errors.state = "State is required"
     if (!name) errors.name = 'Name is required'
-    if (about.length < 30) errors.about = 'Description must be at least 30 characters long'
+    if (about.length < 50) errors.about = 'Description must be at least 50 characters long'
     if (type == 'placeholder' || !type) errors.type = 'Group Type is required'
     if (privacy == 'placeholder' || !privacy) errors.privacy = 'Visibility Type is required'
     if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg'
@@ -104,7 +104,7 @@ const CreateGroupForm = () => {
             <br />3. What will you do at your events?
           </label>
           <textarea name="" id="" cols="30" rows="10" 
-            placeholder='Please write at least 30 characters'
+            placeholder='Please write at least 50 characters'
             value={about}
             onChange={e => setAbout(e.target.value)}
           ></textarea>
