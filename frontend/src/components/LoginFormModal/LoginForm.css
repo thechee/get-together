@@ -35,3 +35,14 @@
   border: 1.5px solid lightgray;
   box-shadow: 3px 3px lightgray;
 }
+
+#demo-user {
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+  width: fit-content;
+  align-self: center;
+  padding: 15px 0px;
+  font-size: large;
+}

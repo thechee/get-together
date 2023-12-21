@@ -15,16 +15,31 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors('');
     return dispatch(sessionActions.thunkLoginUser({ credential, password }))
-      // .then(closeModal)
+      .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
+        console.log('data:', data)
         if (data && data.message) {
           setErrors(data.message);
-          console.log(errors)
         }
       });
+    };
 
-  };
+  const demoLogin = (e) => {
+    e.preventDefault()
+
+    setCredential('Demo-lition')
+    setPassword('password')
+    return dispatch(sessionActions.thunkLoginUser({ credential, password }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        console.log('data:', data)
+        if (data && data.message) {
+          setErrors(data.message);
+        }
+      });
+  }
 
   const buttonStatus = credential.length >= 4 && password.length >= 6 ? "" : "disabled"
 
@@ -32,7 +47,7 @@ function LoginFormModal() {
     <div className='log-in'>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
-        {errors && <p>The provided credentials were invalid.</p>}
+        {errors && (<p>The provided credentials were invalid.</p>)}
         <label>
           <input
             type="text"
@@ -51,10 +66,11 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors && (
-          <p>{errors}</p>
-        )}
         <button id={`login-button${buttonStatus}`} type="submit">Log In</button>
+      </form>
+
+      <form onSubmit={demoLogin}>
+        <button id="demo-user">Demo User</button>
       </form>
     </div>
   );
