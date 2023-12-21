@@ -65,7 +65,7 @@ const GroupDetails = () => {
           {user?.id == group?.organizerId && 
             <OpenModalButton
               buttonText="Delete"
-              modalComponent={<DeleteGroupModal groupId={group?.id}/>}
+              modalComponent={<DeleteGroupModal group={group}/>}
             />
             }
         </div>

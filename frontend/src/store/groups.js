@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { deleteAssociatedEvents } from "./events";
 
 // Action Type Constants
 export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
@@ -117,8 +118,8 @@ export const thunkEditGroup = (groupId, group) => async (dispatch) => {
   }
 }
 
-export const thunkDeleteGroup = (groupId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/${groupId}`, {
+export const thunkDeleteGroup = (group) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${group.id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -127,7 +128,10 @@ export const thunkDeleteGroup = (groupId) => async (dispatch) => {
 
   if (response.ok) {
     const message = await response.json()
-    dispatch(deleteGroup(groupId))
+    dispatch(deleteGroup(group.id))
+    group.events.forEach(event => {
+      dispatch(deleteAssociatedEvents(event.id))
+    })
     // console.log("group:", group)
     return message;
   } else {

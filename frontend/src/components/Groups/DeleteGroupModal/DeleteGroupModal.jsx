@@ -4,7 +4,7 @@ import { useModal } from '../../../context/Modal';
 import { thunkDeleteGroup } from '../../../store/groups';
 import './DeleteGroupModal.css'
 
-const DeleteGroupModal = ({ groupId }) => {
+const DeleteGroupModal = ({ group }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { closeModal } = useModal()
@@ -12,7 +12,7 @@ const DeleteGroupModal = ({ groupId }) => {
   const handleDelete = (e) => {
     e.preventDefault()
     // console.log(groupId)
-    dispatch(thunkDeleteGroup(groupId))
+    dispatch(thunkDeleteGroup(group))
     closeModal()
     navigate('/groups')
   }

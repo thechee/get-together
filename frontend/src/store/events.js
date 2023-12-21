@@ -6,7 +6,8 @@ export const LOAD_EVENT_DETAILS = 'events/LOAD_EVENT_DETAILS'
 export const LOAD_GROUP_EVENTS = 'events/LOAD_GROUP_EVENTS'
 export const CREATE_EVENT = 'events/CREATE_EVENT'
 export const ADD_EVENT_IMAGE = 'events/ADD_EVENT_IMAGE'
-export const DELETE_EVENT = 'event/DELETE_GROUP'
+export const DELETE_EVENT = 'events/DELETE_EVENT'
+export const DELETE_ASSOCIATED_EVENTS = 'events/DELETE_ASSOCIATED_EVENTS'
 
 // Action Creators
 export const loadEvents = (events) => ({
@@ -37,6 +38,11 @@ export const addEventImage = (eventId, image) => ({
 
 export const deleteEvent = (eventId) => ({
   type: DELETE_EVENT,
+  eventId
+})
+
+export const deleteAssociatedEvents = (eventId) => ({
+  type: DELETE_ASSOCIATED_EVENTS,
   eventId
 })
 
@@ -168,6 +174,12 @@ const eventReducer = (state = {}, action) => {
     case DELETE_EVENT: {
       const eventsState = { ...state };
       delete eventsState[action.eventId]
+      return eventsState;
+    }
+    case DELETE_ASSOCIATED_EVENTS: {
+      const eventsState = { ...state };
+        console.log('eventId', action.eventId)
+        delete eventsState[action.eventId]
       return eventsState;
     }
     default: 
