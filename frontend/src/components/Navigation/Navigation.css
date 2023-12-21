@@ -5,8 +5,27 @@
 nav {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .nav-bar-user-links {
   display: flex;
+}
+
+#logo {
+  width: 150px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.profile-button {
+  border: none;
+  color: #FEA000;
+  background-color: transparent;
+}
+
+.user-circle {
+  font-size: 35px;
 }
