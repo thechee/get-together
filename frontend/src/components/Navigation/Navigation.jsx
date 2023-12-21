@@ -17,19 +17,17 @@ function Navigation() {
           <img id='logo' src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Together_Master_Logo.png/1600px-Together_Master_Logo.png?20181005101630" alt="" />
         </Link>
       </div>
-      <div className='nav-bar-user-links'>
+
         {
           sessionUser ? 
-          <>
+        <div className='nav-bar-user-links'>
           <Link to={'/groups/new'}
             className='link'>
             Start a new group
           </Link>
-          <ProfileButton user={sessionUser} 
-          />
-          <i className="fa-solid fa-chevron-down"></i> 
-          </> :
-          <div> 
+          <ProfileButton user={sessionUser} />
+        </div> :
+          <div className='nav-bar-no-user'> 
             <OpenModalButton
               buttonText="Log In"
               modalComponent={<LoginFormModal />}
@@ -40,8 +38,6 @@ function Navigation() {
             />
           </div>
         }
-      </div>
-      
     </nav>
 
   );
