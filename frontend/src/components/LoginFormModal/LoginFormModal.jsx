@@ -15,33 +15,38 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors('');
     return dispatch(sessionActions.thunkLoginUser({ credential, password }))
-      .then(closeModal)
+      // .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.message) {
           setErrors(data.message);
+          console.log(errors)
         }
       });
+
   };
 
+  const buttonStatus = credential.length >= 4 && password.length >= 6 ? "" : "disabled"
+
   return (
-    <>
+    <div className='log-in'>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
+        {errors && <p>The provided credentials were invalid.</p>}
         <label>
-          Username or Email
           <input
             type="text"
             value={credential}
+            placeholder='Username or Email'
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
         <label>
-          Password
           <input
             type="password"
             value={password}
+            placeholder='Password'
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -49,9 +54,9 @@ function LoginFormModal() {
         {errors && (
           <p>{errors}</p>
         )}
-        <button type="submit">Log In</button>
+        <button id={`login-button${buttonStatus}`} type="submit">Log In</button>
       </form>
-    </>
+    </div>
   );
 }
 

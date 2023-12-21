@@ -1,0 +1,60 @@
+/* .content {
+} */
+
+.landing {
+  display: flex;
+  margin: 2rem auto;
+  width: 75%;
+}
+
+.landing-info {
+  width: 40%;
+}
+
+h1 {
+  font-size: xx-large;
+}
+
+.landing-img {
+  width: 60%;
+}
+
+.landing-img img {
+  max-width: 100%;
+}
+
+.how-works {
+  margin: 0 auto;
+  width: 25%;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 60%;
+}
+
+.home-link-img {
+  max-width: 150px;
+}
+
+.home-link {
+  color: #2A9D8F;
+  font-size: large;
+  cursor: pointer;
+}
+
+.disabled {
+  color: lightgray;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.home-link:hover {
+  text-decoration: underline;
+}
+
+.disabled:hover {
+  text-decoration: none;
+}

@@ -1,0 +1,9 @@
+.home-link-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-link-card p {
+  text-align: center;
+}
