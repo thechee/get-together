@@ -4,6 +4,7 @@ import OpenModalButton from '../OpenModalButton'
 import LoginFormModal from '../LoginFormModal'
 import SignupFormModal from '../SignupFormModal'
 import ProfileButton from './ProfileButton'
+import { Link } from 'react-router-dom'
 import './Navigation.css';
 /*{isLoaded} belongs in Navigation parameter*/
 function Navigation() {
@@ -11,7 +12,9 @@ function Navigation() {
   return (
     <nav>
       <div className='nav-bar-logo'>
-        <img src="logo.com" alt="" />
+        <Link to='/'>
+          <img src="../../public/Together_Master_Logo.png" alt="" />
+        </Link>
       </div>
       <div className='nav-bar-user-links'>
         {
