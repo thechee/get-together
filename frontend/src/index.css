@@ -1,1 +1,21 @@
 /* TODO: Add sitewide styles */
+body {
+  margin: 0;
+}
+
+* {
+  font-family: 'Inria Sans', sans-serif;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.error {
+  color: #E76F51
+}

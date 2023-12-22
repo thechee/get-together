@@ -44,19 +44,21 @@ function ProfileButton({ user }) {
           <div className='user-circle'>
             <i className="fas fa-user-circle" />
           </div>
+          <i id='profile-chevron' className="fa-solid fa-chevron-down"></i> 
       </button>
-      <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
+      <ul className={ulClassName} id='user-profile-ul' ref={ulRef}>
+          <div className='user-dropdown'>
             <li>Hello, {user.username}</li>
-            {/* <li>Hello, {user.firstName}</li> */}
             <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
+            <li id='logout-li' onClick={logout}>
+              <span>Log Out</span>
+              {/* <button id='logout-button' onClick={logout}>Log Out</button> */}
             </li>
-          </>
+          </div>
+      </ul>
         ) : (
-          <>
+        <ul>
             <li>
               <OpenModalButton
                 buttonText="Log In"
@@ -69,9 +71,9 @@ function ProfileButton({ user }) {
                 modalComponent={<SignupFormModal />}
               />
             </li>
-          </>
+        </ul>
         )}
-      </ul>
+
     </>
   );
 }

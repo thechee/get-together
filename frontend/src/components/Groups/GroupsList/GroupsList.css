@@ -1,3 +1,51 @@
-group-list-item {
-  width:200px
+.group-list-page {
+  margin: auto;
+  width: 70%;
+}
+
+.page-links {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+.page-links .active {
+  color: #2A9D8F;
+  text-decoration: underline;
+  pointer-events: none;
+}
+
+.page-links a {
+  font-size: x-large;
+  padding-right: 1.5rem;
+}
+
+.group-list {
+  padding-left: 0;
+}
+
+.group-list li {
+  border-top: 2px solid lightgray;
+  padding: 1rem 0;
+}
+
+.group-list-item {
+  display: flex;
+
+}
+
+.group-list-image {
+  max-width: 300px;
+  /* max-height: 300px; */
+}
+
+.group-list-info {
+  margin-left: 1.5rem;
+}
+
+.group-list-info h2 {
+  margin: 0;
+}
+
+.group-list-info h4 {
+  color: lightgray;
 }

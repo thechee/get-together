@@ -1,0 +1,56 @@
+.events-list-page {
+  margin: auto;
+  width: 70%;
+}
+
+.page-links {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+.page-links .active {
+  color: #2A9D8F;
+  text-decoration: underline;
+  pointer-events: none;
+}
+
+.page-links a {
+  font-size: x-large;
+  padding-right: 1.5rem;
+  color: gray;
+}
+
+.events-list {
+  padding-left: 0;
+}
+
+.events-list li {
+  border-top: 2px solid lightgray;
+  padding: 1rem 0;
+}
+
+.events-list-item {
+  display: flex;
+
+}
+
+.events-list-image {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.events-list-info {
+  margin-left: 1.5rem;
+}
+
+.events-list-info h2 {
+  margin: 0;
+}
+
+.events-list-info h3 {
+  color: #2A9D8F;
+}
+
+.events-list-info h4 {
+  color: lightgray;
+}

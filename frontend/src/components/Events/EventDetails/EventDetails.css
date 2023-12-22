@@ -1,0 +1,67 @@
+#back-to-events {
+  color: #2A9D8F;
+  text-decoration: underline;
+  padding-left: 5px;
+}
+
+.event-heading {
+  padding-top: 2rem;
+  width: 70%;
+  margin: 0 auto;
+}
+
+h4 {
+  color: gray;
+  font-weight: 100;
+}
+
+.event-section {
+  background-color: rgb(236, 236, 236);;
+}
+
+.event-detail {
+  width: 70%;
+  margin: 0 auto;
+  padding-top: 2rem;
+  display: flex;
+}
+
+.event-img img {
+  max-width: 500px;
+  max-height: 500px;
+}
+
+.event-stats-section {
+  margin: 0 3rem 1.5rem 1.5rem;
+  width: 30rem;
+}
+
+.event-group-card {
+  background-color: white;
+  display: flex;
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+} 
+
+.event-group-image img{
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.event-group-info {
+  padding-left: 1rem;
+}
+
+.event-stats {
+  background-color: white;
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+
+.event-description {
+  width: 70%;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}

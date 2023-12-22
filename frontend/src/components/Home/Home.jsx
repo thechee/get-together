@@ -1,7 +1,15 @@
 import './Home.css'
+import highfive from '/high-five.png'
+import threepeople from '/three-people.png'
+import ticket from '/ticket.png'
 import { HomeLinkCard } from './HomeLinkCard';
+import {useSelector} from 'react-redux';
 
 const Home = () => {
+  const user = useSelector(state => state.session.user)
+
+  const activeLink = user ? '' : 'disabled'
+
   return (
     <div className='content'>
       <div className='landing'>
@@ -15,13 +23,13 @@ const Home = () => {
       </div>
       <div className='lower-landing'>
         <div className='how-works'>
-          <h3>How Meetup works</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem provident quis, ut blanditiis facere, architecto doloremque fuga, veniam a modi error iure! Dolorem at modi quidem facere quae placeat voluptatum.</p>
+          <h3>How Get Together works</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem provident quis, ut blanditiis facere, architecto doloremque fuga, veniam a modi error iure!</p>
         </div>
         <div className='cards'>
-          <HomeLinkCard image={`../../../public/high-five.png`} path={`groups`} linkText={`See all groups`} />
-          <HomeLinkCard image={`https://v.fastcdn.co/u/f91f856b/56343282-0-Tickets.png`} path={`events`} linkText={`Find an event`} />
-          <HomeLinkCard image={`../../../public/three-people.png`} path={`groups/new`} linkText={`Start a new group`} />
+          <HomeLinkCard image={highfive} path={`groups`} linkText={`See all groups`} />
+          <HomeLinkCard image={ticket} path={`events`} linkText={`Find an event`} />
+          <HomeLinkCard activeLink={activeLink} image={threepeople} path={`groups/new`} linkText={`Start a new group`} />
         </div>
       </div>
 
