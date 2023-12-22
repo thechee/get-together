@@ -16,12 +16,19 @@ const EventsListItem = ({ event }) => {
   } else if (event.EventImages) {
     eventImagesPreview = event.EventImages.find(image => image.preview === true)
   }
+
   useEffect(() => {
     dispatch(thunkEventDetails(event.id))
   }, [dispatch, event.id])
 
-  let [ date, time ] = event.startDate.split(' ')
-  time = time.slice(0, 5)
+  let date;
+  let time;
+
+  if (event) {
+    [ date, time ] = event.startDate.split(' ')
+    time = time?.slice(0, 5)
+  }
+ 
   
   return (
       <Link to={`/events/${event.id}`} event={event}>

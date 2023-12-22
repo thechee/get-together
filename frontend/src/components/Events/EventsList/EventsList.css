@@ -17,6 +17,7 @@
 .page-links a {
   font-size: x-large;
   padding-right: 1.5rem;
+  color: gray;
 }
 
 .events-list {

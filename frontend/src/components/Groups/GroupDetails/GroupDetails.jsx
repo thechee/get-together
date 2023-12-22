@@ -38,8 +38,11 @@ const GroupDetails = () => {
 
   return (
     <div>
-      <span>{'<'}</span><Link id='back-to-groups' to={'/groups'}>Groups</Link>
+      <div className='back-link'>
+        <span>{'<'}</span><Link id='back-to-groups' to={'/groups'}>Groups</Link>
+      </div>
       <section className='group-landing'>
+  
         <div>
           <img className='group-image' src={groupPreviewImage?.url} alt="" />
         </div>

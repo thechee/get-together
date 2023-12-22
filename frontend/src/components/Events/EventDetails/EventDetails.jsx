@@ -14,11 +14,8 @@ const EventDetails = () => {
   const event = useSelector(state => state.events[eventId])
   const group = useSelector(state => state.groups[event?.groupId])
   const [ ueRan, setUeRan ] = useState(false)
-  // const group = groupsObj[event?.groupId]
   const isUserOwner = group?.organizerId == user?.id
 
-  // console.log("Group:", group)
-  // console.log("Event:", event)
   
   useEffect(() => {
     // do I have all the data a need?
@@ -50,37 +47,51 @@ const EventDetails = () => {
   } else if (group?.previewImage) {
     groupPreview = group.previewImage
   }
-  // console.log("eventImagesPreview:", eventImagesPreview)
-  // console.log("groupPreview:", groupPreview)
+
+  let startingDate;
+  let startingTime;
+  let endingDate;
+  let endingTime;
+
+  if (event) {
+    const starting = event.startDate.split(' ')
+    startingDate = starting[0]
+    startingTime = starting[1]
+    startingTime = startingTime.slice(0, 5)
+    const ending = event.endDate.split(' ')
+    endingDate = ending[0]
+    endingTime = ending[1]
+    endingTime = endingTime.slice(0, 5)
+  }
 
   return (
     <>
-      <div>
-        <Link to={'/events'}>Events</Link>
+      <div className='event-heading'>
+      <span>{'<'}</span><Link id='back-to-events' to={'/events'}>Events</Link>
         <h1>{event?.name}</h1>
         <h4>Hosted by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
       </div>
-      <section className='event-detail'>
-        <div>
+      <section className='event-section'>
+        <div className='event-detail'>
           <div className='event-img'>
             {event?.EventImages && <img src={eventImagesPreview} alt="" />}
           </div>
           <div className='event-stats-section'>
-            <div className='event-group-stats'>
-              <div>
+            <div className='event-group-card'>
+              <div className='event-group-image'>
                 {group?.GroupImages && <img src={groupPreview}/>}
               </div>
-              <div>
+              <div className='event-group-info'>
                 <h3>{group?.name}</h3>
-                <h5>{group?.private ? "Private" : "Public" }</h5>
+                <h4>{group?.private ? "Private" : "Public" }</h4>
               </div>
             </div>
             <div className="event-stats">
               <div className='event-stats-times'>
                 <i className="fa-regular fa-clock"></i>
                 <div>
-                  <p><span>START</span> {event?.startDate}</p>
-                  <p><span>END</span> {event?.endDate}</p>
+                  <p><span>START</span> {startingDate} {startingTime}</p>
+                  <p><span>END</span> {endingDate} {endingTime}</p>
                 </div>
               </div>
               <div className='event-stats-cost'>
@@ -92,15 +103,15 @@ const EventDetails = () => {
               {isUserOwner &&  <OpenModalButton
                 buttonText="Delete"
                 modalComponent={<DeleteEventModal event={ event }/>}
-            />}
+              />}
             </div>
           </div>
+        </div>     
+        <div className='event-description'>
+          <h2>Details</h2>
+          {event?.description}
         </div>
-      </section>
-      <section className='event-description'>
-        <h2>Details</h2>
-        {event?.description}
-      </section>
+    </section>
     </>
   );
 }

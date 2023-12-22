@@ -1,3 +1,8 @@
+.back-link {
+  width: 70%;
+  margin: 3rem auto 0;
+}
+
 #back-to-groups {
   color: #2A9D8F;
   text-decoration: underline;
@@ -5,7 +10,7 @@
 }
 
 .group-landing {
-  margin: 3rem auto 0px;
+  margin: auto;
   width: 70%;
   display: flex;
 }
@@ -64,8 +69,3 @@
   padding: 1.5rem;
   margin: 1rem 0;
 }
-
-/* .group-events img {
-  padding-left: 1.5rem;
-  padding-top: 1.5rem;
-} */

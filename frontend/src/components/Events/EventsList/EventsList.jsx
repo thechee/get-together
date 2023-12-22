@@ -1,18 +1,11 @@
 import EventsListItem from '../EventsListItem';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkLoadEvents } from '../../../store/events';
-import { useEffect } from 'react';
 import './EventsList.css'
 
 const EventsList = () => {
-  const dispatch = useDispatch();
   const eventsObj = useSelector(state => state.events)
   const events = Object.values(eventsObj)
-
-  useEffect(() => {
-    dispatch(thunkLoadEvents())
-  }, [dispatch])
   
   return (
     <div className='events-list-page'>
