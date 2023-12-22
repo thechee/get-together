@@ -1,7 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { thunkGroupDetails } from '../../../store/groups';
-import { thunkLoadGroupEvents } from '../../../store/events';
 import { useEffect } from 'react';
 import EventsListItem from '../../Events/EventsListItem/';
 import OpenModalButton from '../../OpenModalButton';

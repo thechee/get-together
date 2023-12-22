@@ -1,6 +1,6 @@
 import EventsListItem from '../EventsListItem';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './EventsList.css'
 
 const EventsList = () => {

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import GroupListItem from '../GroupListItem/GroupListItem';
 import { useEffect } from 'react';
 import { thunkLoadGroups } from '../../../store/groups';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { thunkLoadEvents } from '../../../store/events';
 import './GroupsList.css'
 
