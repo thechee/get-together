@@ -63,7 +63,9 @@ nav {
   align-items: center;
 }
 
-.fa-chevron-down {
+.fa-chevron-down,
+.fa-chevron-up
+ {
   color: lightgray;
   font-size: 20px;
   padding-left: 5px;

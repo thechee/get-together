@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton/';
 import LoginFormModal from '../LoginFormModal/';
@@ -7,6 +8,7 @@ import SignupFormModal from '../SignupFormModal/';
 import './Navigation.css'
 
 function ProfileButton({ user }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -33,9 +35,11 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.thunkLogout());
+    navigate('/')
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const profileChevronClassName = "fa-chevron-" + (showMenu ? "up" : "down")
 
   return (
     <>
@@ -44,12 +48,12 @@ function ProfileButton({ user }) {
           <div className='user-circle'>
             <i className="fas fa-user-circle" />
           </div>
-          <i id='profile-chevron' className="fa-solid fa-chevron-down"></i> 
+          <i id='profile-chevron' className={`fa-solid ${profileChevronClassName}`}></i> 
       </button>
         {user ? (
       <ul className={ulClassName} id='user-profile-ul' ref={ulRef}>
           <div className='user-dropdown'>
-            <li>Hello, {user.username}</li>
+            <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
             <li id='logout-li' onClick={logout}>
               <span>Log Out</span>
