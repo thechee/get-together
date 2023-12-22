@@ -69,7 +69,7 @@ const EventDetails = () => {
       <div className='event-heading'>
       <span>{'<'}</span><Link id='back-to-events' to={'/events'}>Events</Link>
         <h1>{event?.name}</h1>
-        <h4>Hosted by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
+        <h4>Hosted by: {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
       </div>
       <section className='event-section'>
         <div className='event-detail'>
@@ -120,8 +120,8 @@ const EventDetails = () => {
                   <p><span>END</span></p>
                 </div>
                 <div className='event-stats-stats'>
-                  <p> {startingDate} {'<'}{startingTime}{'>'}</p>
-                  <p> {endingDate} {'<'}{endingTime}{'>'}</p>
+                  <p>{startingDate} · {'<'}{startingTime}{'>'}</p>
+                  <p>{endingDate} · {'<'}{endingTime}{'>'}</p>
                 </div>
               </div>
 
@@ -142,10 +142,15 @@ const EventDetails = () => {
                   <span>{event?.type}</span>
                 </div>
 
-                  {isUserOwner &&  <OpenModalButton
-                      buttonText="Delete"
-                      modalComponent={<DeleteEventModal event={ event }/>}
-                  />}
+              <div className='event-details-user-buttons'>
+                {isUserOwner && <button
+                onClick={() => alert('Feature Coming Soon...')}
+                >Update</button>}
+                {isUserOwner &&  <OpenModalButton
+                    buttonText="Delete"
+                    modalComponent={<DeleteEventModal event={ event }/>}
+                />}
+              </div>
 
               </div>
 
@@ -156,7 +161,7 @@ const EventDetails = () => {
           </div>
         </div>     
         <div className='event-description'>
-          <h2>Details</h2>
+          <h2>Description</h2>
           {event?.description}
         </div>
     </section>

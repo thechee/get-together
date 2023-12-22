@@ -54,7 +54,8 @@ const GroupDetails = () => {
             <h4>Organized by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
             </div>
             <div className='group-info-buttons'>
-              {user?.id !== group?.organizerId && <button 
+              {user && user?.id !== group?.organizerId && <button 
+                id='join-group'
                 onClick={() => alert('Feature Coming Soon...')}>
                 Join this group
               </button>}

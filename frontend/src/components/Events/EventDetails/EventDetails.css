@@ -117,11 +117,15 @@ h4 {
   margin-left: 1rem;
 }
 
-.event-type button {
+.event-details-user-buttons {
   margin-left: auto;
+}
+
+.event-type button {
   color: white;
   background-color: gray;
   box-shadow: 3px 3px black;
+  margin: 0 .5rem;
 }
 
 .event-description {

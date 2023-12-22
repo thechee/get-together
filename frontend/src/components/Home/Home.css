@@ -25,7 +25,14 @@ h1 {
 
 .how-works {
   margin: 0 auto;
-  width: 25%;
+  width: 30%;
+}
+
+.how-works p {
+  text-align: center;
+}
+.how-works h2 {
+  text-align: center;
 }
 
 .cards {
@@ -57,4 +64,18 @@ h1 {
 
 .disabled:hover {
   text-decoration: none;
+}
+
+.home-join-btn-div {
+  display: flex;
+}
+
+.home-join-btn-div button {
+  background-color: #2A9D8F;
+  color: white;
+  font-size: large;
+  padding: 1rem;
+  box-shadow: 3px 3px black;
+  margin: 2rem auto;
+  cursor: pointer;
 }

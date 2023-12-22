@@ -36,11 +36,18 @@
   margin: 10px 0px
 }
 
+#join-group {
+  background-color: #E76F51;
+  color: white;
+  padding: .5rem 2rem;
+}
+
 .group-info-buttons button{
   color: white;
   background-color: gray;
   box-shadow: 3px 3px black;
   margin-right: 10px;
+  padding: .5rem 1rem;
 }
 
 .group-events-section {
