@@ -1,4 +1,8 @@
 /* TODO: Add sitewide styles */
+body {
+  margin: 0;
+}
+
 * {
   font-family: 'Inria Sans', sans-serif;
 }

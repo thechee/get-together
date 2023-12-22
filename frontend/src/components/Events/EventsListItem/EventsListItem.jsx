@@ -19,28 +19,29 @@ const EventsListItem = ({ event }) => {
   useEffect(() => {
     dispatch(thunkEventDetails(event.id))
   }, [dispatch, event.id])
+
+  let [ date, time ] = event.startDate.split(' ')
+  time = time.slice(0, 5)
   
   return (
-    <li>
       <Link to={`/events/${event.id}`} event={event}>
-        <div className='event-card'>
-          <div className='event-card-info'>
-            <div className='event-card-img'>
-              {preview && <img src={preview} alt="" />}
-              {eventImagesPreview && <img src={eventImagesPreview.url} alt="" />}
-            </div>
-            <div className='event-card-stats'>
-              <h4>{event.startDate}</h4>
-              <h3>{event.name}</h3>
-              {event.Venue && <h5>{event.Venue?.city}, {event.Venue?.state}</h5>}
-            </div>
+      <li>
+        <div className='events-list-item'>
+          <div className='event-card-img'>
+            {preview && <img className='events-list-image' src={preview} alt="" />}
+            {eventImagesPreview && <img className='events-list-image' src={eventImagesPreview.url} alt="" />}
           </div>
-          <div className='event-card-about'>
-            <p>{event.description}</p>
+          <div className='events-list-info'>
+            <h3>{date} · {'<'}{time}{'>'}</h3>
+            <h2>{event.name}</h2>
+            {event.Venue && <h4>{event.Venue?.city}, {event.Venue?.state}</h4>}
           </div>
         </div>
-      </Link>
-    </li>
+        <div className='event-card-about'>
+          <p>{event.description}</p>
+        </div>
+      </li>
+    </Link>
   )
 }
 

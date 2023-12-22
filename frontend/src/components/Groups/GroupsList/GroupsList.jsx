@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import GroupListItem from '../GroupListItem/GroupListItem';
 import { useEffect } from 'react';
 import { thunkLoadGroups } from '../../../store/groups';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { thunkLoadEvents } from '../../../store/events';
 import './GroupsList.css'
 
@@ -24,9 +24,6 @@ const GroupsList = () => {
     })
   }
 
-  // console.log("groups:", groups)
-  // console.log('events:', events)
-
   useEffect(() => {
     dispatch(thunkLoadGroups())
     dispatch(thunkLoadEvents())
@@ -35,16 +32,16 @@ const GroupsList = () => {
   return (
     <div className='group-list-page'>
       <section>
-        <div>
-          <Link to='/events'>Events</Link>
-          <Link to='/groups'>Groups</Link>
+        <div className='page-links'>
+          <NavLink className='' to='/events'>Events</NavLink>
+          <NavLink className='' to='/groups'>Groups</NavLink>
         </div>
         <div>
           <span>Groups in Meetup</span>
         </div>
       </section>
       <section>
-        <ul>
+        <ul className='group-list'>
           {groups.map(group => (
             <GroupListItem 
               group={group}

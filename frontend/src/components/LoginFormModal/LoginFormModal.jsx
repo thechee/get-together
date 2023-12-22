@@ -46,7 +46,7 @@ function LoginFormModal() {
     <div className='log-in'>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
-        {errors && (<p>The provided credentials were invalid.</p>)}
+        {errors && (<p className='error'>The provided credentials were invalid.</p>)}
         <label>
           <input
             type="text"
