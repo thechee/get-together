@@ -87,23 +87,71 @@ const EventDetails = () => {
               </div>
             </div>
             <div className="event-stats">
-              <div className='event-stats-times'>
+              {/* <div className="event-icons">
                 <i className="fa-regular fa-clock"></i>
+                <i className="fa-solid fa-dollar-sign"></i>
+                <i className="fa-solid fa-map-pin"></i>
+              </div>
+              <div className='event-stats-headers'>
                 <div>
-                  <p><span>START</span> {startingDate} {startingTime}</p>
-                  <p><span>END</span> {endingDate} {endingTime}</p>
+                  <p><span>START</span></p>
+                  <p><span>END</span></p>
+                </div>
+                <span>{event?.price !== 0 ? event?.price : "FREE"}</span>                
+                <span>{event?.type}</span>
+              </div>
+              <div className='event-stats-stats'>
+                <p> {startingDate} {'<'}{startingTime}{'>'}</p>
+                <p> {endingDate} {'<'}{endingTime}{'>'}</p>
+              </div>
+              <div className='event-delete-div'>
+                {isUserOwner &&  <OpenModalButton
+                  buttonText="Delete"
+                  modalComponent={<DeleteEventModal event={ event }/>}
+                />}
+              </div> */}
+
+              <div className='times'>
+                <div className='icon-div'>
+                  <i className="fa-regular fa-clock"></i>
+                </div>
+                <div className='times-headers'>
+                  <p><span>START</span></p>
+                  <p><span>END</span></p>
+                </div>
+                <div className='event-stats-stats'>
+                  <p> {startingDate} {'<'}{startingTime}{'>'}</p>
+                  <p> {endingDate} {'<'}{endingTime}{'>'}</p>
                 </div>
               </div>
-              <div className='event-stats-cost'>
-                <i className="fa-solid fa-dollar-sign"></i> <span>{event?.price !== 0 ? event?.price : "FREE"}</span>
+
+              <div className='event-price'>
+              <div className='icon-div'>
+              <i className="fa-solid fa-dollar-sign"></i>
               </div>
-              <div className='event-stats-type'>
-                <i className="fa-solid fa-map-pin"></i><span>{event?.type}</span>
+                <div className='event-price-stat'>
+                  <span>{event?.price !== 0 ? event?.price : "FREE"}</span>  
+                </div>
               </div>
-              {isUserOwner &&  <OpenModalButton
-                buttonText="Delete"
-                modalComponent={<DeleteEventModal event={ event }/>}
-              />}
+
+              <div className='event-type'>
+              <div className='icon-div'>
+                <i className="fa-solid fa-map-pin"></i>
+              </div>
+                <div className='event-type-stat'>
+                  <span>{event?.type}</span>
+                </div>
+
+                  {isUserOwner &&  <OpenModalButton
+                      buttonText="Delete"
+                      modalComponent={<DeleteEventModal event={ event }/>}
+                  />}
+
+              </div>
+
+
+
+  
             </div>
           </div>
         </div>     
