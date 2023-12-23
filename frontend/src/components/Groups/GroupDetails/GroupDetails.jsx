@@ -21,6 +21,9 @@ const GroupDetails = () => {
 
   const upcoming = []
   const past = []
+
+  events?.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+
   events?.forEach(event => {
     new Date(event.startDate) < now ?
       past.push(event) :
@@ -54,7 +57,8 @@ const GroupDetails = () => {
             <h4>Organized by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
             </div>
             <div className='group-info-buttons'>
-              {user?.id !== group?.organizerId && <button 
+              {user && user?.id !== group?.organizerId && <button 
+                id='join-group'
                 onClick={() => alert('Feature Coming Soon...')}>
                 Join this group
               </button>}

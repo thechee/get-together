@@ -17,7 +17,7 @@ module.exports = {
         name: 'Memorial Day Mayhem',
         type: 'In person',
         capacity: 500,
-        price: 10.00,
+        price: 0.00,
         description: 'The official opening day of grilling season!!',
         startDate: "2024-05-30 12:00:00",
         endDate: "2024-05-30 20:00:00"

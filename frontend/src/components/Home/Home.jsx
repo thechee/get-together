@@ -3,7 +3,9 @@ import highfive from '/high-five.png'
 import threepeople from '/three-people.png'
 import ticket from '/ticket.png'
 import { HomeLinkCard } from './HomeLinkCard';
-import {useSelector} from 'react-redux';
+import OpenModalButton from '../OpenModalButton';
+import SignupFormModal from '../SignupFormModal';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
   const user = useSelector(state => state.session.user)
@@ -15,7 +17,7 @@ const Home = () => {
       <div className='landing'>
         <div className='landing-info'>
           <h1>The people platform—Where interests become friendships</h1>
-          <p>Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Meetup. Events are happening every day—sign up to join the fun.</p>
+          <p>Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Get Together. Events are happening every day—sign up to join the fun.</p>
         </div>
         <div className='landing-img'>
           <img src="https://v.fastcdn.co/t/f91f856b/8a35655b/1687613214-55703691-1306x600-Online-event.png" alt="" />
@@ -23,7 +25,7 @@ const Home = () => {
       </div>
       <div className='lower-landing'>
         <div className='how-works'>
-          <h3>How Get Together works</h3>
+          <h2>How Get Together works</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem provident quis, ut blanditiis facere, architecto doloremque fuga, veniam a modi error iure!</p>
         </div>
         <div className='cards'>
@@ -32,7 +34,12 @@ const Home = () => {
           <HomeLinkCard activeLink={activeLink} image={threepeople} path={`groups/new`} linkText={`Start a new group`} />
         </div>
       </div>
-
+      <div className='home-join-btn-div'>
+        <OpenModalButton
+          buttonText="Join Get Together"
+          modalComponent={<SignupFormModal />}
+        />
+      </div>
     </div>
 
   )

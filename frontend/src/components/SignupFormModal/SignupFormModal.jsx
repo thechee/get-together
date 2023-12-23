@@ -52,8 +52,8 @@ function SignupFormModal() {
     <div className='sign-up-form-container'>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} className='sign-up-form'>
-      {errors.email && <p className='error'>{errors.email}</p>}
-      {errors.username && <p className='error'>{errors.username}</p>}
+      {errors.email && <p className='error'>The provided email is invalid.</p>}
+      {errors.username && <p className='error'>Username must be unique.</p>}
         <label>
           <input
             type="text"

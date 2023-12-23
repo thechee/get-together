@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton/';
 import LoginFormModal from '../LoginFormModal/';
@@ -7,9 +8,10 @@ import SignupFormModal from '../SignupFormModal/';
 import './Navigation.css'
 
 function ProfileButton({ user }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  const ulRef = useRef();
+  const divRef = useRef();
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -20,7 +22,7 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
+      if (!divRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
@@ -33,9 +35,11 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.thunkLogout());
+    navigate('/')
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const profileChevronClassName = "fa-chevron-" + (showMenu ? "up" : "down")
 
   return (
     <>
@@ -44,13 +48,15 @@ function ProfileButton({ user }) {
           <div className='user-circle'>
             <i className="fas fa-user-circle" />
           </div>
-          <i id='profile-chevron' className="fa-solid fa-chevron-down"></i> 
+          <i id='profile-chevron' className={`fa-solid ${profileChevronClassName}`}></i> 
       </button>
         {user ? (
-      <ul className={ulClassName} id='user-profile-ul' ref={ulRef}>
-          <div className='user-dropdown'>
-            <li>Hello, {user.username}</li>
+      <ul className={ulClassName} id='user-profile-ul'>
+          <div ref={divRef} className='user-dropdown'>
+            <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
+            <li onClick={() => setShowMenu(false)} className='user-dropdown-links'><Link to='/groups'>View groups</Link></li>
+            <li onClick={() => setShowMenu(false)}><Link to='/events'>View events</Link></li>
             <li id='logout-li' onClick={logout}>
               <span>Log Out</span>
               {/* <button id='logout-button' onClick={logout}>Log Out</button> */}

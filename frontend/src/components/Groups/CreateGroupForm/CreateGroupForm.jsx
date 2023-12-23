@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import './CreateGroupForm.css'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { thunkCreateGroup, thunkAddImage } from '../../../store/groups'
+import './CreateGroupForm.css'
 
 
 const CreateGroupForm = () => {
@@ -32,7 +32,7 @@ const CreateGroupForm = () => {
     if (!city) errors.city = "City is required"
     if (!state) errors.state = "State is required"
     if (!name) errors.name = 'Name is required'
-    if (about.length < 50) errors.about = 'Description must be at least 50 characters long'
+    if (about.length < 30) errors.about = 'Description must be at least 30 characters long'
     if (type == 'placeholder' || !type) errors.type = 'Group Type is required'
     if (privacy == 'placeholder' || !privacy) errors.privacy = 'Visibility Type is required'
     if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg'
@@ -70,79 +70,96 @@ const CreateGroupForm = () => {
   }
 
   return (
-    <section>
-      <h3>BECOME AN ORGANIZER</h3>
-      <h2>We&apos;ll walk you through a few steps to build your local community</h2>
+    <section className='group-section'>
+      <h4>BECOME AN ORGANIZER</h4>
+      <h2>Start a New Group</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <h2>First, set your group&apos;s location.</h2>
+          <h2>Set your group&apos;s location</h2>
           <p>
-            Meetup groups meet locally, in person and online, We&apos;ll connect you with people 
-            <br />in your area, and more can join you online.
+            Get Together groups meet locally, in person and online. 
+            <br />
+            We&apos;ll connect you with people in your area.
           </p>
-          <input type="text" placeholder='City' value={city} onChange={e => setCity(e.target.value)}/>
+          <label>
+            <input type="text" id='group-city' placeholder='City' value={city} onChange={e => setCity(e.target.value)}/>
+          </label>
+          <span id='comma-span'>,</span>
+          <label>
+            <input type="text" id='group-state' placeholder='STATE' value={state} onChange={e => setState(e.target.value)}/>
+          </label>
           {"city" in validationErrors && <p className='errors'>{validationErrors.city}</p>}
-          <input type="text" placeholder='State' value={state} onChange={e => setState(e.target.value)}/>
           {"state" in validationErrors && <p className='errors'>{validationErrors.state}</p>}
         </div>
         <div>
           <h2>What will your group&apos;s name be?</h2>
-          <label>
-            Choose a name that will give people a clear idea of what the group is about.
+          <p>Choose a name that will give people a clear idea of what the group is about.
             <br />Feel free to get creative! You can edit this later if you change your mind.
+          </p>
+          <label>
+            <input type="text" id='group-name' placeholder='What is your group name?' value={name} onChange={e => setName(e.target.value)}/>
           </label>
-          <input type="text" placeholder='What is your group name?' value={name} onChange={e => setName(e.target.value)}/>
           {"name" in validationErrors && <p className='errors'>{validationErrors.name}</p>}
         </div>
         <div>
-          <h2>Now describe what your group will be about</h2>
+          <h2>Describe the purpose of your group.</h2>
           <label>
-            People will see this when we promote your group, but you&apos;ll be able to add to it later, too.
-            <br />
-            <br />1. What&apos;s the purpose of the group?
-            <br />2. Who should join?
-            <br />3. What will you do at your events?
+            <p>People will see this when we promote your group, but you&apos;ll be able to add to it later, too.
+              <br />
+              <br />1. What&apos;s the purpose of the group?
+              <br />2. Who should join?
+              <br />3. What will you do at your events?
+            </p>
           </label>
-          <textarea name="" id="" cols="30" rows="10" 
-            placeholder='Please write at least 50 characters'
+          <textarea name="" id="group-about" cols="30" rows="10" 
+            placeholder='Please write at least 30 characters'
             value={about}
             onChange={e => setAbout(e.target.value)}
           ></textarea>
           {"about" in validationErrors && <p className='errors'>{validationErrors.about}</p>}
         </div>
-        <div>
+        <div id='final-steps-div'>
           <h2>Final steps...</h2>
           <label htmlFor='type'>
-            Is this an in person or online group?
+            <p>
+              Is this an in person or online group?
+            </p>
             <select
+              name="type"
               value={type}
               onChange={e => setType(e.target.value)}
             >
-              <option disabled value="placeholder">(select one)</option>
+              <option className='placeholder-select' disabled value="placeholder">(select one)</option>
               <option value="In person">In person</option>
               <option value="Online">Online</option>
             </select>
           </label>
           {"type" in validationErrors && <p className='errors'>{validationErrors.type}</p>}
           <label htmlFor="privacy">
-            Is this group private or public?
+            <p>
+              Is this group private or public?
+            </p>
             <select
               value={privacy}
               onChange={e => setPrivacy(e.target.value)}
             >
-              <option disabled value="placeholder">(select one)</option>
+              <option className='placeholder-select' disabled value="placeholder">(select one)</option>
               <option value={false}>Public</option>
               <option value={true}>Private</option>
             </select>
           </label>
           {"privacy" in validationErrors && <p className='errors'>{validationErrors.privacy}</p>}
           <label htmlFor="imageUrl">
-            Please add an image url for your group below:
-            <input type="url" placeholder='Image Url' value={imageUrl} onChange={e => setImageUrl(e.target.value)}/>
+            <p>
+              Please add an image url for your group below:
+            </p>
+            <input id='group-imageUrl' type="url" name='imageUrl' placeholder='Image Url' value={imageUrl} onChange={e => setImageUrl(e.target.value)}/>
           </label>
           {"imageUrl" in validationErrors && <p className='errors'>{validationErrors.imageUrl}</p>}
         </div>
-        <button onSubmit={handleSubmit}>Create Group</button>
+        <div>
+          <button onSubmit={handleSubmit}>Create group</button>
+        </div>
       </form>
     </section>
   );

@@ -6,7 +6,7 @@
 
 .event-heading {
   padding-top: 2rem;
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -16,11 +16,11 @@ h4 {
 }
 
 .event-section {
-  background-color: rgb(236, 236, 236);;
+  background-color: rgb(236, 236, 236);
 }
 
 .event-detail {
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
   padding-top: 2rem;
   display: flex;
@@ -32,8 +32,8 @@ h4 {
 }
 
 .event-stats-section {
-  margin: 0 3rem 1.5rem 1.5rem;
-  width: 30rem;
+  margin: 0 0 1.5rem 1.5rem;
+  width: 100%;
 }
 
 .event-group-card {
@@ -57,11 +57,79 @@ h4 {
   background-color: white;
   border-radius: 15px;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
+.event-stats > div {
+  margin: .5rem 0;
+}
+
+.event-stats span,
+.event-stats i {
+  color: grey;
+}
+
+.event-stats i {
+  font-size: larger;
+}
+
+.icon-div {
+  width: 1.5rem;
+}
+
+.event-stats p {
+  color: #2A9D8F;
+  margin: 0;
+}
+
+.times {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.times-headers {
+  margin-left: 1rem;
+}
+
+.event-stats-stats {
+  margin-left: 1rem;
+}
+
+.event-price {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.event-price-stat {
+  margin-left: 1rem;
+}
+
+.event-type {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.event-type-stat {
+  margin-left: 1rem;
+}
+
+.event-details-user-buttons {
+  margin-left: auto;
+}
+
+.event-type button {
+  color: white;
+  background-color: gray;
+  box-shadow: 3px 3px black;
+  margin: 0 .5rem;
+}
 
 .event-description {
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
   padding-bottom: 3rem;
 }

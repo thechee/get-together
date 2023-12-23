@@ -82,13 +82,17 @@ const CreateEventForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <h1>Create an event for {group?.name}</h1>
-        <label htmlFor="">
-          What is the name of your event?
+    <form className='event-form' onSubmit={handleSubmit}>
+      <div id='event-top-div'>
+        <h1>Create a new event for {group?.name}</h1>
+        <label htmlFor="event-name">
+          <p>
+            What is the name of your event?
+          </p>
         </label>
           <input 
+            name='event-name'
+            id='event-input-name'
             type="text"
             placeholder='Event Name'
             value={name}
@@ -98,7 +102,9 @@ const CreateEventForm = () => {
       </div>
       <div>
         <label htmlFor="">
-          Is this an in person or online event?
+          <p>
+            Is this an in person or online event?
+          </p>
         </label>
         <select
           value={type}
@@ -110,76 +116,99 @@ const CreateEventForm = () => {
         </select>
         {"type" in validationErrors && <p className='errors'>{validationErrors.type}</p>}
         <label htmlFor="">
-          What is the capacity of the event?
+          <p>
+            What is the capacity of the event?
+          </p>
         </label>
         <input 
-          type="number" 
+          type="number"
+          id='event-input-capacity'
           placeholder='Capacity'
           min={0}
           value={capacity}
           onChange={e => setCapacity(e.target.value)}
         />
         {"capacity" in validationErrors && <p className='errors'>{validationErrors.capacity}</p>}
-        <label htmlFor="">
-          What is the price for your event?
+        <label htmlFor="price">
+          <p>
+            What is the price for your event?
+          </p>
         </label>
+        <div id='event-div-price'>
         <i className="fa-solid fa-dollar-sign"></i>
         <input 
+          id='event-input-price'
+          name='price'
           type="number"
           placeholder='0.00'
           min={0}
           value={price}
           onChange={e => setPrice(e.target.value)}
         />
+        </div>
+
         {"price" in validationErrors && <p className='errors'>{validationErrors.price}</p>}
       </div>
       <div>
         <label htmlFor="">
-          When does your event start?
+          <p>
+            When does your event start?
+          </p>
         </label>
         <input 
           type="datetime-local"
-          placeholder='MM/DD/YYYY HH:mm AM'
+          // placeholder='MM/DD/YYYY HH:mm AM'
           value={startDate}
           onChange={e => setStartDate(e.target.value)}
         />
         {"startDate" in validationErrors && <p className='errors'>{validationErrors.startDate}</p>}
         <label htmlFor="">
-          When does your event end?
+          <p>
+            When does your event end?
+          </p>
         </label>
         <input 
           type="datetime-local"
-          placeholder='MM/DD/YYYY HH:mm PM'
+          // placeholder='MM/DD/YYYY HH:mm PM'
           value={endDate}
           onChange={e => setEndDate(e.target.value)}
         />
         {"endDate" in validationErrors && <p className='errors'>{validationErrors.endDate}</p>}
       </div>
       <div>
-        <label htmlFor="">
-          Please add an image url for your event below:
+        <label htmlFor="imageUrl">
+          <p>
+            Please add an image url for your event below:
+          </p>
         </label>
         <input 
           type="url"
+          id='event-input-imageUrl'
+          name='imageUrl'
           placeholder='Image URL'
           value={url}
           onChange={e => setUrl(e.target.value)}
         />
         {"imageUrl" in validationErrors && <p className='errors'>{validationErrors.imageUrl}</p>}
-        <label htmlFor="">
-          Set this image as a preview of the Event:
+        <label htmlFor="preview">
+          <p>
+            Set this image as a preview of the Event:
+            <input
+              name='preview'
+              type="checkbox"
+              value={preview}
+              onChange={() => setPreview(!preview)}
+            />
+          </p>
         </label>
-        <input 
-          type="checkbox"
-          value={preview}
-          onChange={() => setPreview(!preview)}
-        />
       </div>
       <div>
-        <label htmlFor="">
-          Please describe your event:
+        <label htmlFor="description">
+          <p>
+            Please describe your event:
+          </p>
         </label>
-        <textarea name="" id="" cols="30" rows="10"
+        <textarea name="description" id="event-input-description" cols="30" rows="10"
           placeholder='Please include at least 30 characters'
           value={description}
           onChange={e => setDescription(e.target.value)}
