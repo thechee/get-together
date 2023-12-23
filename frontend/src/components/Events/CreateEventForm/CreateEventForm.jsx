@@ -18,7 +18,7 @@ const CreateEventForm = () => {
   const [ endDate, setEndDate ] = useState('')
   const [ description, setDescription ] = useState('')
   const [ url, setUrl ] = useState('')
-  const [ preview, setPreview ] = useState(false)
+  // const [ preview, setPreview ] = useState(false)
   const [ validationErrors, setValidationErrors ] = useState({})
   const group = useSelector(state => state.groups[groupId])
 
@@ -63,7 +63,7 @@ const CreateEventForm = () => {
 
       const newEventImgBody = {
         url,
-        preview
+        preview: true
       }
     
       console.log(startDate)
@@ -192,7 +192,7 @@ const CreateEventForm = () => {
           onChange={e => setUrl(e.target.value)}
         />
         {"imageUrl" in validationErrors && <p className='errors'>{validationErrors.imageUrl}</p>}
-        <label htmlFor="preview">
+        {/* <label htmlFor="preview">
           <p>
             Set this image as a preview of the Event:
             <input
@@ -202,7 +202,7 @@ const CreateEventForm = () => {
               onChange={() => setPreview(!preview)}
             />
           </p>
-        </label>
+        </label> */}
       </div>
       <div>
         <label htmlFor="description">

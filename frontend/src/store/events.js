@@ -139,14 +139,15 @@ const eventReducer = (state = {}, action) => {
     case LOAD_EVENTS: {
       const eventsState = { ...state };
       action.events.Events.forEach(event => {
-        eventsState[event.id] = event
+        if (!eventsState[event.id]) {
+          eventsState[event.id] = event
+        } 
       })
       return eventsState;
     }
     case LOAD_EVENT_DETAILS: {
       const eventsState = { ...state };
       eventsState[action.event.id] = action.event
-      // console.log('eventsState:', eventsState)
       return eventsState;
     }
     case LOAD_GROUP_EVENTS: {
