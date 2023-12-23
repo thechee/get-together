@@ -57,9 +57,8 @@ const CreateEventForm = () => {
         capacity,
         price,
         description,
-        // changed this to add new Date
-        startDate: new Date(startDate),
-        endDate: new Date(endDate)
+        startDate,
+        endDate
       }
 
       const newEventImgBody = {
@@ -67,10 +66,12 @@ const CreateEventForm = () => {
         preview
       }
     
-    
+      console.log(startDate)
+      console.log(endDate)
+      
     const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
     if (createdEvent.ok === false) {
-      // console.log("createdEvent error:", createdEvent.json())
+      console.log("createdEvent error:", createdEvent.json())
       // set validation errors
     } else {
         // console.log(createdEvent)
