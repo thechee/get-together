@@ -153,16 +153,14 @@ const EventDetails = () => {
               </div>
 
               </div>
-
-
-
-  
             </div>
           </div>
         </div>     
         <div className='event-description'>
           <h2>Description</h2>
-          {event?.description}
+          <p>
+            {event?.description}
+          </p>
         </div>
     </section>
     </>

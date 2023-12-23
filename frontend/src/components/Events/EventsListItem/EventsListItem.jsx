@@ -25,7 +25,6 @@ const EventsListItem = ({ event }) => {
   let time;
 
   if (event && !event.message) {
-    console.log(event)
     date = event.startDate.split(' ')[0]
     time = event.startDate.split(' ')[1]
     time = time?.slice(0, 5)
