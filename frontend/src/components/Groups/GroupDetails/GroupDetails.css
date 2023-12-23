@@ -48,6 +48,7 @@
   box-shadow: 3px 3px black;
   margin-right: 10px;
   padding: .5rem 1rem;
+  cursor: pointer;
 }
 
 .group-events-section {

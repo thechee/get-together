@@ -55,15 +55,19 @@ h1 {
 .disabled {
   color: lightgray;
   pointer-events: none;
-  cursor: pointer;
+  cursor:default;
+}
+
+.disabled p {
+  color: black;
+}
+
+.disabled a:hover {
+  text-decoration: none;
 }
 
 .home-link:hover {
   text-decoration: underline;
-}
-
-.disabled:hover {
-  text-decoration: none;
 }
 
 .home-join-btn-div {

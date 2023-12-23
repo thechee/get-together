@@ -21,6 +21,9 @@ const GroupDetails = () => {
 
   const upcoming = []
   const past = []
+
+  events?.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+
   events?.forEach(event => {
     new Date(event.startDate) < now ?
       past.push(event) :
