@@ -14,7 +14,7 @@ const GroupListItem = ({ group }) => {
             <h2>{group.name}</h2>
             <h4>{group.city}, {group.state}</h4>
             <p>{group.about}</p>
-            <span>{group.events.length} Events</span>
+            <span>{group.events?.length} Events</span>
             <span> · </span>
             <span>{group.private ? "Private" : "Public" }</span>
           </div>
