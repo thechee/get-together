@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 // import { useEffect } from 'react';
 import GroupListItem from '../GroupListItem'
 // import { thunkLoadUserGroups } from '../../../store/groups';
