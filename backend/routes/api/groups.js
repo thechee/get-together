@@ -90,9 +90,10 @@ const validateEventData = [
     .exists({ checkFalsy: true })
     .toDate()
     .custom(value => {
-      let enteredDate = new Date(value);
-      let todaysDate = new Date();
-      if (enteredDate <= todaysDate) {
+      // let enteredDate = new Date(value);
+      // let todaysDate = new Date();
+      // if (enteredDate <= todaysDate) {
+        if (value.getTime() < new Date().getTime()) {
         throw new Error("Start date must be in the future")
       }
       return true;
