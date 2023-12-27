@@ -112,7 +112,7 @@ const validateEventData = [
 ]
 
 router.get('/current', requireAuth, async (req, res) => {
-  const { user } = req
+  const { user } = req;
 
   const ownedGroups = await Group.findAll({
     where: {

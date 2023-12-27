@@ -11,6 +11,19 @@ const EventsList = () => {
   const events = Object.values(eventsObj)
   
   events?.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+  const upcoming = [];
+  const past = [];
+  const currentTime = new Date().toJSON()
+
+  events.forEach(event => {
+    event.startDate < currentTime ?
+      past.push(event) :
+      upcoming.push(event)
+  })
+
+  console.log('currentTime', currentTime)
+  console.log("past", past)
+  console.log("upcoming", upcoming)
 
   useEffect(() => {
     dispatch(thunkLoadEvents())
@@ -29,8 +42,15 @@ const EventsList = () => {
       </section>
       <section>
         <ul className='events-list'>
-          {events?.map(event => (
+          {upcoming?.map(event => (
             <EventsListItem 
+              event={event}
+              key={event.id}
+            />
+          ))}
+          <h2>Past Events</h2>
+          {past?.map(event => (
+              <EventsListItem 
               event={event}
               key={event.id}
             />

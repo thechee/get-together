@@ -1,0 +1,9 @@
+.user-groups-content {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.user-groups-content li {
+    border-top: 2px solid lightgray;
+    padding: 1rem 0;
+  }

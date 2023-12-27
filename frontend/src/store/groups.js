@@ -3,15 +3,21 @@ import { deleteAssociatedEvents } from "./events";
 
 // Action Type Constants
 export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
-export const LOAD_GROUP_DETAILS = 'groups/LOAD_GROUP_DETAILS'
-export const CREATE_GROUP = 'groups/CREATE_GROUP'
-export const ADD_IMAGE = 'groups/ADD_IMAGE'
-export const EDIT_GROUP = 'groups/EDIT_GROUP'
-export const DELETE_GROUP = 'groups/DELETE_GROUP'
+export const LOAD_USER_GROUPS = 'groups/LOAD_USER_GROUPS';
+export const LOAD_GROUP_DETAILS = 'groups/LOAD_GROUP_DETAILS';
+export const CREATE_GROUP = 'groups/CREATE_GROUP';
+export const ADD_IMAGE = 'groups/ADD_IMAGE';
+export const EDIT_GROUP = 'groups/EDIT_GROUP';
+export const DELETE_GROUP = 'groups/DELETE_GROUP';
 
 // Action Creators
 export const loadGroups = (groups) => ({
   type: LOAD_GROUPS,
+  groups
+})
+
+export const loadUserGroups = (groups) => ({
+  type: LOAD_USER_GROUPS,
   groups
 })
 
@@ -47,6 +53,12 @@ export const thunkLoadGroups = () => async (dispatch) => {
   const response = await fetch('/api/groups')
   const groups = await response.json()
   dispatch(loadGroups(groups))
+}
+
+export const thunkLoadUserGroups = () => async (dispatch) => {
+  const response = await fetch('/api/groups/current')
+  const groups = await response.json()
+  dispatch(loadUserGroups(groups))
 }
 
 export const thunkGroupDetails = (groupId) => async (dispatch) => {
@@ -145,7 +157,14 @@ export const thunkDeleteGroup = (group) => async (dispatch) => {
 const groupReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_GROUPS: {
-      const groupsState = {};
+      const groupsState = { ...state };
+      action.groups.Groups.forEach(group => {
+        groupsState[group.id] = group
+      })
+      return groupsState;
+    }
+    case LOAD_USER_GROUPS: {
+      const groupsState = { ...state };
       action.groups.Groups.forEach(group => {
         groupsState[group.id] = group
       })
