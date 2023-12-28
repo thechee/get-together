@@ -140,6 +140,7 @@ const CreateEventForm = () => {
         <i className="fa-solid fa-dollar-sign"></i>
         <input 
           id='event-input-price'
+          step='0.01'
           name='price'
           type="number"
           placeholder='0.00'
