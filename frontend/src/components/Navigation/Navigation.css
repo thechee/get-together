@@ -79,7 +79,6 @@ nav {
   background-color: white;
   position: relative;
   top: 35px;
-  left: 70px
 }
 
 .user-dropdown > li{
@@ -98,5 +97,5 @@ nav {
 
 #user-profile-ul {
   position: absolute;
-  /* right: 0px */
+  right: 0px
 }

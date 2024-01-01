@@ -55,6 +55,7 @@ function ProfileButton({ user }) {
           <div ref={divRef} className='user-dropdown'>
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
+            <li onClick={() => setShowMenu(false)}> <Link to='/groups/current'>View your groups</Link> </li>
             <li onClick={() => setShowMenu(false)} className='user-dropdown-links'><Link to='/groups'>View groups</Link></li>
             <li onClick={() => setShowMenu(false)}><Link to='/events'>View events</Link></li>
             <li id='logout-li' onClick={logout}>

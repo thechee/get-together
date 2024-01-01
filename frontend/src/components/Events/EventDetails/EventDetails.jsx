@@ -53,12 +53,12 @@ const EventDetails = () => {
   let endingDate;
   let endingTime;
 
-  if (event) {
+  if (event?.startDate) {
     const starting = event.startDate.split(' ')
     startingDate = starting[0]
     startingTime = starting[1]
     startingTime = startingTime.slice(0, 5)
-    const ending = event.endDate.split(' ')
+    const ending = event.endDate?.split(' ')
     endingDate = ending[0]
     endingTime = ending[1]
     endingTime = endingTime.slice(0, 5)

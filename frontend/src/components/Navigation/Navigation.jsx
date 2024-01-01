@@ -20,13 +20,13 @@ function Navigation() {
 
         {
           sessionUser ? 
-        <div className='nav-bar-user-links'>
-          <Link to={'/groups/new'}
-            className='link'>
-            Start a new group
-          </Link>
-          <ProfileButton user={sessionUser} />
-        </div> :
+          <div className='nav-bar-user-links'>
+            <Link to={'/groups/new'}
+              className='link'>
+              Start a new group
+            </Link>
+            <ProfileButton user={sessionUser} />
+          </div> :
           <div className='nav-bar-no-user'> 
             <OpenModalButton
               buttonText="Log In"
