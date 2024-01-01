@@ -5,7 +5,7 @@ const GroupListItem = ({ group }) => {
 
   return (
     <li>
-      <Link to={`${group.id}`}>
+      <Link to={`/groups/${group.id}`}>
         <div className="group-list-item">
           <div>
             <img className='group-list-image' src={group.previewImage} alt="" />
