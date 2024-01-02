@@ -3,6 +3,10 @@
     margin: 0 auto;
 }
 
+.user-groups-content ul {
+  padding-left: 0;
+}
+
 .user-groups-content li {
     border-top: 2px solid lightgray;
     padding: 1rem 0;
