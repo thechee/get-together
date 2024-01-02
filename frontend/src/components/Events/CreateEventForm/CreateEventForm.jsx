@@ -41,6 +41,8 @@ const CreateEventForm = () => {
     if (capacity == 'placeholder' || !capacity) errors.capacity = 'Event capacity is required';
     if (price == 'placeholder' || !price) errors.price = 'Price is required';
     if (!startDate) errors.startDate = 'Event start is required';
+    if (new Date(startDate) <= new Date()) errors.startDate = 'Event start must be in the future'
+    if (new Date(startDate) > new Date(endDate)) errors.endDate = 'Event end must be after the start'
     if (!endDate) errors.endDate = 'Event end is required';
     if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
     if (description.length < 30) errors.description = 'Description must be at least 30 characters long';
@@ -70,6 +72,7 @@ const CreateEventForm = () => {
     const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
     if (createdEvent.ok === false) {
       // set validation errors
+      console.log(createdEvent.json())
       // errors.startDate = 'Event start date and time must be after the current date and time'
     } else {
         // console.log(createdEvent)

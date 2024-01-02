@@ -16,11 +16,11 @@ export const csrfFetch = async (url, options = {}) => {
   if (res.status >= 400) throw res;
   return res;
   // if (res.ok) {
-  //   // const data = res.json()
-  //   return res;
+  //   const data = res.json()
+  //   return data;
   // } else {
-  //   // const errors = res.json()
-  //   return res;
+  //   const errors = res.json()
+  //   return errors;
   // }
 }
 

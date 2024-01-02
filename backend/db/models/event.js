@@ -79,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       validate: {
         isDate: true,
-        isAfter: new Date().toJSON()
+        // isAfter: new Date().toJSON()
         // .slice(0, 10)
       },
       get: function() {
