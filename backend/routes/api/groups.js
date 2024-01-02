@@ -89,17 +89,14 @@ const validateEventData = [
   check('startDate')
     .exists({ checkFalsy: true })
     .toDate()
-    .custom((value) => {
-      // let enteredDate = new Date(value);
-      // let todaysDate = new Date();
-      // if (enteredDate <= todaysDate) {
-        if (new Date(value).getTime() <= new Date().getTime()) {
-        throw new Error("Start date must be in the future")
-      }
-      return true;
-    })
-  //   // .isAfter({comparisonDate: Date.to})
-    .withMessage("Start date must be in the future"),
+  //   .custom((value) => {
+  //     if (new Date(value).toJSON() <= new Date().toJSON()) {
+  //       throw new Error("Start date must be in the future")
+  //     }
+  //     return true;
+  //   })
+  // //   // .isAfter({comparisonDate: Date.to})
+    .withMessage("Start date must exist"),
   check('endDate')
     .exists({ checkFalsy: true })
     .toDate()
