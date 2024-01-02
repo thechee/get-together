@@ -86,20 +86,20 @@ const validateEventData = [
   check('description')
     .exists({ checkFalsy: true })
     .withMessage("Description is required"),
-  // check('startDate')
-  //   .exists({ checkFalsy: true })
-  //   .toDate()
-  //   .custom((value) => {
-  //     // let enteredDate = new Date(value);
-  //     // let todaysDate = new Date();
-  //     // if (enteredDate <= todaysDate) {
-  //       if (new Date(value).toUTCString() <= new Date().toUTCString()) {
-  //       throw new Error("Start date must be in the future")
-  //     }
-  //     return true;
-  //   })
+  check('startDate')
+    .exists({ checkFalsy: true })
+    .toDate()
+    .custom((value) => {
+      // let enteredDate = new Date(value);
+      // let todaysDate = new Date();
+      // if (enteredDate <= todaysDate) {
+        if (new Date(value).toISOString() <= new Date().toISOString()) {
+        throw new Error("Start date must be in the future")
+      }
+      return true;
+    })
   //   // .isAfter({comparisonDate: Date.to})
-  //   .withMessage("Start date must be in the future"),
+    .withMessage("Start date must be in the future"),
   check('endDate')
     .exists({ checkFalsy: true })
     .toDate()

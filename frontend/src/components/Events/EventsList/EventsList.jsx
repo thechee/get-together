@@ -45,7 +45,7 @@ const EventsList = () => {
             />
           ))}
           {past.length && <h2>Past Events</h2>}
-          {past?.map(event => (
+          {past.length && past?.map(event => (
               <EventsListItem 
               event={event}
               key={event.id}
