@@ -93,7 +93,7 @@ const validateEventData = [
       // let enteredDate = new Date(value);
       // let todaysDate = new Date();
       // if (enteredDate <= todaysDate) {
-        if (new Date(value).toISOString() <= new Date().toISOString()) {
+        if (new Date(value).getTime() <= new Date().getTime()) {
         throw new Error("Start date must be in the future")
       }
       return true;
