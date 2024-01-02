@@ -21,10 +21,6 @@ const EventsList = () => {
       upcoming.push(event)
   })
 
-  console.log('currentTime', currentTime)
-  console.log("past", past)
-  console.log("upcoming", upcoming)
-
   useEffect(() => {
     dispatch(thunkLoadEvents())
   }, [dispatch])

@@ -29,14 +29,19 @@ const ManageGroups = () => {
 
   return (
     <div className='user-groups-content'>
-      <ul>
-        {userGroups?.map(group => (
-          <GroupListItem
-            group={group}
-            key={group.id}
-          />
-        ))}
-      </ul>
+      <h2>Manage Groups</h2>
+
+      <h4>Your events in Get-Together</h4>
+      <div>
+        <ul>
+          {userGroups?.map(group => (
+            <GroupListItem
+              group={group}
+              key={group.id}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -47,6 +47,7 @@ const CreateEventForm = () => {
 
     setValidationErrors(errors)
 
+    // hardcoded null value for venueId
     const venueId = null
 
     if (!Object.values(validationErrors).length) {
@@ -65,14 +66,11 @@ const CreateEventForm = () => {
         url,
         preview: true
       }
-    
-      console.log(startDate)
-      console.log(endDate)
       
     const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
     if (createdEvent.ok === false) {
-      console.log("createdEvent error:", createdEvent.json())
       // set validation errors
+      // errors.startDate = 'Event start date and time must be after the current date and time'
     } else {
         // console.log(createdEvent)
         // dispatch the image to the new group's id
