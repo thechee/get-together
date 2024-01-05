@@ -120,8 +120,8 @@ export const thunkEditGroup = (groupId, group) => async (dispatch) => {
 
   if (response.ok) {
     const group = await response.json()
-    dispatch(editGroup(group))
-    // console.log("group:", group)
+    dispatch(editGroup(groupId, group))
+    console.log("group:", group)
     return group;
   } else {
     const error = await response.json()
@@ -140,10 +140,10 @@ export const thunkDeleteGroup = (group) => async (dispatch) => {
 
   if (response.ok) {
     const message = await response.json()
-    dispatch(deleteGroup(group.id))
     group.events.forEach(event => {
       dispatch(deleteAssociatedEvents(event.id))
     })
+    dispatch(deleteGroup(group.id))
     // console.log("group:", group)
     return message;
   } else {

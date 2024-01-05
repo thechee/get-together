@@ -21,7 +21,12 @@ const EventDetails = () => {
     // do I have all the data a need?
       // if not, run the thunks
       // check if the event has the detail key yet or not
+    // if (!event.Group) {
+    //   dispatch(thunkEventDetails(eventId))
+    // }
+
     const helper = async () => {
+      console.log('useEffect firing in the EventDetails component')
       await dispatch(thunkEventDetails(eventId))
       await dispatch(thunkLoadGroups())
       setUeRan(true)
@@ -77,15 +82,17 @@ const EventDetails = () => {
             {event?.EventImages && <img src={eventImagesPreview} alt="" />}
           </div>
           <div className='event-stats-section'>
-            <div className='event-group-card'>
-              <div className='event-group-image'>
-                {group?.GroupImages && <img src={groupPreview}/>}
+            <Link to={`/groups/${event.groupId}`}>
+              <div className='event-group-card'>
+                <div className='event-group-image'>
+                  {group?.GroupImages && <img src={groupPreview}/>}
+                </div>
+                <div className='event-group-info'>
+                  <h3>{group?.name}</h3>
+                  <h4>{group?.private ? "Private" : "Public" }</h4>
+                </div>
               </div>
-              <div className='event-group-info'>
-                <h3>{group?.name}</h3>
-                <h4>{group?.private ? "Private" : "Public" }</h4>
-              </div>
-            </div>
+            </Link>
             <div className="event-stats">
               {/* <div className="event-icons">
                 <i className="fa-regular fa-clock"></i>
@@ -130,7 +137,7 @@ const EventDetails = () => {
               <i className="fa-solid fa-dollar-sign"></i>
               </div>
                 <div className='event-price-stat'>
-                  <span>{event?.price !== 0 ? event?.price : "FREE"}</span>  
+                  <span>{event?.price == 0 ? "FREE" : event?.price }</span>  
                 </div>
               </div>
 

@@ -13,8 +13,8 @@ const validateGroupData = [
     .withMessage("Name must be 60 characters or less"),
   check('about')
     .exists({ checkFalsy: true })
-    .isLength({ min: 50 })
-    .withMessage("About must be 50 characters or more"),
+    .isLength({ min: 30 })
+    .withMessage("About must be 30 characters or more"),
   check('type')
     .exists({ checkFalsy: true })
     .isIn(['Online', 'In person'])
@@ -87,18 +87,18 @@ const validateEventData = [
     .exists({ checkFalsy: true })
     .withMessage("Description is required"),
   check('startDate')
-    .exists({ checkFalsy: true })
+    .exists()
     .toDate()
-  //   .custom((value) => {
-  //     if (new Date(value).toJSON() <= new Date().toJSON()) {
-  //       throw new Error("Start date must be in the future")
-  //     }
-  //     return true;
-  //   })
-  // //   // .isAfter({comparisonDate: Date.to})
+    .custom((value) => {
+      if (Date.parse(value) <= Date.parse(new Date())) {
+        throw new Error("Start date must be in the future")
+      }
+
+      return true;
+    })
     .withMessage("Start date must exist"),
   check('endDate')
-    .exists({ checkFalsy: true })
+    .exists()
     .toDate()
     .custom((endDate, { req }) => {
       if (endDate.getTime() < req.body.startDate.getTime()) {

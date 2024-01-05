@@ -6,9 +6,6 @@ import { Link } from 'react-router-dom';
 
 const EventsListItem = ({ event }) => {
   const dispatch = useDispatch()
-  // const eventDetails = useSelector(state => state.events[event.id])
-  // console.log("eventDetails: ", eventDetails)
-  // const preview = event.EventImages.find(image => preview === true)
   let preview;
   let eventImagesPreview;
   if (event.previewImage) {
@@ -18,7 +15,8 @@ const EventsListItem = ({ event }) => {
   }
 
   useEffect(() => {
-    dispatch(thunkEventDetails(event.id))
+    console.log('useEffect firing in EventListItem')
+    if (event.id) dispatch(thunkEventDetails(event.id))
   }, [dispatch, event.id])
 
   let date;

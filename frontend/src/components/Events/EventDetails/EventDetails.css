@@ -126,6 +126,7 @@ h4 {
   background-color: gray;
   box-shadow: 3px 3px black;
   margin: 0 .5rem;
+  cursor: pointer;
 }
 
 .event-description {
