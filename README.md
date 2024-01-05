@@ -7,7 +7,11 @@ This is a full-stack project with CRUD capabilities of several features. It is a
 
 - Express
 
+- Express-Validator
+
 - Sequelize
+
+- JWT 
 
 ### Frontend technologies
 

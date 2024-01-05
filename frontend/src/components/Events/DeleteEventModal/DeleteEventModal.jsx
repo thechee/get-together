@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../../context/Modal';
 import { thunkDeleteEvent } from '../../../store/events';
@@ -8,12 +8,13 @@ const DeleteEventModal = ({ event }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { closeModal } = useModal()
+  const group = useSelector(state => state.groups[event.groupId])
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault()
-    dispatch(thunkDeleteEvent(event.id))
     closeModal()
-    navigate(`/groups/${event.groupId}`)
+    navigate(`/groups/${group.id}`)
+    dispatch(thunkDeleteEvent(event.id))
   }
 
   const handleCancel = (e) => {

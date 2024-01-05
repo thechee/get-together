@@ -41,7 +41,7 @@ const EditGroupForm = () => {
     if (!name) errors.name = 'Name is required'
     if (about.length < 30) errors.about = 'Description must be at least 30 characters long'
     if (type == 'placeholder' || !type) errors.type = 'Group Type is required'
-    if (privacy == 'placeholder' || !privacy) errors.privacy = 'Visibility Type is required'
+    if (privacy == 'placeholder') errors.privacy = 'Visibility Type is required'
     // if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg'
 
     setValidationErrors(errors)

@@ -11,9 +11,9 @@ const CreateEventForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [ name, setName ] = useState('')
-  const [ type, setType ] = useState('placeholder')
-  const [ capacity, setCapacity ] = useState('placeholder')
-  const [ price, setPrice ] = useState('placeholder')
+  const [ type, setType ] = useState('select-one')
+  const [ capacity, setCapacity ] = useState('')
+  const [ price, setPrice ] = useState('')
   const [ startDate, setStartDate ] = useState('')
   const [ endDate, setEndDate ] = useState('')
   const [ description, setDescription ] = useState('')
@@ -41,8 +41,8 @@ const CreateEventForm = () => {
     if (capacity == 'placeholder' || !capacity) errors.capacity = 'Event capacity is required';
     if (price == 'placeholder' || !price) errors.price = 'Price is required';
     if (!startDate) errors.startDate = 'Event start is required';
-    if (new Date(startDate) <= new Date()) errors.startDate = 'Event start must be in the future'
-    if (new Date(startDate) > new Date(endDate)) errors.endDate = 'Event end must be after the start'
+    if (new Date(startDate).getTime() <= new Date().getTime()) errors.startDate = 'Event start must be in the future'
+    if (new Date(startDate).getTime() > new Date(endDate).getTime()) errors.endDate = 'Event end must be after the start'
     if (!endDate) errors.endDate = 'Event end is required';
     if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
     if (description.length < 30) errors.description = 'Description must be at least 30 characters long';
@@ -69,12 +69,12 @@ const CreateEventForm = () => {
         preview: true
       }
       
-    const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
-    if (createdEvent.ok === false) {
-      // set validation errors
-      console.log(createdEvent.json())
-      // errors.startDate = 'Event start date and time must be after the current date and time'
-    } else {
+      const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
+      if (createdEvent.ok === false) {
+        // set validation errors
+        console.log(createdEvent.json())
+        // errors.startDate = 'Event start date and time must be after the current date and time'
+      } else {
         // console.log(createdEvent)
         // dispatch the image to the new group's id
         // the dispatch needs the group id AND the body
@@ -113,7 +113,7 @@ const CreateEventForm = () => {
           value={type}
           onChange={e => setType(e.target.value)}
         >
-          <option disabled value="placeholder">(select one)</option>
+          <option disabled value='select-one'>(select one)</option>
           <option value="In person">In person</option>
           <option value="Online">Online</option>
         </select>
@@ -161,7 +161,6 @@ const CreateEventForm = () => {
         </label>
         <input 
           type="datetime-local"
-          // placeholder='MM/DD/YYYY HH:mm AM'
           value={startDate}
           onChange={e => setStartDate(e.target.value)}
         />
@@ -173,7 +172,6 @@ const CreateEventForm = () => {
         </label>
         <input 
           type="datetime-local"
-          // placeholder='MM/DD/YYYY HH:mm PM'
           value={endDate}
           onChange={e => setEndDate(e.target.value)}
         />

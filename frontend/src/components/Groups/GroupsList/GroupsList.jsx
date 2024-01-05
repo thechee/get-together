@@ -13,7 +13,6 @@ const GroupsList = () => {
   const groups = Object.values(groupsObj)
   const events = Object.values(eventsObj)
   
-  // console.log('groups:', groups)
   if (groups.length) {
     groups?.forEach(group => {
       group.events = [];  

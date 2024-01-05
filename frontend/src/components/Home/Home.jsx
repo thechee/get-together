@@ -34,12 +34,12 @@ const Home = () => {
           <HomeLinkCard activeLink={activeLink} image={threepeople} path={`groups/new`} linkText={`Start a new group`} />
         </div>
       </div>
-      <div className='home-join-btn-div'>
+      {!user && <div className='home-join-btn-div'>
         <OpenModalButton
           buttonText="Join Get Together"
           modalComponent={<SignupFormModal />}
         />
-      </div>
+      </div>}
     </div>
 
   )

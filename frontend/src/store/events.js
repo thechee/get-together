@@ -62,7 +62,10 @@ export const thunkLoadEvents = () => async (dispatch) => {
 export const thunkEventDetails = (eventId) => async (dispatch) => {
   const response = await fetch(`/api/events/${eventId}`)
   const event = await response.json()
-  dispatch(loadEventDetails(event))
+
+  if (response.ok) {
+    dispatch(loadEventDetails(event))
+  }
 } 
 
 export const thunkLoadGroupEvents = (groupId) => async (dispatch) => {
@@ -174,7 +177,7 @@ const eventReducer = (state = {}, action) => {
     }
     case DELETE_EVENT: {
       const eventsState = { ...state };
-      delete eventsState[action.eventId]
+      delete eventsState[action.eventId];
       return eventsState;
     }
     case DELETE_ASSOCIATED_EVENTS: {
