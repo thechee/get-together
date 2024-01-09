@@ -79,8 +79,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       validate: {
         isDate: true,
-        // isAfter: new Date().toJSON()
-        // .slice(0, 10)
+        isAfter: {
+          args: [sequelize.NOW],
+          msg: "Start date must be in the future"
+        }
       },
       get: function() {
         let year = this.getDataValue('startDate').getFullYear()

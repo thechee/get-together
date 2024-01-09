@@ -9,6 +9,8 @@
 
 .landing-info {
   width: 40%;
+  max-width: 400px;
+  min-width: 360px;
 }
 
 h1 {
@@ -50,12 +52,15 @@ h1 {
   color: #2A9D8F;
   font-size: large;
   cursor: pointer;
+  text-decoration: underline;
+  margin: 0;
 }
 
 .disabled {
   color: lightgray;
   pointer-events: none;
   cursor:default;
+  text-decoration: none;
 }
 
 .disabled p {

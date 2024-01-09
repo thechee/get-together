@@ -87,15 +87,14 @@ const validateEventData = [
     .exists({ checkFalsy: true })
     .withMessage("Description is required"),
   check('startDate')
-    .exists()
+    .exists({ checkFalsy: true })
     .toDate()
-    .custom((value) => {
-      if (Date.parse(value) <= Date.parse(new Date())) {
-        throw new Error("Start date must be in the future")
-      }
-
-      return true;
-    })
+    // .custom((value) => {
+    //   if (Date.parse(value) <= Date.parse(new Date())) {
+    //     throw new Error("Start date must be in the future")
+    //   }
+    //   return true;
+    // })
     .withMessage("Start date must exist"),
   check('endDate')
     .exists()

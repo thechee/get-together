@@ -30,6 +30,8 @@ const CreateEventForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setValidationErrors({});
+
     const urlEndings = ['.png', '.jpg', '.jpeg'];
     const urlEnding3 = url.slice(-4);
     const urlEnding4 = url.slice(-5);
@@ -40,6 +42,7 @@ const CreateEventForm = () => {
     if (type == 'placeholder') errors.type = 'Event Type is required';
     if (capacity == 'placeholder' || !capacity) errors.capacity = 'Event capacity is required';
     if (price == 'placeholder' || !price) errors.price = 'Price is required';
+    if (price.startsWith('0') && price.length > 1) errors.price = 'Price should be a valid'
     if (!startDate) errors.startDate = 'Event start is required';
     if (new Date(startDate).getTime() <= new Date().getTime()) errors.startDate = 'Event start must be in the future'
     if (new Date(startDate).getTime() > new Date(endDate).getTime()) errors.endDate = 'Event end must be after the start'
@@ -47,18 +50,20 @@ const CreateEventForm = () => {
     if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
     if (description.length < 30) errors.description = 'Description must be at least 30 characters long';
 
-    setValidationErrors(errors)
-
+    if (Object.values(errors).length) {
+      setValidationErrors(errors)
+    } else {
     // hardcoded null value for venueId
-    const venueId = null
-
-    if (!Object.values(validationErrors).length) {
+    
+    // if (!Object.values(validationErrors).length) {
+      const venueId = null
       const newEventReqBody = {
         venueId,
         name,
         type,
         capacity,
         price,
+        // price: price.replace(/^0+/, ''),
         description,
         startDate,
         endDate
@@ -72,10 +77,8 @@ const CreateEventForm = () => {
       const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
       if (createdEvent.ok === false) {
         // set validation errors
-        console.log(createdEvent.json())
         // errors.startDate = 'Event start date and time must be after the current date and time'
       } else {
-        // console.log(createdEvent)
         // dispatch the image to the new group's id
         // the dispatch needs the group id AND the body
         await dispatch(thunkAddEventImage(createdEvent.id, newEventImgBody))
