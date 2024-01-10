@@ -5,6 +5,7 @@ export const LOAD_EVENTS = 'events/LOAD_EVENTS';
 export const LOAD_EVENT_DETAILS = 'events/LOAD_EVENT_DETAILS'
 export const LOAD_GROUP_EVENTS = 'events/LOAD_GROUP_EVENTS'
 export const CREATE_EVENT = 'events/CREATE_EVENT'
+export const UPDATE_EVENT = 'events/UPDATE_EVENT'
 export const ADD_EVENT_IMAGE = 'events/ADD_EVENT_IMAGE'
 export const DELETE_EVENT = 'events/DELETE_EVENT'
 export const DELETE_ASSOCIATED_EVENTS = 'events/DELETE_ASSOCIATED_EVENTS'
@@ -30,6 +31,12 @@ export const createEvent = (event) => ({
   event
 })
 
+export const updateEvent = (eventId, event) => ({
+  type: UPDATE_EVENT,
+  eventId,
+  event
+})
+
 export const addEventImage = (eventId, image) => ({
   type: ADD_EVENT_IMAGE,
   eventId,
@@ -52,11 +59,22 @@ export const deleteAssociatedEvents = (eventId) => ({
 export const thunkLoadEvents = () => async (dispatch) => {
   const response = await fetch('/api/events')
   const events = await response.json()
-  // loop over events
-    // for each event, dispatch thunkEventDetails
-    // push into new array
+
+  // const detailedEvents = []
+  // // loop over events
+  // events?.Events.forEach(async event => {
+  //   // for each event, dispatch thunkEventDetails
+  //   const detailedEvent = await dispatch(thunkEventDetails(event.id))
+  //   // push into new array
+  //   detailedEvents.push(detailedEvent)
+  // })
+  // console.log('events:', events)
+  // console.log(detailedEvents)
+  // console.log(Promise.allSettled(detailedEvents))
+  
   // dispatch the new array to loadEvents
-  dispatch(loadEvents(events))
+  // dispatch(loadEvents(detailedEvents))
+  dispatch(loadEvents(events.Events))
 }
 
 export const thunkEventDetails = (eventId) => async (dispatch) => {
@@ -71,7 +89,6 @@ export const thunkEventDetails = (eventId) => async (dispatch) => {
 export const thunkLoadGroupEvents = (groupId) => async (dispatch) => {
   const response = await fetch(`/api/groups/${groupId}/events`)
   const events = await response.json()
-  // console.group('thunk group events:', events)
   dispatch(loadGroupEvents(events))
 }
 
@@ -87,12 +104,29 @@ export const thunkCreateEvent = (groupId, event) => async (dispatch) => {
   if (response.ok) {
     const event = await response.json()
     dispatch(createEvent(event))
-    // console.log("event:", event)
     return event;
   } else {
     const error = await response.json()
-    // console.log("error:", error)
     return error
+  }
+}
+
+export const thunkUpdateEvent = (eventId, event) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(event)
+  })
+
+  if (response.ok) {
+    const event = await response.json()
+    dispatch(updateEvent(eventId, event))
+    return event;
+  } else {
+    const error = await response.json()
+    return error;
   }
 }
 
@@ -111,7 +145,6 @@ export const thunkAddEventImage = (eventId, image) => async (dispatch) => {
     return group;
   } else {
     const error = await response.json()
-    // console.log(error)
     return error
   }
 }
@@ -127,11 +160,9 @@ export const thunkDeleteEvent = (eventId) => async (dispatch) => {
   if (response.ok) {
     const message = await response.json()
     dispatch(deleteEvent(eventId))
-    // console.log("group:", group)
     return message;
   } else {
     const error = await response.json()
-    // console.log("error:", error)
     return error
   }
 }
@@ -141,7 +172,12 @@ const eventReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_EVENTS: {
       const eventsState = { ...state };
-      action.events.Events.forEach(event => {
+      // action.events.Events.forEach(event => {
+      //   if (!eventsState[event.id]) {
+      //     eventsState[event.id] = event
+      //   } 
+      // })
+      action.events.forEach(event => {
         if (!eventsState[event.id]) {
           eventsState[event.id] = event
         } 
@@ -166,13 +202,20 @@ const eventReducer = (state = {}, action) => {
       eventsState[action.event.id] = action.event
       return eventsState;
     }
+    case UPDATE_EVENT: {
+      const eventsState = { ...state }
+      eventsState[action.eventId] = { ...eventsState[action.eventId], ...action.event} 
+      return eventsState;
+    }
     case ADD_EVENT_IMAGE: {
       const eventsState = { ...state }
-      if ("EventImages" in eventsState[action.eventId]) {
-        eventsState[action.eventId].EventImages.push(action.image)
-      } else {
-        eventsState[action.eventId].EventImages = [action.image]
-      }
+      // if ("EventImages" in eventsState[action.eventId]) {
+      //   eventsState[action.eventId].EventImages.push(action.image)
+      // } else {
+      //   eventsState[action.eventId].EventImages = [action.image]
+      // }
+      const newArr = [action.image]
+      eventsState[action.eventId].EventImages = newArr
       return eventsState;
     }
     case DELETE_EVENT: {
@@ -182,8 +225,7 @@ const eventReducer = (state = {}, action) => {
     }
     case DELETE_ASSOCIATED_EVENTS: {
       const eventsState = { ...state };
-        console.log('eventId', action.eventId)
-        delete eventsState[action.eventId]
+      delete eventsState[action.eventId]
       return eventsState;
     }
     default: 

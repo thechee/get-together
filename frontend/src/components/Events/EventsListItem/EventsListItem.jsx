@@ -15,7 +15,6 @@ const EventsListItem = ({ event }) => {
   }
 
   useEffect(() => {
-    console.log('useEffect firing in EventListItem')
     if (event.id) dispatch(thunkEventDetails(event.id))
   }, [dispatch, event.id])
 

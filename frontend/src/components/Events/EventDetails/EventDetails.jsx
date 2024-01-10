@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { thunkEventDetails } from '../../../store/events';
@@ -8,6 +8,7 @@ import DeleteEventModal from '../DeleteEventModal'
 import './EventDetails.css';
 
 const EventDetails = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const { eventId } = useParams();
   const user = useSelector(state => state.session.user)
@@ -26,7 +27,6 @@ const EventDetails = () => {
     // }
 
     const helper = async () => {
-      console.log('useEffect firing in the EventDetails component')
       await dispatch(thunkEventDetails(eventId))
       await dispatch(thunkLoadGroups())
       setUeRan(true)
@@ -68,6 +68,8 @@ const EventDetails = () => {
     endingTime = ending[1]
     endingTime = endingTime.slice(0, 5)
   }
+
+  if (!event) return null;
 
   return (
     <>
@@ -151,7 +153,7 @@ const EventDetails = () => {
 
               <div className='event-details-user-buttons'>
                 {isUserOwner && <button
-                onClick={() => alert('Feature Coming Soon...')}
+                onClick={() => navigate(`/events/${eventId}/edit`)}
                 >Update</button>}
                 {isUserOwner &&  <OpenModalButton
                     buttonText="Delete"

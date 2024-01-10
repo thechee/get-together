@@ -30,7 +30,6 @@ export const thunkLoginUser = (user) => async (dispatch) => {
 
 export const thunkRestoreUser = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");
-  // console.log("thunkRestoreUser response:", response)
   const data = await response.json();
   dispatch(loginUser(data.user));
   return data;
@@ -72,7 +71,6 @@ export const thunkLogout = () => async (dispatch) => {
 
 //     if (res.ok) {
 //       const data = await res.json()
-//       console.log(data)
 //       dispatch(loginUser(data.user))
 //       return res
 //     }
@@ -92,7 +90,6 @@ export const thunkLogout = () => async (dispatch) => {
 
 //     if (res.ok) {
 //       const data = await res.json()
-//       console.log(data)
 //       dispatch(loginUser(data.user))
 //       return res
 //     } else {

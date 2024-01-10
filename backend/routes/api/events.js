@@ -148,7 +148,7 @@ router.get('/', validateQueryParameters, async (req, res) => {
 // startDate = parseInt(startDate)
   // startDate = new Date(startDate).getDate()
   // startDate = new Date(startDate).toUTCString()
-console.log(startDate)
+// console.log(startDate)
 
 
   const queries = {
@@ -442,13 +442,13 @@ router.put('/:eventId', requireAuth, async (req, res) => {
   const { user } = req;
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body
 
-  const venue = await Venue.findByPk(venueId)
-  if(!venue) {
-    res.status(404)
-    return res.json({
-      message: "Venue couldn't be found"
-    })
-  }
+  // const venue = await Venue.findByPk(venueId)
+  // if(!venue) {
+  //   res.status(404)
+  //   return res.json({
+  //     message: "Venue couldn't be found"
+  //   })
+  // }
 
   const event = await Event.findByPk(eventId)
   if(!event) {

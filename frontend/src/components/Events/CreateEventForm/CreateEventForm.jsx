@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import './CreateEventForm.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { thunkGroupDetails } from '../../../store/groups';
 import { thunkCreateEvent } from '../../../store/events';
 import { thunkAddEventImage } from '../../../store/events';
+import './CreateEventForm.css';
 
 const CreateEventForm = () => {
   const { groupId } = useParams()

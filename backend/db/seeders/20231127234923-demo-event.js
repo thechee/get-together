@@ -30,8 +30,8 @@ module.exports = {
         capacity: 1000,
         price: 2.00,
         description: 'Monthly cat chat, BYOB',
-        startDate: "2024-01-30 12:00:00",
-        endDate: "2024-01-30 20:00:00"
+        startDate: "2024-01-01 12:00:00",
+        endDate: "2024-01-01 20:00:00"
       },
       {
         venueId: 3,
@@ -63,8 +63,8 @@ module.exports = {
         capacity: 1000,
         price: 2.00,
         description: 'Monthly cat chat, BYOB',
-        startDate: "2024-02-27 12:00:00",
-        endDate: "2024-02-27 20:00:00"
+        startDate: "2024-02-01 12:00:00",
+        endDate: "2024-02-01 20:00:00"
       },
       {
         venueId: 2,

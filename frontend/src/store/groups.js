@@ -80,11 +80,9 @@ export const thunkCreateGroup = (group) => async (dispatch) => {
   if (response.ok) {
     const group = await response.json()
     dispatch(createGroup(group))
-    // console.log("group:", group)
     return group;
   } else {
     const error = await response.json()
-    // console.log("error:", error)
     return error
   }
 }
@@ -104,7 +102,6 @@ export const thunkAddImage = (groupId, image) => async (dispatch) => {
     return group;
   } else {
     const error = await response.json()
-    // console.log(error)
     return error
   }
 }
@@ -121,11 +118,9 @@ export const thunkEditGroup = (groupId, group) => async (dispatch) => {
   if (response.ok) {
     const group = await response.json()
     dispatch(editGroup(groupId, group))
-    console.log("group:", group)
     return group;
   } else {
     const error = await response.json()
-    // console.log("error:", error)
     return error
   }
 }
@@ -144,11 +139,9 @@ export const thunkDeleteGroup = (group) => async (dispatch) => {
       dispatch(deleteAssociatedEvents(event.id))
     })
     dispatch(deleteGroup(group.id))
-    // console.log("group:", group)
     return message;
   } else {
     const error = await response.json()
-    // console.log("error:", error)
     return error
   }
 }
@@ -191,7 +184,7 @@ const groupReducer = (state = {}, action) => {
     }
     case EDIT_GROUP: {
       const groupsState = { ...state };
-      groupsState[action.groupId] = action.group
+      groupsState[action.groupId] = { ...groupsState[action.groupId], ...action.group}
       return groupsState;
     }
     case DELETE_GROUP: {

@@ -1,29 +1,23 @@
 import EventsListItem from '../EventsListItem';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './EventsList.css'
-import { useEffect } from 'react';
-import { thunkLoadEvents } from '../../../store/events';
 
 const EventsList = () => {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const eventsObj = useSelector(state => state.events)
   const events = Object.values(eventsObj)
   
   events?.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
   const upcoming = [];
   const past = [];
-  const currentTime = new Date().toJSON()
+  const currentTime = Date.now()
 
   events.forEach(event => {
-    event.startDate < currentTime ?
+    Date.parse(event.startDate) < currentTime ?
       past.push(event) :
       upcoming.push(event)
   })
-
-  useEffect(() => {
-    dispatch(thunkLoadEvents())
-  }, [dispatch])
 
   return (
     <div className='events-list-page'>

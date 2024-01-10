@@ -36,7 +36,6 @@ const GroupDetails = () => {
   }, [dispatch, groupId])
 
   const groupPreviewImage = group?.GroupImages?.find(image => image.preview == true)
-  // console.log(groupPreviewImage)
 
   return (
     <div>
