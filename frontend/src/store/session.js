@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf"
 
 export const LOGIN_USER = 'session/LOGIN_USER' 
 export const REMOVE_USER = 'session/REMOVE_USER'
+export const LOAD_USER_GROUPS = 'session/LOAD_USER_GROUPS';
 
 
 export const loginUser = (user) => ({
@@ -11,6 +12,11 @@ export const loginUser = (user) => ({
 
 export const removeUser = () => ({
   type: REMOVE_USER
+})
+
+export const loadUserGroups = (groups) => ({
+  type: LOAD_USER_GROUPS,
+  groups
 })
 
 // Session Thunks
@@ -60,6 +66,19 @@ export const thunkLogout = () => async (dispatch) => {
   return response;
 };
 
+export const thunkLoadUserGroups = () => async (dispatch) => {
+  const response = await csrfFetch('/api/groups/current')
+
+  if (response.ok) {
+    const groups = await response.json()
+    dispatch(loadUserGroups(groups))
+    return groups;
+  } else {
+    const error = await response.json()
+    return error;
+  }
+}
+
 
 // .then.catch with throwing res
 // export const thunkLoginUser = (credential, password ) => async (dispatch) => {
@@ -107,6 +126,11 @@ const sessionReducer = (state = initialState, action) => {
     }
     case REMOVE_USER: {
       return { ...state, user: null }
+    }
+    case LOAD_USER_GROUPS: {
+      const sessionState = { ...state };
+      sessionState.user.Groups = action.groups
+      return sessionState;
     }
     default:
       return state;

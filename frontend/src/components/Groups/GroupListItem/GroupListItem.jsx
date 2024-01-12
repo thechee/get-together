@@ -2,9 +2,18 @@ import { Link, useNavigate } from "react-router-dom";
 import OpenModalButton from "../../OpenModalButton";
 import DeleteGroupModal from "../DeleteGroupModal";
 import "./GroupListItem.css";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { thunkLoadGroupEvents } from "../../../store/groups";
 
 const GroupListItem = ({ group, isOwner, isMember }) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const groupEvents = useSelector(state => state.groups[group.id].Events)
+
+  useEffect(() => {
+    dispatch(thunkLoadGroupEvents(group.id))
+  }, [group])
 
   return (
     <li>
@@ -19,7 +28,7 @@ const GroupListItem = ({ group, isOwner, isMember }) => {
             <p>{group.about}</p>
             <div className="group-list-item-lowest-container">
               <div className="group-events-type-container">
-                <span>{group.events?.length} Events</span>
+                <span>{groupEvents?.length} Events</span>
                 <span> · </span>
                 <span>{group.private ? "Private" : "Public" }</span>
               </div>

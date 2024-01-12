@@ -3,7 +3,6 @@ import { csrfFetch } from "./csrf";
 // Action Type Constants
 export const LOAD_EVENTS = 'events/LOAD_EVENTS';
 export const LOAD_EVENT_DETAILS = 'events/LOAD_EVENT_DETAILS'
-export const LOAD_GROUP_EVENTS = 'events/LOAD_GROUP_EVENTS'
 export const CREATE_EVENT = 'events/CREATE_EVENT'
 export const UPDATE_EVENT = 'events/UPDATE_EVENT'
 export const ADD_EVENT_IMAGE = 'events/ADD_EVENT_IMAGE'
@@ -19,11 +18,6 @@ export const loadEvents = (events) => ({
 export const loadEventDetails = (event) => ({
   type: LOAD_EVENT_DETAILS,
   event
-})
-
-export const loadGroupEvents = (events) => ({
-  type: LOAD_GROUP_EVENTS,
-  events
 })
 
 export const createEvent = (event) => ({
@@ -85,12 +79,6 @@ export const thunkEventDetails = (eventId) => async (dispatch) => {
     dispatch(loadEventDetails(event))
   }
 } 
-
-export const thunkLoadGroupEvents = (groupId) => async (dispatch) => {
-  const response = await fetch(`/api/groups/${groupId}/events`)
-  const events = await response.json()
-  dispatch(loadGroupEvents(events))
-}
 
 export const thunkCreateEvent = (groupId, event) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}/events`, {
@@ -188,14 +176,6 @@ const eventReducer = (state = {}, action) => {
       const eventsState = { ...state };
       eventsState[action.event.id] = action.event
       return eventsState;
-    }
-    case LOAD_GROUP_EVENTS: {
-      const eventsState = { ...state };
-      action.events.Events.forEach(event => {
-        eventsState[event.id] = event
-      })
-      // eventsState[action.events].Events = [action.events.Events]
-      return eventsState
     }
     case CREATE_EVENT: {
       const eventsState = { ...state }

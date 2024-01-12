@@ -20,6 +20,7 @@ function Layout() {
     dispatch(thunkLoadEvents())
     dispatch(sessionActions.thunkRestoreUser()).then(() => {
       setIsLoaded(true)
+      dispatch(sessionActions.thunkLoadUserGroups())
     });
   }, [dispatch]);
 
