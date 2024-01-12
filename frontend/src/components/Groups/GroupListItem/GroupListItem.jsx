@@ -11,7 +11,7 @@ const GroupListItem = ({ group, isOwner, isMember }) => {
         <Link to={`/groups/${group.id}`}>
         <div className="group-list-item">
           <div className='group-list-image-div'>
-            <img className='group-list-image' src={group.previewImage} alt="" />
+            <img className='group-list-image' src={group.previewImage || group.GroupImages[0].url} alt="" />
           </div>
           <div className="group-list-info">
             <h2>{group.name}</h2>
@@ -37,7 +37,7 @@ const GroupListItem = ({ group, isOwner, isMember }) => {
             id="unjoin-btn"
             onClick={() => alert('Feature coming soon...')}
             >Unjoin</button>}
-        </div>
+         </div>
     </li>
   );
 }

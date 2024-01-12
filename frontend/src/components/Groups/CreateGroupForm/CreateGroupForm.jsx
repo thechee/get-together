@@ -146,8 +146,11 @@ const CreateGroupForm = () => {
               <option value="WY">Wyoming</option>
             </select>*/}
           </label>
-          {"city" in validationErrors && <p className='errors'>{validationErrors.city}</p>}
-          {"state" in validationErrors && <p className='errors'>{validationErrors.state}</p>}
+          <div className='errors-div'>
+            {/* <span className="errors" id='group-error-city'>{"city" in validationErrors ? `${validationErrors.city}` : ''}</span> */}
+          {"city" in validationErrors && <span className='errors' id='group-error-city'>{validationErrors.city}</span>}
+          {"state" in validationErrors && <span className='errors' id='group-error-state'>{validationErrors.state}</span>}
+          </div>
         </div>
         <div>
           <h2>What will your group&apos;s name be?</h2>
@@ -157,7 +160,9 @@ const CreateGroupForm = () => {
           <label>
             <input type="text" id='group-name' placeholder='What is your group name?' value={name} onChange={e => setName(e.target.value)}/>
           </label>
-          {"name" in validationErrors && <p className='errors'>{validationErrors.name}</p>}
+          <div className="errors-div">
+            {"name" in validationErrors && <span className='errors'>{validationErrors.name}</span>}
+          </div>
         </div>
         <div>
           <h2>Describe the purpose of your group.</h2>
@@ -174,7 +179,9 @@ const CreateGroupForm = () => {
             value={about}
             onChange={e => setAbout(e.target.value)}
           ></textarea>
-          {"about" in validationErrors && <p className='errors'>{validationErrors.about}</p>}
+          <div className="errors-div">
+            {"about" in validationErrors && <span className='errors'>{validationErrors.about}</span>}
+          </div>
         </div>
         <div id='final-steps-div'>
           <h2>Final steps...</h2>
@@ -192,7 +199,9 @@ const CreateGroupForm = () => {
               <option value="Online">Online</option>
             </select>
           </label>
-          {"type" in validationErrors && <p className='errors'>{validationErrors.type}</p>}
+          <div className="errors-div">
+            {"type" in validationErrors && <span className='errors'>{validationErrors.type}</span>}
+          </div>
           <label htmlFor="privacy">
             <p>
               Is this group private or public?
@@ -206,14 +215,18 @@ const CreateGroupForm = () => {
               <option value={true}>Private</option>
             </select>
           </label>
-          {"privacy" in validationErrors && <p className='errors'>{validationErrors.privacy}</p>}
+          <div className="errors-div">
+            {"privacy" in validationErrors && <span className='errors'>{validationErrors.privacy}</span>}
+          </div>
           <label htmlFor="imageUrl">
             <p>
               Please add an image url for your group below:
             </p>
             <input id='group-imageUrl' type="url" name='imageUrl' placeholder='Image Url' value={imageUrl} onChange={e => setImageUrl(e.target.value)}/>
           </label>
-          {"imageUrl" in validationErrors && <p className='errors'>{validationErrors.imageUrl}</p>}
+          <div className="errors-div">
+            {"imageUrl" in validationErrors && <span className='errors'>{validationErrors.imageUrl}</span>}
+          </div>
         </div>
         <div>
           <button onSubmit={handleSubmit}>Create group</button>

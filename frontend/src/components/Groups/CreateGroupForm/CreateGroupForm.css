@@ -9,7 +9,16 @@
 
 .group-section div {
   border-top: 1px solid lightgray;
-  margin-top: 1rem;
+  margin-top: .3rem;
+}
+
+.group-section .errors-div {
+  border: none;
+  height: 1rem;
+}
+
+.errors-div {
+  display: flex;
 }
 
 .group-section button {
@@ -36,12 +45,21 @@
   width: 20rem;
 }
 
+#group-error-city {
+  display: flex;
+  width: 21rem;
+}
+
 #comma-span {
   margin: 0 .5rem 0 .25rem;
 }
 
 #group-state {
   /* width: 5rem; */
+}
+
+#group-error-state {
+  display: flex;
 }
 
 #group-name {

@@ -9,6 +9,7 @@ export const CREATE_GROUP = 'groups/CREATE_GROUP';
 export const ADD_IMAGE = 'groups/ADD_IMAGE';
 export const EDIT_GROUP = 'groups/EDIT_GROUP';
 export const DELETE_GROUP = 'groups/DELETE_GROUP';
+export const LOAD_MEMBERS = 'groups/LOAD_MEMBERS';
 
 // Action Creators
 export const loadGroups = (groups) => ({
@@ -46,6 +47,12 @@ export const editGroup = (groupId, group) => ({
 export const deleteGroup = (groupId) => ({
   type: DELETE_GROUP,
   groupId
+})
+
+export const loadMembers = (groupId, members) => ({
+  type: LOAD_MEMBERS,
+  groupId,
+  members
 })
 
 // Thunk Action Creators
@@ -143,6 +150,19 @@ export const thunkDeleteGroup = (group) => async (dispatch) => {
   } else {
     const error = await response.json()
     return error
+  }
+}
+
+export const thunkLoadMembers = (groupId) => async (dispatch) => {
+  const response = await fetch(`/api/groups/${groupId}/members`)
+
+  if (response.ok) {
+    const members = await response.json()
+    dispatch(loadMembers(groupId, members))
+    return members
+  } else {
+    const error = await response.json()
+    return error;
   }
 }
 

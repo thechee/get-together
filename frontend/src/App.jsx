@@ -9,6 +9,7 @@ import { CreateEventForm, EditEventForm, EventDetails, EventsList, ManageEvents}
 import { Modal } from './context/Modal';
 import { thunkLoadGroups } from './store/groups';
 import { thunkLoadEvents } from './store/events';
+import NoMatch from './components/NoMatch/NoMatch';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
             element: <ManageEvents />
           }
         ]
+      },
+      {
+        path: '*',
+        element: <NoMatch />
       }
     ]
   }

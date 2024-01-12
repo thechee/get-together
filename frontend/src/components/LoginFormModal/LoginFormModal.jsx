@@ -47,25 +47,29 @@ function LoginFormModal() {
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         {errors && (<p className='error'>The provided credentials were invalid.</p>)}
-        <label>
+        <label htmlFor='credential'>
+          Username or Email
+        </label>
           <input
             type="text"
+            name='credential'
             value={credential}
-            placeholder='Username or Email'
+            // placeholder='Username or Email'
             onChange={(e) => setCredential(e.target.value)}
             required
           />
-        </label>
-        <label>
+        <label htmlFor='password'>
+        Password
+        </label>  
           <input
             type="password"
+            name='password'
             value={password}
-            placeholder='Password'
+            // placeholder='Password'
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button id={`login-button${buttonStatus}`} type="submit">Log In</button>
+        <button id={`login-button-${buttonStatus}`} type="submit">Log In</button>
       </form>
 
       <form onSubmit={demoLogin}>
