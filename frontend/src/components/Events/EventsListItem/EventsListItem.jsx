@@ -39,7 +39,7 @@ const EventsListItem = ({ event }) => {
           <div className='events-list-info'>
             <h3>{date} · {'<'}{time}{'>'}</h3>
             <h2>{event.name}</h2>
-            {event.Venue && <h4>{event.Venue?.city}, {event.Venue?.state}</h4>}
+            {event.Venue ? <h4>{event.Venue?.city}, {event.Venue?.state}</h4> : <h4>No location</h4>}
           </div>
         </div>
         <div className='event-card-about'>

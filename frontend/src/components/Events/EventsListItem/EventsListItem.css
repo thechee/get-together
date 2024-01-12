@@ -1,0 +1,13 @@
+.event-card-img {
+  width: 300px;
+  max-height: 200px;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(236, 236, 236);
+}
+
+.events-list-image {
+  max-width: 300px;
+  max-height: 200px;
+  object-fit: contain;
+}

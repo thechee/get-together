@@ -10,4 +10,5 @@
 .user-groups-content li {
     border-top: 2px solid lightgray;
     padding: 1rem 0;
+    position: relative;
   }

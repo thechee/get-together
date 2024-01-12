@@ -37,6 +37,8 @@ const ManageGroups = () => {
           {userGroups?.map(group => (
             <GroupListItem
               group={group}
+              isOwner={true}
+              isMember={false}
               key={group.id}
             />
           ))}

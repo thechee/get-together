@@ -67,8 +67,8 @@ module.exports = {
         endDate: "2024-02-01 20:00:00"
       },
       {
-        venueId: 2,
-        groupId: 2,
+        venueId: null,
+        groupId: 8,
         name: 'Tech Talk',
         type: 'Online',
         capacity: 500,
@@ -78,8 +78,8 @@ module.exports = {
         endDate: '2024-03-15 16:30:00'
       },
       {
-        venueId: 4,
-        groupId: 2,
+        venueId: null,
+        groupId: 10,
         name: 'Fitness Fiesta',
         type: 'In Person',
         capacity: 200,
@@ -89,8 +89,8 @@ module.exports = {
         endDate: '2024-04-10 20:00:00'
       },
       {
-        venueId: 6,
-        groupId: 3,
+        venueId: null,
+        groupId: 9,
         name: 'Book Club Gathering',
         type: 'In Person',
         capacity: 150,
@@ -100,8 +100,8 @@ module.exports = {
         endDate: '2024-05-05 21:00:00'
       },
       {
-        venueId: 8,
-        groupId: 2,
+        venueId: null,
+        groupId: 11,
         name: 'Virtual Cooking Class',
         type: 'Online',
         capacity: 300,
@@ -111,8 +111,8 @@ module.exports = {
         endDate: '2024-06-20 15:00:00'
       },
       {
-        venueId: 10,
-        groupId: 5,
+        venueId: null,
+        groupId: 3,
         name: 'Art Expo',
         type: 'In Person',
         capacity: 400,
@@ -128,7 +128,7 @@ module.exports = {
     options.tableName = 'Events';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      groupId: { [Op.in]: [1, 2, 3, 5]}
+      groupId: { [Op.in]: [1, 2, 3, 4, 5, 6, 7, 8, 9]}
     }, {});
   }
 };
