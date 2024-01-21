@@ -13,7 +13,7 @@ const GroupListItem = ({ group, isOwner, isMember }) => {
 
   useEffect(() => {
     dispatch(thunkLoadGroupEvents(group.id))
-  }, [group])
+  }, [dispatch, group])
 
   return (
     <li>
