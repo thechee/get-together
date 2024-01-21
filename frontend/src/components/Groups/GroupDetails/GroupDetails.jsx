@@ -87,7 +87,7 @@ const GroupDetails = () => {
             <h2>Upcoming Events ({upcoming.length})</h2>
             <ul>
               {upcoming.map(event => (
-                <EventsListItem key={event.id} event={event}/>
+                <EventsListItem key={event.id} eventId={event.id}/>
               ))}
             </ul>
           </div>}
@@ -95,7 +95,7 @@ const GroupDetails = () => {
             <h2>Past Events ({past.length})</h2>
             <ul>
               {past.map(event => (
-                <EventsListItem key={event.id} event={event}/>
+                <EventsListItem key={event.id} eventId={event.id}/>
               ))}
             </ul>
           </div>}

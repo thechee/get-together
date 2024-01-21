@@ -42,6 +42,58 @@ const validateQueryParameters = [
   handleValidationErrors
 ]
 
+router.get('/current', requireAuth, async (req, res) => {
+  const { user } = req;
+
+  const ownedEvents = await Event.findAll({
+    include:  [
+      {
+        model: Group,
+        where: {
+          organizerId: user.id
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+    },
+    {
+      model: EventImage,
+      attributes: {
+        exclude: ['eventId', 'createdAt', 'updatedAt']
+      }
+    }
+  ]
+  })
+
+  const attendingEvents = await Event.findAll({
+    include: [
+      {
+        model: User,
+        as: 'numAttending',
+        where: {
+          id: user.id
+        },
+      },
+      {
+        model: Group,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+      },
+      {
+        model: EventImage,
+        attributes: {
+          exclude: ['eventId', 'createdAt', 'updatedAt']
+        }
+      }
+    ]
+  })
+  return res.json({
+    ownedEvents,
+    attendingEvents
+  })
+})
+
 router.get('/:eventId/attendees', async (req, res) => {
   const { user } = req;
   const { eventId } = req.params;

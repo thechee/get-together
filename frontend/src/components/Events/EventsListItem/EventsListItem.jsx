@@ -1,11 +1,12 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { thunkEventDetails } from '../../../store/events';
 import './EventsListItem.css'
 import { Link } from 'react-router-dom';
 
-const EventsListItem = ({ event }) => {
+const EventsListItem = ({ eventId }) => {
   const dispatch = useDispatch()
+  const event = useSelector(state => state.events[eventId])
   let preview;
   let eventImagesPreview;
   if (event.previewImage) {
@@ -15,8 +16,8 @@ const EventsListItem = ({ event }) => {
   }
 
   useEffect(() => {
-    if (event.id) dispatch(thunkEventDetails(event.id))
-  }, [dispatch, event.id])
+    dispatch(thunkEventDetails(eventId))
+  }, [dispatch, eventId])
 
   let date;
   let time;
@@ -27,7 +28,6 @@ const EventsListItem = ({ event }) => {
     time = time?.slice(0, 5)
   }
  
-  
   return (
       <Link to={`/events/${event.id}`} event={event}>
       <li>

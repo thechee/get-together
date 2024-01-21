@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
+import { thunkLoadGroups } from '../../store/groups';
+import { thunkLoadEvents } from '../../store/events';
+import * as sessionActions from '../../store/session';
 import './LoginForm.css';
 
 function LoginFormModal() {
@@ -15,7 +17,12 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors('');
     return dispatch(sessionActions.thunkLoginUser({ credential, password }))
-      .then(closeModal)
+      .then(() => {
+        closeModal()
+        dispatch(thunkLoadGroups())
+        dispatch(thunkLoadEvents())
+        dispatch(sessionActions.thunkLoadUserGroups())
+      })
       .catch(async (res) => {
         const data = await res.json();
         console.log('data:', data)
@@ -30,7 +37,12 @@ function LoginFormModal() {
 
     setErrors('');
     return dispatch(sessionActions.thunkLoginUser({credential: 'Demo-lition', password: 'password'}))
-      .then(closeModal)
+      .then(() => {
+        closeModal()
+        dispatch(thunkLoadGroups())
+        dispatch(thunkLoadEvents())
+        dispatch(sessionActions.thunkLoadUserGroups())
+      })
       .catch(async (res) => {
         const data = await res.json();
         console.log('data:', data)

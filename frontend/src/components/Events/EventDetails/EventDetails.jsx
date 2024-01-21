@@ -28,7 +28,6 @@ const EventDetails = () => {
 
     const helper = async () => {
       await dispatch(thunkEventDetails(eventId))
-      await dispatch(thunkLoadGroups())
       setUeRan(true)
     }
     if (ueRan) {
@@ -139,7 +138,7 @@ const EventDetails = () => {
               <i className="fa-solid fa-dollar-sign"></i>
               </div>
                 <div className='event-price-stat'>
-                  <span>{event?.price == 0 ? "FREE" : event?.price }</span>  
+                  <span>{event?.price == 0 ? "FREE" : event?.price?.toLocaleString('en-US', {minimumFractionDigits: 2}) }</span>  
                 </div>
               </div>
 

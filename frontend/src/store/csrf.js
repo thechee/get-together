@@ -9,12 +9,22 @@ export const csrfFetch = async (url, options = {}) => {
     options.headers['XSRF-Token'] = Cookies.get("XSRF-TOKEN");
   }
 
-  const res = await window.fetch(url, options);
+  try {
+    const res = await window.fetch(url, options);
+    return res;
+  } catch (error) {
+    return error
+  }
 
   // if using async await, comment out line 16
   // easier to handle failures without throwing exceptions to async await
-  if (res.status >= 400) throw res;
-  return res;
+
+  // if res status code is 400 or more, throw an error with the 
+  // error being the res
+  // if (res.status >= 400) throw res;
+
+  // if response status code is under 400
+  // return the response to the next promise chain
   // if (res.ok) {
   //   const data = res.json()
   //   return data;

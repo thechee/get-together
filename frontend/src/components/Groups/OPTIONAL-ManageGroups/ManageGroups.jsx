@@ -4,20 +4,11 @@ import "./ManageGroups.css";
 
 const ManageGroups = () => {
   const user = useSelector((state) => state.session.user);
-  const userGroups = useSelector((state) => state.session.user.Groups);
-  // const eventsObj = useSelector((state) => state.events);
-  // const events = Object.values(eventsObj);
-
-  // if (userGroups?.Groups.length) {
-  //   userGroups?.Groups.forEach((group) => {
-  //     group.events = [];
-  //     events?.forEach((event) => {
-  //       if (event?.groupId == group.id) {
-  //         group.events.push(event);
-  //       }
-  //     });
-  //   });
-  // }
+  const userGroupsObj = useSelector((state) => state.session.user.Groups);
+  let userGroups
+  if (userGroupsObj) {
+    userGroups = Object.values(userGroupsObj)
+  } 
 
   return (
     <div className="user-groups-content">
@@ -26,8 +17,8 @@ const ManageGroups = () => {
       <h4>Your groups in Get-Together</h4>
       <div>
         <ul>
-          {userGroups?.Groups.length ? (
-            userGroups?.Groups.map((group) => (
+          {userGroups?.length ? (
+            userGroups?.map((group) => (
               <GroupListItem
                 group={group}
                 isOwner={user.id == group.organizerId}

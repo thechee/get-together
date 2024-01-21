@@ -12,17 +12,22 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Attendance.bulkCreate([
       {
-        eventId: 1,
+        eventId: 3,
         userId: 1,
         status: 'attending'
       },
       {
-        eventId: 2,
+        eventId: 6,
         userId: 1,
         status: 'waitlist'
       },
       {
-        eventId: 3,
+        eventId: 7,
+        userId: 1,
+        status: 'pending'
+      },
+      {
+        eventId: 1,
         userId: 2,
         status: 'pending'
       },

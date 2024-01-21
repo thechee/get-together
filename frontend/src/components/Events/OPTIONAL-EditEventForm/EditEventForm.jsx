@@ -86,9 +86,9 @@ const EditEventForm = () => {
       }
 
       const updatedEvent = await dispatch(thunkUpdateEvent(eventId, updatedEventReqBody));
-      if (updatedEvent.ok === false) {
+      if (updatedEvent.errors) {
         // set validation errors
-        // errors.startDate = 'Event start date and time must be after the current date and time'
+        setValidationErrors(updatedEvent.errors)
       } else {
         // dispatch the image to the new group's id
         // the dispatch needs the group id AND the body

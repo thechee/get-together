@@ -26,13 +26,22 @@ h4 {
   display: flex;
 }
 
+.event-img {
+  max-width: 500px;
+  min-width: 500px;
+  /* width: 50%; */
+  background-color: white;
+  border-radius: 15px;
+}
+
 .event-img img {
   max-width: 500px;
   max-height: 500px;
+  border-radius: 15px;
 }
 
 .event-stats-section {
-  margin: 0 0 1.5rem 1.5rem;
+  margin-left: 1.5rem;
   width: 100%;
 }
 

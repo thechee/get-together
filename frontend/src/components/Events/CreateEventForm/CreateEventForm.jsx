@@ -39,10 +39,10 @@ const CreateEventForm = () => {
     const errors = {};
     if (!name) errors.name = 'Name is required';
     if (name.length < 5) errors.name = 'Name must be at least 5 characters'
-    if (type == 'placeholder') errors.type = 'Event Type is required';
+    if (type == 'select-one') errors.type = 'Event Type is required';
     if (capacity == 'placeholder' || !capacity) errors.capacity = 'Event capacity is required';
     if (price == 'placeholder' || !price) errors.price = 'Price is required';
-    if (price.startsWith('0') && price.length > 1) errors.price = 'Price should be a valid'
+    // if (price.startsWith('0') && price.length > 1) errors.price = 'Price should be a valid'
     if (!startDate) errors.startDate = 'Event start is required';
     if (new Date(startDate).getTime() <= new Date().getTime()) errors.startDate = 'Event start must be in the future'
     if (new Date(startDate).getTime() > new Date(endDate).getTime()) errors.endDate = 'Event end must be after the start'
@@ -54,8 +54,7 @@ const CreateEventForm = () => {
       setValidationErrors(errors)
     } else {
     // hardcoded null value for venueId
-    
-    // if (!Object.values(validationErrors).length) {
+  
       const venueId = null
       const newEventReqBody = {
         venueId,
@@ -63,7 +62,6 @@ const CreateEventForm = () => {
         type,
         capacity,
         price,
-        // price: price.replace(/^0+/, ''),
         description,
         startDate,
         endDate
@@ -75,9 +73,8 @@ const CreateEventForm = () => {
       }
       
       const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
-      if (createdEvent.ok === false) {
-        // set validation errors
-        // errors.startDate = 'Event start date and time must be after the current date and time'
+      if (createdEvent.errors) {
+        setValidationErrors(createdEvent.errors)
       } else {
         // dispatch the image to the new group's id
         // the dispatch needs the group id AND the body

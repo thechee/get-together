@@ -19,3 +19,7 @@ a {
 .error {
   color: #E76F51
 }
+
+p {
+  word-wrap: break-word;
+}

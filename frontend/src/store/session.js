@@ -1,8 +1,13 @@
+// import { createSelector } from "reselect"
 import { csrfFetch } from "./csrf"
+
+// export const selectUserGroups = (state) => state.session.user.Groups
+// export const selectUserGroupsArray = createSelector(selectUserGroups, (groups) => Object.values(groups))
 
 export const LOGIN_USER = 'session/LOGIN_USER' 
 export const REMOVE_USER = 'session/REMOVE_USER'
 export const LOAD_USER_GROUPS = 'session/LOAD_USER_GROUPS';
+export const LOAD_USER_EVENTS = 'session/LOAD_USER_EVENTS';
 
 
 export const loginUser = (user) => ({
@@ -17,6 +22,11 @@ export const removeUser = () => ({
 export const loadUserGroups = (groups) => ({
   type: LOAD_USER_GROUPS,
   groups
+})
+
+export const loadUserEvents = (events) => ({
+  type: LOAD_USER_EVENTS,
+  events
 })
 
 // Session Thunks
@@ -79,6 +89,19 @@ export const thunkLoadUserGroups = () => async (dispatch) => {
   }
 }
 
+export const thunkLoadUserEvents = () => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/current`)
+
+  if (response.ok) {
+    const events = await response.json()
+    dispatch(loadUserEvents(events))
+    return events
+  } else {
+    const error = await response.json()
+    return error;
+  }
+}
+
 
 // .then.catch with throwing res
 // export const thunkLoginUser = (credential, password ) => async (dispatch) => {
@@ -128,9 +151,33 @@ const sessionReducer = (state = initialState, action) => {
       return { ...state, user: null }
     }
     case LOAD_USER_GROUPS: {
-      const sessionState = { ...state };
-      sessionState.user.Groups = action.groups
-      return sessionState;
+      return { 
+        ...state, 
+        user: {
+          ...state.user,
+          ...action.groups
+        }
+      };
+    }
+    case LOAD_USER_EVENTS: {
+      const ownedEvents = {}
+      const attendingEvents = {}
+      action.events.ownedEvents.forEach(event => {
+        ownedEvents[event.id] = event
+      })
+      action.events.attendingEvents.forEach(event => {
+        attendingEvents[event.id] = event
+      })
+
+      return { 
+        ...state, 
+        user: { ...state.user, 
+          Events: { 
+            ownedEvents,
+            attendingEvents
+          }
+        }
+      }
     }
     default:
       return state;

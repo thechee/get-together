@@ -34,14 +34,14 @@ const EventsList = () => {
         <ul className='events-list'>
           {upcoming?.map(event => (
             <EventsListItem 
-              event={event}
+              eventId={event.id}
               key={event.id}
             />
           ))}
           {past.length > 0 && <h2>Past Events</h2>}
           {past.length > 0 && past.map(event => (
               <EventsListItem 
-              event={event}
+              eventId={event.id}
               key={event.id}
             />
           ))}
