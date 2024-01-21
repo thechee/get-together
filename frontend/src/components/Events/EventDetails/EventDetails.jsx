@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { thunkEventDetails } from '../../../store/events';
-import { thunkGroupDetails, thunkLoadGroups } from '../../../store/groups';
+import { thunkGroupDetails } from '../../../store/groups';
 import OpenModalButton from '../../OpenModalButton';
 import DeleteEventModal from '../DeleteEventModal'
 import './EventDetails.css';
