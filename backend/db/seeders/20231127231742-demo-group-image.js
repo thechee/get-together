@@ -33,12 +33,12 @@ module.exports = {
       },
       {
         groupId: 5,
-        url: 'https://images.unsplash.com/photo-1629891787797-fde2c5c4d1ff?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        url: 'https://images.unsplash.com/photo-1667099433376-f0592d42300a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         preview: true
       },
       {
         groupId: 6,
-        url: 'https://images.unsplash.com/photo-1667099433376-f0592d42300a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        url: 'https://images.unsplash.com/photo-1629891787797-fde2c5c4d1ff?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         preview: true
       },
       {

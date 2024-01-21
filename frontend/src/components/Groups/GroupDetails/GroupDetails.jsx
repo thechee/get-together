@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGroupDetails } from '../../../store/groups';
+import { thunkGroupDetails, thunkLoadGroupEvents } from '../../../store/groups';
 import { useEffect } from 'react';
 import EventsListItem from '../../Events/EventsListItem/';
 import OpenModalButton from '../../OpenModalButton';
@@ -13,11 +13,8 @@ const GroupDetails = () => {
   const { groupId } = useParams()
   const user = useSelector(state => state.session.user)
   const group = useSelector(state => state.groups[groupId])
-  const eventsObj = useSelector(state => state.events)
-  let events = Object.values(eventsObj)
+  let events = useSelector(state => state.groups[groupId].Events)
   const now = new Date()
-
-  events = events.filter(event => event.groupId == groupId)
 
   const upcoming = []
   const past = []
@@ -32,11 +29,10 @@ const GroupDetails = () => {
 
   useEffect(() => {
     dispatch(thunkGroupDetails(groupId))
-    // dispatch(thunkLoadGroupEvents(groupId))
+    dispatch(thunkLoadGroupEvents(groupId))
   }, [dispatch, groupId])
 
   const groupPreviewImage = group?.GroupImages?.find(image => image.preview == true)
-  // console.log(groupPreviewImage)
 
   return (
     <div>
@@ -91,7 +87,7 @@ const GroupDetails = () => {
             <h2>Upcoming Events ({upcoming.length})</h2>
             <ul>
               {upcoming.map(event => (
-                <EventsListItem key={event.id} event={event}/>
+                <EventsListItem key={event.id} eventId={event.id}/>
               ))}
             </ul>
           </div>}
@@ -99,7 +95,7 @@ const GroupDetails = () => {
             <h2>Past Events ({past.length})</h2>
             <ul>
               {past.map(event => (
-                <EventsListItem key={event.id} event={event}/>
+                <EventsListItem key={event.id} eventId={event.id}/>
               ))}
             </ul>
           </div>}

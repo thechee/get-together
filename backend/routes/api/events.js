@@ -42,6 +42,58 @@ const validateQueryParameters = [
   handleValidationErrors
 ]
 
+router.get('/current', requireAuth, async (req, res) => {
+  const { user } = req;
+
+  const ownedEvents = await Event.findAll({
+    include:  [
+      {
+        model: Group,
+        where: {
+          organizerId: user.id
+        },
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+    },
+    {
+      model: EventImage,
+      attributes: {
+        exclude: ['eventId', 'createdAt', 'updatedAt']
+      }
+    }
+  ]
+  })
+
+  const attendingEvents = await Event.findAll({
+    include: [
+      {
+        model: User,
+        as: 'numAttending',
+        where: {
+          id: user.id
+        },
+      },
+      {
+        model: Group,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt']
+        }
+      },
+      {
+        model: EventImage,
+        attributes: {
+          exclude: ['eventId', 'createdAt', 'updatedAt']
+        }
+      }
+    ]
+  })
+  return res.json({
+    ownedEvents,
+    attendingEvents
+  })
+})
+
 router.get('/:eventId/attendees', async (req, res) => {
   const { user } = req;
   const { eventId } = req.params;
@@ -148,7 +200,7 @@ router.get('/', validateQueryParameters, async (req, res) => {
 // startDate = parseInt(startDate)
   // startDate = new Date(startDate).getDate()
   // startDate = new Date(startDate).toUTCString()
-console.log(startDate)
+// console.log(startDate)
 
 
   const queries = {
@@ -442,13 +494,13 @@ router.put('/:eventId', requireAuth, async (req, res) => {
   const { user } = req;
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body
 
-  const venue = await Venue.findByPk(venueId)
-  if(!venue) {
-    res.status(404)
-    return res.json({
-      message: "Venue couldn't be found"
-    })
-  }
+  // const venue = await Venue.findByPk(venueId)
+  // if(!venue) {
+  //   res.status(404)
+  //   return res.json({
+  //     message: "Venue couldn't be found"
+  //   })
+  // }
 
   const event = await Event.findByPk(eventId)
   if(!event) {

@@ -31,23 +31,23 @@ const CreateGroupForm = () => {
 
     if (!city) errors.city = "City is required"
     if (!state) errors.state = "State is required"
+    if (state.length < 2 || state.length > 2) errors.state = "State must be formatted as a two-letter abbreviation"
     if (!name) errors.name = 'Name is required'
     if (about.length < 30) errors.about = 'Description must be at least 30 characters long'
     if (type == 'placeholder' || !type) errors.type = 'Group Type is required'
     if (privacy == 'placeholder' || !privacy) errors.privacy = 'Visibility Type is required'
     if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg'
 
-    setValidationErrors(errors)
-
-    if (!Object.values(validationErrors).length) {
-
+    if (Object.values(errors).length) {
+      setValidationErrors(errors)
+    } else {
       const newGroupReqBody = {
         name,
         about,
         type,
         private: privacy,
         city,
-        state,
+        state: state.toUpperCase(),
       }
 
       const newImageReqBody = {
@@ -58,8 +58,8 @@ const CreateGroupForm = () => {
       const createdGroup = await dispatch(thunkCreateGroup(newGroupReqBody))
       
       if (createdGroup.errors) {
-        // console.log("createdGroup.errors:", createdGroup.errors)
         // set validation errors
+        setValidationErrors(createdGroup.errors)
       } else {
         // dispatch the image to the new group's id
         // the dispatch needs the group id AND the body
@@ -81,15 +81,76 @@ const CreateGroupForm = () => {
             <br />
             We&apos;ll connect you with people in your area.
           </p>
-          <label>
-            <input type="text" id='group-city' placeholder='City' value={city} onChange={e => setCity(e.target.value)}/>
+          <label htmlFor='city'>
+            <input type="text" name='city' id='group-city' placeholder='City' value={city} onChange={e => setCity(e.target.value)}/>
           </label>
           <span id='comma-span'>,</span>
-          <label>
+          <label htmlFor='state'>
             <input type="text" id='group-state' placeholder='STATE' value={state} onChange={e => setState(e.target.value)}/>
+            {/* <select
+              name='state'
+              id='group-state'
+              value={state}
+              onChange={e => setState(e.target.value)}
+            >
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District Of Columbia</option>
+              <option value="FL">Florida</option>
+              <option value="GA">Georgia</option>
+              <option value="HI">Hawaii</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada</option>
+              <option value="NH">New Hampshire</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklahoma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota</option>
+              <option value="TN">Tennessee</option>
+              <option value="TX">Texas</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="WA">Washington</option>
+              <option value="WV">West Virginia</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+            </select>*/}
           </label>
-          {"city" in validationErrors && <p className='errors'>{validationErrors.city}</p>}
-          {"state" in validationErrors && <p className='errors'>{validationErrors.state}</p>}
+          <div className='errors-div'>
+            {/* <span className="errors" id='group-error-city'>{"city" in validationErrors ? `${validationErrors.city}` : ''}</span> */}
+          {"city" in validationErrors && <span className='errors' id='group-error-city'>{validationErrors.city}</span>}
+          {"state" in validationErrors && <span className='errors' id='group-error-state'>{validationErrors.state}</span>}
+          </div>
         </div>
         <div>
           <h2>What will your group&apos;s name be?</h2>
@@ -99,7 +160,9 @@ const CreateGroupForm = () => {
           <label>
             <input type="text" id='group-name' placeholder='What is your group name?' value={name} onChange={e => setName(e.target.value)}/>
           </label>
-          {"name" in validationErrors && <p className='errors'>{validationErrors.name}</p>}
+          <div className="errors-div">
+            {"name" in validationErrors && <span className='errors'>{validationErrors.name}</span>}
+          </div>
         </div>
         <div>
           <h2>Describe the purpose of your group.</h2>
@@ -116,7 +179,9 @@ const CreateGroupForm = () => {
             value={about}
             onChange={e => setAbout(e.target.value)}
           ></textarea>
-          {"about" in validationErrors && <p className='errors'>{validationErrors.about}</p>}
+          <div className="errors-div">
+            {"about" in validationErrors && <span className='errors'>{validationErrors.about}</span>}
+          </div>
         </div>
         <div id='final-steps-div'>
           <h2>Final steps...</h2>
@@ -134,7 +199,9 @@ const CreateGroupForm = () => {
               <option value="Online">Online</option>
             </select>
           </label>
-          {"type" in validationErrors && <p className='errors'>{validationErrors.type}</p>}
+          <div className="errors-div">
+            {"type" in validationErrors && <span className='errors'>{validationErrors.type}</span>}
+          </div>
           <label htmlFor="privacy">
             <p>
               Is this group private or public?
@@ -148,14 +215,18 @@ const CreateGroupForm = () => {
               <option value={true}>Private</option>
             </select>
           </label>
-          {"privacy" in validationErrors && <p className='errors'>{validationErrors.privacy}</p>}
+          <div className="errors-div">
+            {"privacy" in validationErrors && <span className='errors'>{validationErrors.privacy}</span>}
+          </div>
           <label htmlFor="imageUrl">
             <p>
               Please add an image url for your group below:
             </p>
             <input id='group-imageUrl' type="url" name='imageUrl' placeholder='Image Url' value={imageUrl} onChange={e => setImageUrl(e.target.value)}/>
           </label>
-          {"imageUrl" in validationErrors && <p className='errors'>{validationErrors.imageUrl}</p>}
+          <div className="errors-div">
+            {"imageUrl" in validationErrors && <span className='errors'>{validationErrors.imageUrl}</span>}
+          </div>
         </div>
         <div>
           <button onSubmit={handleSubmit}>Create group</button>

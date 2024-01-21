@@ -2114,4 +2114,3 @@ Return events filtered by query parameters.
       }
     }
     ```
-# get-together

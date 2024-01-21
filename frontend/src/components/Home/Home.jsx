@@ -16,7 +16,7 @@ const Home = () => {
     <div className='content'>
       <div className='landing'>
         <div className='landing-info'>
-          <h1>The people platform—Where interests become friendships</h1>
+          <h1>The people platform— Where interests become friendships</h1>
           <p>Whatever your interest, from hiking and reading to networking and skill sharing, there are thousands of people who share it on Get Together. Events are happening every day—sign up to join the fun.</p>
         </div>
         <div className='landing-img'>
@@ -29,9 +29,9 @@ const Home = () => {
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem provident quis, ut blanditiis facere, architecto doloremque fuga, veniam a modi error iure!</p>
         </div>
         <div className='cards'>
-          <HomeLinkCard image={highfive} path={`groups`} linkText={`See all groups`} />
-          <HomeLinkCard image={ticket} path={`events`} linkText={`Find an event`} />
-          <HomeLinkCard activeLink={activeLink} image={threepeople} path={`groups/new`} linkText={`Start a new group`} />
+          <HomeLinkCard image={highfive} alt={'drawing of hands high fiving'} path={`groups`} linkText={`See all groups`} />
+          <HomeLinkCard image={ticket} alt={'drawing of an admissions ticket'} path={`events`} linkText={`Find an event`} />
+          <HomeLinkCard activeLink={activeLink} image={threepeople} alt={'drawing of three stylized people icons'} path={`groups/new`} linkText={`Start a new group`} />
         </div>
       </div>
       {!user && <div className='home-join-btn-div'>

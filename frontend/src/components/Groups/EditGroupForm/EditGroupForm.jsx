@@ -65,8 +65,8 @@ const EditGroupForm = () => {
       const editedGroup = await dispatch(thunkEditGroup(groupId, newGroupReqBody))
       
       if (editedGroup.errors) {
-        // console.log("editedGroup.errors:", editedGroup.errors)
         // set validation errors
+        setValidationErrors(editedGroup.errors)
       } else {
         // the dispatch needs the group id AND the body
         // await dispatch(thunkAddImage(groupId, newImageReqBody))

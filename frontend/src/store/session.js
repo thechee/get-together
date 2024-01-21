@@ -1,7 +1,13 @@
+// import { createSelector } from "reselect"
 import { csrfFetch } from "./csrf"
+
+// export const selectUserGroups = (state) => state.session.user.Groups
+// export const selectUserGroupsArray = createSelector(selectUserGroups, (groups) => Object.values(groups))
 
 export const LOGIN_USER = 'session/LOGIN_USER' 
 export const REMOVE_USER = 'session/REMOVE_USER'
+export const LOAD_USER_GROUPS = 'session/LOAD_USER_GROUPS';
+export const LOAD_USER_EVENTS = 'session/LOAD_USER_EVENTS';
 
 
 export const loginUser = (user) => ({
@@ -11,6 +17,16 @@ export const loginUser = (user) => ({
 
 export const removeUser = () => ({
   type: REMOVE_USER
+})
+
+export const loadUserGroups = (groups) => ({
+  type: LOAD_USER_GROUPS,
+  groups
+})
+
+export const loadUserEvents = (events) => ({
+  type: LOAD_USER_EVENTS,
+  events
 })
 
 // Session Thunks
@@ -30,7 +46,6 @@ export const thunkLoginUser = (user) => async (dispatch) => {
 
 export const thunkRestoreUser = () => async (dispatch) => {
   const response = await csrfFetch("/api/session");
-  // console.log("thunkRestoreUser response:", response)
   const data = await response.json();
   dispatch(loginUser(data.user));
   return data;
@@ -61,6 +76,32 @@ export const thunkLogout = () => async (dispatch) => {
   return response;
 };
 
+export const thunkLoadUserGroups = () => async (dispatch) => {
+  const response = await csrfFetch('/api/groups/current')
+
+  if (response.ok) {
+    const groups = await response.json()
+    dispatch(loadUserGroups(groups))
+    return groups;
+  } else {
+    const error = await response.json()
+    return error;
+  }
+}
+
+export const thunkLoadUserEvents = () => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/current`)
+
+  if (response.ok) {
+    const events = await response.json()
+    dispatch(loadUserEvents(events))
+    return events
+  } else {
+    const error = await response.json()
+    return error;
+  }
+}
+
 
 // .then.catch with throwing res
 // export const thunkLoginUser = (credential, password ) => async (dispatch) => {
@@ -72,7 +113,6 @@ export const thunkLogout = () => async (dispatch) => {
 
 //     if (res.ok) {
 //       const data = await res.json()
-//       console.log(data)
 //       dispatch(loginUser(data.user))
 //       return res
 //     }
@@ -92,7 +132,6 @@ export const thunkLogout = () => async (dispatch) => {
 
 //     if (res.ok) {
 //       const data = await res.json()
-//       console.log(data)
 //       dispatch(loginUser(data.user))
 //       return res
 //     } else {
@@ -110,6 +149,35 @@ const sessionReducer = (state = initialState, action) => {
     }
     case REMOVE_USER: {
       return { ...state, user: null }
+    }
+    case LOAD_USER_GROUPS: {
+      return { 
+        ...state, 
+        user: {
+          ...state.user,
+          ...action.groups
+        }
+      };
+    }
+    case LOAD_USER_EVENTS: {
+      const ownedEvents = {}
+      const attendingEvents = {}
+      action.events.ownedEvents.forEach(event => {
+        ownedEvents[event.id] = event
+      })
+      action.events.attendingEvents.forEach(event => {
+        attendingEvents[event.id] = event
+      })
+
+      return { 
+        ...state, 
+        user: { ...state.user, 
+          Events: { 
+            ownedEvents,
+            attendingEvents
+          }
+        }
+      }
     }
     default:
       return state;
