@@ -8,6 +8,7 @@ export const LOGIN_USER = 'session/LOGIN_USER'
 export const REMOVE_USER = 'session/REMOVE_USER'
 export const LOAD_USER_GROUPS = 'session/LOAD_USER_GROUPS';
 export const LOAD_USER_EVENTS = 'session/LOAD_USER_EVENTS';
+export const LOAD_USER_GROUP_EVENTS = 'session/LOAD_USER_GROUP_EVENTS';
 
 
 export const loginUser = (user) => ({
@@ -26,6 +27,12 @@ export const loadUserGroups = (groups) => ({
 
 export const loadUserEvents = (events) => ({
   type: LOAD_USER_EVENTS,
+  events
+})
+
+export const loadUserGroupEvents = (groupId, events) => ({
+  type: LOAD_USER_GROUP_EVENTS,
+  groupId,
   events
 })
 
@@ -102,6 +109,19 @@ export const thunkLoadUserEvents = () => async (dispatch) => {
   }
 }
 
+export const thunkLoadUserGroupEvents = (groupId) => async (dispatch) => {
+  const response = await fetch(`/api/groups/${groupId}/events`);
+  
+  if (response.ok) {
+    const events = await response.json()
+    dispatch(loadUserGroupEvents(groupId, events))
+    return events
+  } else {
+    const error = await response.json()
+    return error;
+  }
+}
+
 
 // .then.catch with throwing res
 // export const thunkLoginUser = (credential, password ) => async (dispatch) => {
@@ -151,11 +171,16 @@ const sessionReducer = (state = initialState, action) => {
       return { ...state, user: null }
     }
     case LOAD_USER_GROUPS: {
+      const Groups = {}
+      action.groups.Groups.forEach(group => {
+        Groups[group.id] = group
+      })
+
       return { 
         ...state, 
         user: {
           ...state.user,
-          ...action.groups
+          Groups
         }
       };
     }
@@ -178,6 +203,22 @@ const sessionReducer = (state = initialState, action) => {
           }
         }
       }
+    }
+    case LOAD_USER_GROUP_EVENTS: {
+      const userState = { 
+        ...state, 
+        user: {
+          ...state.user,
+          Groups: {
+            ...state.user.Groups,
+            [action.groupId]: { 
+              ...state.user.Groups[action.groupId], 
+              ...action.events
+            }
+          }
+          }
+        }
+      return userState
     }
     default:
       return state;

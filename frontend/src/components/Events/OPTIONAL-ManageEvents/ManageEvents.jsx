@@ -1,8 +1,12 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./ManageEvents.css";
 import EventsListItem from "../EventsListItem";
+import { useEffect } from "react";
+import { thunkLoadUserEvents } from "../../../store/session";
 
 const ManageEvents = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.session.user)
   const events = useSelector((state) => state.session.user.Events);
 
   let ownedEvents;
@@ -17,6 +21,9 @@ const ManageEvents = () => {
   attendingEvents?.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
 
   // if (!userEventsArr) return null;
+  useEffect(() => {
+    if (!user.Events) dispatch(thunkLoadUserEvents())
+  }, [dispatch, user])
 
   return (
     <div className="user-groups-content">
