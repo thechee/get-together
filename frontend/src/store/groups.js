@@ -150,7 +150,7 @@ export const thunkDeleteGroup = (group) => async (dispatch) => {
 
   if (response.ok) {
     const message = await response.json()
-    group.events.forEach(event => {
+    group.Events.forEach(event => {
       dispatch(deleteAssociatedEvents(event.id))
     })
     dispatch(deleteGroup(group.id))
@@ -180,13 +180,13 @@ const groupReducer = (state = {}, action) => {
     case LOAD_GROUPS: {
       const groupsState = { ...state };
       action.groups.Groups.forEach(group => {
-        groupsState[group.id] = group
+        groupsState[group.id] = {...state[group.id], ...group}
       })
       return groupsState;
     }
     case LOAD_GROUP_DETAILS: {
       const groupsState = { ...state };
-      groupsState[action.group.id] = action.group
+      groupsState[action.group.id] = {...state[action.group.id], ...action.group}
       return groupsState;
     }
     case LOAD_GROUP_EVENTS: {
@@ -197,6 +197,20 @@ const groupReducer = (state = {}, action) => {
           Events: action.events.Events
         } 
       };
+    }
+    case LOAD_MEMBERS: {
+      const Members = {}
+      action.members.Members.forEach(member => {
+        Members[member.id] = member
+      })
+
+      return {
+        ...state,
+        [action.groupId]: {
+          ...state[action.groupId],
+          Members
+        }
+      }
     }
     case CREATE_GROUP: {
       const groupsState = { ...state };

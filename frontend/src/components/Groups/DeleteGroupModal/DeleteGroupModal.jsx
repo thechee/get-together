@@ -9,10 +9,9 @@ const DeleteGroupModal = ({ group }) => {
   const navigate = useNavigate()
   const { closeModal } = useModal()
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault()
-    // console.log(groupId)
-    dispatch(thunkDeleteGroup(group))
+    await dispatch(thunkDeleteGroup(group))
     closeModal()
     navigate('/groups')
   }
