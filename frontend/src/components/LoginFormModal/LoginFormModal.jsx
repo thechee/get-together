@@ -21,7 +21,7 @@ function LoginFormModal() {
         closeModal()
         dispatch(thunkLoadGroups())
         dispatch(thunkLoadEvents())
-        dispatch(sessionActions.thunkLoadUserGroups())
+        // dispatch(sessionActions.thunkLoadUserGroups())
       })
       .catch(async (res) => {
         const data = await res.json();
@@ -41,7 +41,7 @@ function LoginFormModal() {
         closeModal()
         dispatch(thunkLoadGroups())
         dispatch(thunkLoadEvents())
-        dispatch(sessionActions.thunkLoadUserGroups())
+        // dispatch(sessionActions.thunkLoadUserGroups())
       })
       .catch(async (res) => {
         const data = await res.json();

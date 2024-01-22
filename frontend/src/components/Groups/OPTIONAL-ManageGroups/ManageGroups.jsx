@@ -1,14 +1,21 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GroupListItem from "../GroupListItem";
 import "./ManageGroups.css";
+import { useEffect } from "react";
+import { thunkLoadUserGroups } from "../../../store/session";
 
 const ManageGroups = () => {
+  const dispatch = useDispatch()
   const user = useSelector((state) => state.session.user);
   const userGroupsObj = useSelector((state) => state.session.user.Groups);
   let userGroups
   if (userGroupsObj) {
     userGroups = Object.values(userGroupsObj)
   } 
+
+  useEffect(() => {
+    dispatch(thunkLoadUserGroups())
+  }, [dispatch])
 
   return (
     <div className="user-groups-content">
