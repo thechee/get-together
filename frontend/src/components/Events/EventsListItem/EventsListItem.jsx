@@ -9,15 +9,18 @@ const EventsListItem = ({ eventId }) => {
   const event = useSelector(state => state.events[eventId])
   let preview;
   let eventImagesPreview;
+
+  useEffect(() => {
+    if (eventId) dispatch(thunkEventDetails(eventId))
+  }, [dispatch, eventId])
+  
+  if (!event) return null;
+  
   if (event.previewImage) {
     preview  = event.previewImage
   } else if (event.EventImages) {
     eventImagesPreview = event.EventImages.find(image => image.preview === true)
   }
-
-  useEffect(() => {
-    dispatch(thunkEventDetails(eventId))
-  }, [dispatch, eventId])
 
   let date;
   let time;

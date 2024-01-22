@@ -13,9 +13,17 @@ const GroupDetails = () => {
   const { groupId } = useParams()
   const user = useSelector(state => state.session.user)
   const group = useSelector(state => state.groups[groupId])
-  let events = useSelector(state => state.groups[groupId].Events)
+  const eventsState = useSelector(state => state.events)
+  let events = useSelector(state => state.groups[groupId]?.Events)
+  
+  useEffect(() => {
+    dispatch(thunkGroupDetails(groupId))
+    dispatch(thunkLoadGroupEvents(groupId))
+  }, [dispatch, groupId])
+  
+  if (!eventsState) return null
+  
   const now = new Date()
-
   const upcoming = []
   const past = []
 
@@ -27,10 +35,6 @@ const GroupDetails = () => {
       upcoming.push(event)
   })
 
-  useEffect(() => {
-    dispatch(thunkGroupDetails(groupId))
-    dispatch(thunkLoadGroupEvents(groupId))
-  }, [dispatch, groupId])
 
   const groupPreviewImage = group?.GroupImages?.find(image => image.preview == true)
 

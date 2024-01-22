@@ -72,15 +72,24 @@ const CreateEventForm = () => {
         preview: true
       }
       
-      const createdEvent = await dispatch(thunkCreateEvent(groupId, newEventReqBody))
-      if (createdEvent.errors) {
-        setValidationErrors(createdEvent.errors)
-      } else {
-        // dispatch the image to the new group's id
-        // the dispatch needs the group id AND the body
+      await dispatch(thunkCreateEvent(groupId, newEventReqBody))
+      .then(async (createdEvent) => {
         await dispatch(thunkAddEventImage(createdEvent.id, newEventImgBody))
         navigate(`/events/${createdEvent.id}`)
-      }
+      })
+      .catch(async (res) => {
+        console.log(res)
+        const data = await res.json()
+        setValidationErrors(data.errors)
+      })
+      // if (createdEvent.errors) {
+      //   setValidationErrors(createdEvent.errors)
+      // } else {
+      //   // dispatch the image to the new group's id
+      //   // the dispatch needs the group id AND the body
+      //   await dispatch(thunkAddEventImage(createdEvent.id, newEventImgBody))
+      //   navigate(`/events/${createdEvent.id}`)
+      // }
     }
   }
 

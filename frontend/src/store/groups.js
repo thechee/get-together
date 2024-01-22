@@ -190,9 +190,13 @@ const groupReducer = (state = {}, action) => {
       return groupsState;
     }
     case LOAD_GROUP_EVENTS: {
-      const groupsState = { ...state };
-      groupsState[action.groupId].Events = action.events.Events
-      return groupsState;
+      return { 
+        ...state, 
+        [action.groupId]: {
+          ...state[action.groupId],
+          Events: action.events.Events
+        } 
+      };
     }
     case CREATE_GROUP: {
       const groupsState = { ...state };

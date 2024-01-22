@@ -633,8 +633,6 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
   }
   const eventObj = event.toJSON()
   const group = await Group.findByPk(event.groupId)
-  // console.log(eventObj)
-  // // console.log(user.toJSON())
 
   // const host = await User.findByPk(user.id, {
   //   include: {
@@ -657,8 +655,6 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
   });
 
   const host = group.organizerId == user.id
-  // console.log(host)
-  // console.log(cohost.toJSON())
 
   if (host || cohost) {
     await event.destroy()

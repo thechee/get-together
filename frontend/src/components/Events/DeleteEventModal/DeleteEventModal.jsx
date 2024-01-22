@@ -13,8 +13,9 @@ const DeleteEventModal = ({ event }) => {
   const handleDelete = async (e) => {
     e.preventDefault()
     closeModal()
-    navigate(`/groups/${group.id}`)
-    dispatch(thunkDeleteEvent(event.id))
+    const groupId = group.id
+    await dispatch(thunkDeleteEvent(event.id))
+    navigate(`/groups/${groupId}`)
   }
 
   const handleCancel = (e) => {

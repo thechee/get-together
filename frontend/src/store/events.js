@@ -94,8 +94,9 @@ export const thunkCreateEvent = (groupId, event) => async (dispatch) => {
     dispatch(createEvent(event))
     return event;
   } else {
-    const error = await response.json()
-    return error
+    // const error = await response.json()
+    // return error
+    throw response
   }
 }
 
@@ -160,11 +161,6 @@ const eventReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_EVENTS: {
       const eventsState = { ...state };
-      // action.events.Events.forEach(event => {
-      //   if (!eventsState[event.id]) {
-      //     eventsState[event.id] = event
-      //   } 
-      // })
       action.events.forEach(event => {
         if (!eventsState[event.id]) {
           eventsState[event.id] = event
