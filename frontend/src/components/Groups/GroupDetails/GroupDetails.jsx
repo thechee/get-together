@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGroupDetails, thunkLoadGroupEvents } from '../../../store/groups';
+import { thunkGroupDetails, thunkLoadGroupEvents, thunkLoadMembers } from '../../../store/groups';
 import { useEffect } from 'react';
 import EventsListItem from '../../Events/EventsListItem/';
 import OpenModalButton from '../../OpenModalButton';
@@ -19,9 +19,20 @@ const GroupDetails = () => {
   useEffect(() => {
     dispatch(thunkGroupDetails(groupId))
     dispatch(thunkLoadGroupEvents(groupId))
+    dispatch(thunkLoadMembers(groupId))
   }, [dispatch, groupId])
   
   if (!eventsState) return null
+  
+  const isOwner = user?.id == group?.organizerId;
+  let isMember;
+  if (group?.Members) {
+    const members = Object.values(group?.Members);
+
+    isMember = members.filter(member => {
+      return member.id == user.id}).length > 0
+    }
+  
   
   const now = new Date()
   const upcoming = []
@@ -57,20 +68,25 @@ const GroupDetails = () => {
             <h4>Organized by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
             </div>
             <div className='group-info-buttons'>
-              {user && user?.id !== group?.organizerId && <button 
+              {user && !isOwner && !isMember && <button 
                 id='join-group'
                 onClick={() => alert('Feature Coming Soon...')}>
                 Join this group
               </button>}
-              {user?.id == group?.organizerId && <button 
+              {user && !isOwner && isMember &&  <button 
+                id='leave-group'
+                onClick={() => alert('Feature Coming Soon...')}>
+                Leave this group
+              </button>}
+              {isOwner && <button 
                 onClick={() => navigate(`/groups/${groupId}/events/new`)}>
                 Create event
               </button>}
-              {user?.id == group?.organizerId && <button 
+              {isOwner && <button 
                 onClick={() => navigate(`/groups/${groupId}/edit`)}>
                 Update
               </button>}
-              {user?.id == group?.organizerId && 
+              {isOwner && 
                 <OpenModalButton
                   buttonText="Delete"
                   modalComponent={<DeleteGroupModal group={group}/>}
