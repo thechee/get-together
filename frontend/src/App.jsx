@@ -16,10 +16,10 @@ function Layout() {
   const [ isLoaded, setIsLoaded ] = useState(false)
 
   useEffect(() => {
-    dispatch(thunkLoadGroups())
-    dispatch(thunkLoadEvents())
     dispatch(sessionActions.thunkRestoreUser()).then(() => {
       setIsLoaded(true)
+      dispatch(thunkLoadGroups())
+      dispatch(thunkLoadEvents())
       // dispatch(sessionActions.thunkLoadUserGroups())
       // dispatch(sessionActions.thunkLoadUserEvents())
     });

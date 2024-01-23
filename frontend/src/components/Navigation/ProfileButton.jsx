@@ -41,12 +41,17 @@ function ProfileButton({ user }) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const profileChevronClassName = "fa-chevron-" + (showMenu ? "up" : "down")
 
+  const avatar = user?.profileImageUrl ?
+    <img id='profile-image' src={user.profileImageUrl} alt="" /> :
+    <i className="fas fa-user-circle" />;
+
   return (
     <>
       <button onClick={toggleMenu}
-        className={'profile-button'}>
+        className='profile-button'>
           <div className='user-circle'>
-            <i className="fas fa-user-circle" />
+            {/* <i className="fas fa-user-circle" /> */}
+            {avatar}
           </div>
           <i id='profile-chevron' className={`fa-solid ${profileChevronClassName}`}></i> 
       </button>

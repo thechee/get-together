@@ -5,6 +5,7 @@ const { check } = require('express-validator');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const { User } = require('../../db/models');
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 
 const router = express.Router();
 
@@ -35,10 +36,14 @@ const validateSignup = [
 ];
 
 // Sign up
-router.post('/', validateSignup, async (req, res) => {
+router.post('/', singleMulterUpload('image'), validateSignup, async (req, res) => {
   const { email, password, username, firstName, lastName } = req.body;
+  const profileImageUrl = req.file
+    ? await singleFileUpload({ file: req.file,
+    public: true}) :
+    null;
   const hashedPassword = bcrypt.hashSync(password);
-  const user = await User.create({ email, username, hashedPassword, firstName, lastName });
+  const user = await User.create({ email, username, hashedPassword, firstName, lastName, profileImageUrl });
 
   const safeUser = {
     id: user.id,

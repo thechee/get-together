@@ -38,7 +38,7 @@ const EventsListItem = ({ eventId, owned, attending }) => {
 
   return (
     <li>
-        <Link to={`/events/${event.id}`} event={event}>
+      <Link to={`/events/${event.id}`} event={event}>
         <div className="events-list-item">
           <div className="event-card-img">
             {preview && (
@@ -71,25 +71,29 @@ const EventsListItem = ({ eventId, owned, attending }) => {
         <div className="event-card-about">
           <p>{event.description}</p>
         </div>
-    </Link>
-    <div className="event-btns">
-      {owned && <button onClick={() => navigate(`/events/${eventId}/edit`)}>Update</button>}
-      {owned && (
-        <OpenModalButton
-        buttonText="Delete"
-        modalComponent={<DeleteEventModal event={event} />}
-        />
+      </Link>
+      <div className="event-btns">
+        {owned && (
+          <button onClick={() => navigate(`/events/${eventId}/edit`)}>
+            Update
+          </button>
         )}
-      {attending && (
-        <button
-        id="unattend-event-btn"
-        onClick={() => alert("Feature coming soon...")}
-        >
-          Unjoin
-        </button>
-      )}
-    </div>
-      </li>
+        {owned && (
+          <OpenModalButton
+            buttonText="Delete"
+            modalComponent={<DeleteEventModal event={event} />}
+          />
+        )}
+        {attending && (
+          <button
+            id="unattend-event-btn"
+            onClick={() => alert("Feature coming soon...")}
+          >
+            Unjoin
+          </button>
+        )}
+      </div>
+    </li>
   );
 };
 

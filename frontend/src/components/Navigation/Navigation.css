@@ -51,6 +51,13 @@ nav {
   cursor: pointer;
 }
 
+#profile-image {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
 .user-circle {
   font-size: 40px;
   border: none;
@@ -102,3 +109,4 @@ nav {
   position: absolute;
   right: 1rem;
 }
+

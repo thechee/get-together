@@ -12,6 +12,7 @@ function SignupFormModal() {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [image, setImage] = useState(null);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -26,6 +27,7 @@ function SignupFormModal() {
           firstName,
           lastName,
           password,
+          image
         })
       )
         .then(closeModal)
@@ -51,6 +53,11 @@ function SignupFormModal() {
     confirmPassword.length < 6
       ? "disabled"
       : "";
+
+  const updateFile = e => {
+    const file = e.target.files[0]
+    if (file) setImage(file);
+  };
 
   return (
     <div className="sign-up-form-container">
@@ -126,6 +133,10 @@ function SignupFormModal() {
             required
           />
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        <label>
+          Profile Avatar
+          <input type="file" onChange={updateFile} />
+        </label>
         <button id={`signup-button${buttonStatus}`} type="submit">
           Sign Up
         </button>
