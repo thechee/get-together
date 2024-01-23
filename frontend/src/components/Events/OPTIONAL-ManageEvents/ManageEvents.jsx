@@ -39,8 +39,7 @@ const ManageEvents = () => {
               <EventsListItem
                 event={event}
                 eventId={event.id}
-                // isOwner={user.id == group.organizerId}
-                // isMember={user.id != group.organizerId}
+                owned={true}
                 key={event.id}
               />
             ))}
@@ -57,8 +56,7 @@ const ManageEvents = () => {
               <EventsListItem
                 event={event}
                 eventId={event.id}
-                // isOwner={user.id == group.organizerId}
-                // isMember={user.id != group.organizerId}
+                attending={true}
                 key={event.id}
               />
             ))}

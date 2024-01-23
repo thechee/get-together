@@ -162,7 +162,7 @@ export const thunkDeleteGroup = (group) => async (dispatch) => {
 }
 
 export const thunkLoadMembers = (groupId) => async (dispatch) => {
-  const response = await fetch(`/api/groups/${groupId}/members`)
+  const response = await csrfFetch(`/api/groups/${groupId}/members`)
 
   if (response.ok) {
     const members = await response.json()
