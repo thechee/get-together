@@ -128,16 +128,8 @@ export const thunkUpdateEvent = (eventId, event) => async (dispatch) => {
 
 export const thunkAddEventPreviewImage = (eventId, image) => async (dispatch) => {
   const formData = new FormData();
-
   formData.append('image', image)
 
-  // const response = await csrfFetch(`/api/events/${eventId}/images`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(image)
-  // })
   const response = await csrfFetch(`/api/events/${eventId}/previewImage`, {
     method: 'POST',
     body: formData
@@ -145,24 +137,35 @@ export const thunkAddEventPreviewImage = (eventId, image) => async (dispatch) =>
 
   if (response.ok) {
     const resImage = await response.json()
-    await dispatch(addEventImages(eventId, resImage))
+    await dispatch(addEventPreview(eventId, resImage))
     return resImage;
   } else {
     throw response
   }
 }
+
+export const thunkUpdateEventPreviewImage = (eventId, image) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append('image', image)
+
+  const response = await csrfFetch(`/api/events/${eventId}/previewImage`, {
+    method: 'POST',
+    body: formData
+  })
+
+  if (response.ok) {
+    const resImage = await response.json()
+    await dispatch(addEventPreview(eventId, resImage))
+    return resImage;
+  } else {
+    throw response
+  }
+}
+
 export const thunkAddEventImages = (eventId, images) => async (dispatch) => {
   const formData = new FormData();
-
   Array.from(images).forEach(image => formData.append('images', image))
 
-  // const response = await csrfFetch(`/api/events/${eventId}/images`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(image)
-  // })
   const response = await csrfFetch(`/api/events/${eventId}/images`, {
     method: 'POST',
     body: formData
@@ -229,7 +232,7 @@ const eventReducer = (state = {}, action) => {
           ...state[action.eventId],
           EventImages: [
             ...state[action.eventId].EventImages,
-            ...action.images
+            action.image
           ]
         }
       }

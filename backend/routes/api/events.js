@@ -418,6 +418,7 @@ router.post('/:eventId/images', requireAuth, multipleMulterUpload('images'), asy
     })
   }
 })
+
 router.post('/:eventId/previewImage', requireAuth, singleMulterUpload('image'), async (req, res) => {
   const { eventId } = req.params
   const { user } = req;
@@ -448,35 +449,13 @@ router.post('/:eventId/previewImage', requireAuth, singleMulterUpload('image'), 
     }
   });
   
-  const attendee = await Attendance.findAll({
-    where: {
-      eventId: eventObj.id,
-      userId: user.id,
-      status: 'attending'
-    }
-  })
-  
   const host = currentUser.id == group.organizerId
   
-  
-  if (host || cohost || attendee.length) {
+  if (host || cohost) {
     const data = await singleFileUpload({ file: req.file, public: true })
     const image = await event.createEventImage({ url: data, preview: true })
   
-    return res.json([
-      image
-    ]);
-    // const image = await event.createEventImage({
-    //   url,
-    //   preview
-    // })
-
-    // const imageObj = image.toJSON()
-    // return res.json({
-    //   id: imageObj.id,
-    //   url: imageObj.url,
-    //   preview: imageObj.preview
-    // })
+    return res.json(image)
   } else {
     res.status(403);
     return res.json({

@@ -20,9 +20,7 @@ const CreateEventForm = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [description, setDescription] = useState("");
-  const [url, setUrl] = useState("");
   const [images, setImages] = useState(null);
-  // const [ imagesArr, setImagesArr ] = useState([])
   const [previewImage, setPreviewImage] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
   const group = useSelector((state) => state.groups[groupId]);
@@ -122,7 +120,7 @@ const CreateEventForm = () => {
           // }
           // )
           dispatch(thunkAddEventPreviewImage(createdEvent.id, previewImage));
-          dispatch(thunkAddEventImages(createdEvent.id, images));
+          if (images) dispatch(thunkAddEventImages(createdEvent.id, images));
           navigate(`/events/${createdEvent.id}`);
         })
         .catch(async (res) => {
