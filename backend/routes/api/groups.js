@@ -229,10 +229,7 @@ router.get('/:groupId/events', async (req, res) => {
     include: [
       {
         model: EventImage,
-        attributes: ['url'],
-        where: {
-          preview: true
-        }
+        attributes: ['url', 'preview'],
       }, 
       {
         model: User,
@@ -255,12 +252,13 @@ router.get('/:groupId/events', async (req, res) => {
   })
 
   eventList.forEach(event => {
-    if (event.EventImages[0]) {
-      event.previewImage = event.EventImages[0].url;
-    }
+    event.previewImage = event.EventImages.find(image => {
+      image.preview == true
+    })
+    if (!event.previewImage) event.previewImage = null;
     delete event.EventImages
     event.numAttending = event.numAttending.length
-  })
+})
   return res.json({
     Events: eventList
   });
