@@ -5,6 +5,7 @@ const { requireAuth } = require('../../utils/auth')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
+const { multipleFilesUpload, multipleMulterUpload, retrievePrivateFile } = require("../../awsS3");
 
 const validateGroupData = [
   check('name')
@@ -69,13 +70,6 @@ const validateEventData = [
     .withMessage("Capacity must be an integer"),
   check('price')
     .exists({ checkFalsy: true })
-    // .custom((value) => {
-    //   value = value.toFixed(2);
-    //   // if(value.toString().split('.')[1].length > 2) {
-    //   //   throw new Error("Price is invalid")
-    // //   // }
-    //   return true;
-    // })
     .isCurrency({
       allow_negatives: false,
       decimal_separator: ".",

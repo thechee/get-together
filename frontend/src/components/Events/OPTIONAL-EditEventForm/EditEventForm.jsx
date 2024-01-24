@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { thunkEventDetails } from "../../../store/events";
-import { thunkUpdateEvent, thunkAddEventImage } from "../../../store/events";
+import { thunkUpdateEvent, thunkAddEventImages } from "../../../store/events";
 
 import "./EditEventForm.css";
 
@@ -92,7 +92,7 @@ const EditEventForm = () => {
       } else {
         // dispatch the image to the new group's id
         // the dispatch needs the group id AND the body
-        await dispatch(thunkAddEventImage(eventId, newEventImgBody))
+        await dispatch(thunkAddEventImages(eventId, newEventImgBody))
         navigate(`/events/${updatedEvent.id}`);
       }
     }

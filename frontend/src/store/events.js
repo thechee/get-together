@@ -31,10 +31,10 @@ export const updateEvent = (eventId, event) => ({
   event
 })
 
-export const addEventImage = (eventId, image) => ({
+export const addEventImages = (eventId, images) => ({
   type: ADD_EVENT_IMAGE,
   eventId,
-  image
+  images
 })
 
 export const deleteEvent = (eventId) => ({
@@ -119,18 +119,26 @@ export const thunkUpdateEvent = (eventId, event) => async (dispatch) => {
   }
 }
 
-export const thunkAddEventImage = (eventId, image) => async (dispatch) => {
+export const thunkAddEventImages = (eventId, images) => async (dispatch) => {
+  const formData = new FormData();
+
+  images.forEach(image => formData.append('images', image))
+
+  // const response = await csrfFetch(`/api/events/${eventId}/images`, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(image)
+  // })
   const response = await csrfFetch(`/api/events/${eventId}/images`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(image)
+    body: formData
   })
 
   if (response.ok) {
     const group = await response.json()
-    await dispatch(addEventImage(eventId, image))
+    await dispatch(addEventImages(eventId, images))
     return group;
   } else {
     const error = await response.json()

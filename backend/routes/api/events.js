@@ -5,6 +5,7 @@ const { requireAuth } = require('../../utils/auth')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
+const { multipleFilesUpload, multipleMulterUpload, retrievePrivateFile } = require("../../awsS3");
 
 const validateQueryParameters = [
   check('page')
@@ -265,10 +266,6 @@ router.get('/', validateQueryParameters, async (req, res) => {
   })
   } else matchingDate = eventList;
 
-
-  // console.log(matchingDate)
-  // console.log(eventList)
-
   matchingDate.forEach(event => {
     if (event.EventImages[0]) {
       event.previewImage = event.EventImages[0].url;
@@ -352,11 +349,13 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
   })
 })
 
-router.post('/:eventId/images', requireAuth, async (req, res) => {
+router.post('/:eventId/images', requireAuth, multipleMulterUpload('images'), async (req, res) => {
   const { eventId } = req.params
   const { user } = req;
   const { url, preview } = req.body
 
+  
+  
   const event = await Event.findByPk(eventId)
   if(!event) {
     res.status(404)
@@ -371,7 +370,7 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
       model: Membership
     }
   })
-
+  
   const cohost = await User.findByPk(user.id, {
     include: {
       model: Membership,
@@ -391,14 +390,21 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
   })
   
   const host = currentUser.id == group.organizerId
-
+  
+  
   if (host || cohost || attendee.length) {
+    const data = await multipleFilesUpload({ files: req.files, public: true })
+    const images = await Promise.all(data.map(image => event.createEventImage({ url: [image.url], preview: [image.preview] })))
+
+    return res.json({
+      ...images
+    });
     const image = await event.createEventImage({
       url,
       preview
     })
 
-    imageObj = image.toJSON()
+    const imageObj = image.toJSON()
     return res.json({
       id: imageObj.id,
       url: imageObj.url,
@@ -592,7 +598,6 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
       message: "Attendance between the user and the event does not exist"
     })
   }
-
 
   // ERROR 403 Only user or organizer may delete attendance
   //"message": "Only the User or organizer may delete an Attendance"

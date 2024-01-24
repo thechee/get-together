@@ -29,11 +29,8 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
   })
 
   let organizer = image.Group.organizerId == user.id
-  // console.log(image.toJSON())
-  // console.log(currentUser.toJSON())
   
   let cohost = []
-  // let cohost = currentUser.Memberships == 
 
   currentUser.Memberships.forEach(membership => {
     membership = membership.toJSON()

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { thunkGroupDetails } from '../../../store/groups';
 import { thunkCreateEvent } from '../../../store/events';
-import { thunkAddEventImage } from '../../../store/events';
+import { thunkAddEventImages } from '../../../store/events';
 import './CreateEventForm.css';
 
 const CreateEventForm = () => {
@@ -18,7 +18,9 @@ const CreateEventForm = () => {
   const [ endDate, setEndDate ] = useState('')
   const [ description, setDescription ] = useState('')
   const [ url, setUrl ] = useState('')
-  // const [ preview, setPreview ] = useState(false)
+  const [ images, setImages ] = useState(null)
+  const [ imagesArr, setImagesArr ] = useState([])
+  const [ previewImage, setPreviewImage ] = useState('select-one')
   const [ validationErrors, setValidationErrors ] = useState({})
   const group = useSelector(state => state.groups[groupId])
 
@@ -26,6 +28,24 @@ const CreateEventForm = () => {
     dispatch(thunkGroupDetails(groupId))
   }, [dispatch, groupId])
 
+  
+
+  useEffect(() => {
+    const tempArr = []
+
+    if (images) {
+      for (let i = 0; i < images.length; i++) {
+        tempArr.push(images.item(i).name)
+      }
+    }
+
+    setImagesArr(tempArr)
+  }, [images])
+  
+  const updateFiles = e => {
+    const files = e.target.files;
+    setImages(files);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +67,8 @@ const CreateEventForm = () => {
     if (new Date(startDate).getTime() <= new Date().getTime()) errors.startDate = 'Event start must be in the future'
     if (new Date(startDate).getTime() > new Date(endDate).getTime()) errors.endDate = 'Event end must be after the start'
     if (!endDate) errors.endDate = 'Event end is required';
-    if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
+    // if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
+    if (images.length === 0) errors.images = 'At least 1 image is required'
     if (description.length < 30) errors.description = 'Description must be at least 30 characters long';
 
     if (Object.values(errors).length) {
@@ -67,29 +88,35 @@ const CreateEventForm = () => {
         endDate
       }
 
-      const newEventImgBody = {
-        url,
-        preview: true
-      }
+      // const newEventImgBody = {
+      //   url,
+      //   preview: true
+      // }
       
       await dispatch(thunkCreateEvent(groupId, newEventReqBody))
       .then(async (createdEvent) => {
-        await dispatch(thunkAddEventImage(createdEvent.id, newEventImgBody))
+
+        const newImageArr = imagesArr.map(image => {
+          const newEventImgBody = {
+            image
+          }
+
+          if (image === previewImage) {
+            newEventImgBody.preview = true
+          } else {
+            newEventImgBody.preview = false
+          }
+
+          return newEventImgBody
+        }
+        )
+        dispatch(thunkAddEventImages(createdEvent.id, newImageArr))
         navigate(`/events/${createdEvent.id}`)
       })
       .catch(async (res) => {
-        console.log(res)
         const data = await res.json()
         setValidationErrors(data.errors)
       })
-      // if (createdEvent.errors) {
-      //   setValidationErrors(createdEvent.errors)
-      // } else {
-      //   // dispatch the image to the new group's id
-      //   // the dispatch needs the group id AND the body
-      //   await dispatch(thunkAddEventImage(createdEvent.id, newEventImgBody))
-      //   navigate(`/events/${createdEvent.id}`)
-      // }
     }
   }
 
@@ -201,6 +228,30 @@ const CreateEventForm = () => {
           onChange={e => setUrl(e.target.value)}
         />
         {"imageUrl" in validationErrors && <p className='errors'>{validationErrors.imageUrl}</p>}
+
+        <label>
+          Images to Upload
+          <input
+            type="file"
+            accept=".jpg, .jpeg, .png"
+            multiple
+            onChange={updateFiles} />
+        </label>
+
+        <label htmlFor="">
+          Preview Image
+          <select
+            value={previewImage}
+            onChange={e => setPreviewImage(e.target.value)}
+          >
+            <option disabled value='select-one'>(select one)</option>
+            {imagesArr.length && imagesArr.map(image => (
+              <option key={image} value={image}>{image}</option>
+            ))}
+          </select>
+        </label>
+
+
         {/* <label htmlFor="preview">
           <p>
             Set this image as a preview of the Event:
