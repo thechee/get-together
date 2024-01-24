@@ -5,7 +5,7 @@ const { requireAuth } = require('../../utils/auth')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
-const { multipleFilesUpload, multipleMulterUpload, retrievePrivateFile } = require("../../awsS3");
+const { multipleFilesUpload, multipleMulterUpload, singleFileUpload, singleMulterUpload } = require("../../awsS3");
 
 const validateQueryParameters = [
   check('page')
@@ -354,8 +354,6 @@ router.post('/:eventId/images', requireAuth, multipleMulterUpload('images'), asy
   const { user } = req;
   const { url, preview } = req.body
 
-  
-  
   const event = await Event.findByPk(eventId)
   if(!event) {
     res.status(404)
@@ -394,22 +392,91 @@ router.post('/:eventId/images', requireAuth, multipleMulterUpload('images'), asy
   
   if (host || cohost || attendee.length) {
     const data = await multipleFilesUpload({ files: req.files, public: true })
-    const images = await Promise.all(data.map(image => event.createEventImage({ url: [image.url], preview: [image.preview] })))
+    const images = await Promise.all(data.map(image => 
+      event.createEventImage({ url: image, preview: false })))
+    
+    const imagesArr = [...images]
+  
+    return res.json([
+      ...imagesArr
+    ]);
+    // const image = await event.createEventImage({
+    //   url,
+    //   preview
+    // })
 
+    // const imageObj = image.toJSON()
+    // return res.json({
+    //   id: imageObj.id,
+    //   url: imageObj.url,
+    //   preview: imageObj.preview
+    // })
+  } else {
+    res.status(403);
     return res.json({
-      ...images
-    });
-    const image = await event.createEventImage({
-      url,
-      preview
+      message: "Forbidden"
     })
+  }
+})
+router.post('/:eventId/previewImage', requireAuth, singleMulterUpload('image'), async (req, res) => {
+  const { eventId } = req.params
+  const { user } = req;
+  const { url, preview } = req.body
 
-    const imageObj = image.toJSON()
+  const event = await Event.findByPk(eventId)
+  if(!event) {
+    res.status(404)
     return res.json({
-      id: imageObj.id,
-      url: imageObj.url,
-      preview: imageObj.preview
+      message: "Event couldn't be found"
     })
+  }
+  const eventObj = event.toJSON()
+  const currentUser = await User.findByPk(user.id)
+  const group = await Group.findByPk(eventObj.groupId, {
+    include: {
+      model: Membership
+    }
+  })
+  
+  const cohost = await User.findByPk(user.id, {
+    include: {
+      model: Membership,
+      where: {
+        groupId: eventObj.groupId,
+        status: 'co-host'
+      }
+    }
+  });
+  
+  const attendee = await Attendance.findAll({
+    where: {
+      eventId: eventObj.id,
+      userId: user.id,
+      status: 'attending'
+    }
+  })
+  
+  const host = currentUser.id == group.organizerId
+  
+  
+  if (host || cohost || attendee.length) {
+    const data = await singleFileUpload({ file: req.file, public: true })
+    const image = await event.createEventImage({ url: data, preview: true })
+  
+    return res.json([
+      image
+    ]);
+    // const image = await event.createEventImage({
+    //   url,
+    //   preview
+    // })
+
+    // const imageObj = image.toJSON()
+    // return res.json({
+    //   id: imageObj.id,
+    //   url: imageObj.url,
+    //   preview: imageObj.preview
+    // })
   } else {
     res.status(403);
     return res.json({

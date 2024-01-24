@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { thunkGroupDetails } from '../../../store/groups';
 import { thunkCreateEvent } from '../../../store/events';
-import { thunkAddEventImages } from '../../../store/events';
+import { thunkAddEventImages, thunkAddEventPreviewImage } from '../../../store/events';
 import './CreateEventForm.css';
 
 const CreateEventForm = () => {
@@ -19,8 +19,8 @@ const CreateEventForm = () => {
   const [ description, setDescription ] = useState('')
   const [ url, setUrl ] = useState('')
   const [ images, setImages ] = useState(null)
-  const [ imagesArr, setImagesArr ] = useState([])
-  const [ previewImage, setPreviewImage ] = useState('select-one')
+  // const [ imagesArr, setImagesArr ] = useState([])
+  const [ previewImage, setPreviewImage ] = useState(null)
   const [ validationErrors, setValidationErrors ] = useState({})
   const group = useSelector(state => state.groups[groupId])
 
@@ -30,22 +30,27 @@ const CreateEventForm = () => {
 
   
 
-  useEffect(() => {
-    const tempArr = []
+  // useEffect(() => {
+  //   const tempArr = []
 
-    if (images) {
-      for (let i = 0; i < images.length; i++) {
-        tempArr.push(images.item(i).name)
-      }
-    }
+  //   if (images) {
+  //     for (let i = 0; i < images.length; i++) {
+  //       tempArr.push(images.item(i).name)
+  //     }
+  //   }
 
-    setImagesArr(tempArr)
-  }, [images])
+  //   setImagesArr(tempArr)
+  // }, [images])
   
   const updateFiles = e => {
     const files = e.target.files;
     setImages(files);
   };
+
+  const updateFile = e => {
+    const file = e.target.files[0];
+    setPreviewImage(file)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,21 +101,22 @@ const CreateEventForm = () => {
       await dispatch(thunkCreateEvent(groupId, newEventReqBody))
       .then(async (createdEvent) => {
 
-        const newImageArr = imagesArr.map(image => {
-          const newEventImgBody = {
-            image
-          }
+        // const newImageArr = imagesArr.map(image => {
+        //   const newEventImgBody = {
+        //     image
+        //   }
 
-          if (image === previewImage) {
-            newEventImgBody.preview = true
-          } else {
-            newEventImgBody.preview = false
-          }
+        //   if (image === previewImage) {
+        //     newEventImgBody.preview = true
+        //   } else {
+        //     newEventImgBody.preview = false
+        //   }
 
-          return newEventImgBody
-        }
-        )
-        dispatch(thunkAddEventImages(createdEvent.id, newImageArr))
+        //   return newEventImgBody
+        // }
+        // )
+        dispatch(thunkAddEventPreviewImage(createdEvent.id, previewImage))
+        dispatch(thunkAddEventImages(createdEvent.id, images))
         navigate(`/events/${createdEvent.id}`)
       })
       .catch(async (res) => {
@@ -240,6 +246,13 @@ const CreateEventForm = () => {
 
         <label htmlFor="">
           Preview Image
+          <input
+            type='file'
+            accept=".jpg, .jpeg, .png"
+            onChange={updateFile} />
+        </label>
+        {/* <label htmlFor="">
+          Preview Image
           <select
             value={previewImage}
             onChange={e => setPreviewImage(e.target.value)}
@@ -249,7 +262,7 @@ const CreateEventForm = () => {
               <option key={image} value={image}>{image}</option>
             ))}
           </select>
-        </label>
+        </label> */}
 
 
         {/* <label htmlFor="preview">
