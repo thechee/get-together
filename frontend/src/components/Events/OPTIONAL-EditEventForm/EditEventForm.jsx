@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { thunkEventDetails } from "../../../store/events";
-import { thunkUpdateEvent, thunkUpdateEventPreviewImage } from "../../../store/events";
+import { thunkUpdateEvent} from "../../../store/events";
 
 import "./EditEventForm.css";
 
@@ -22,7 +22,7 @@ const EditEventForm = () => {
   const [endDate, setEndDate] = useState(event?.endDate);
   const [description, setDescription] = useState(event?.description);
   // const [url, setUrl] = useState(event?.previewImage || event?.EventImages[0]?.url);
-  const [previewImage, setPreviewImage] = useState(null);
+  // const [previewImage, setPreviewImage] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
   const isUserOwner = group?.organizerId == user?.id
 
@@ -34,19 +34,15 @@ const EditEventForm = () => {
     dispatch(thunkEventDetails(eventId));
   }, [dispatch, eventId]);
 
-  const updateFile = (e) => {
-    const file = e.target.files[0];
-    setPreviewImage(file);
-  };
+  // const updateFile = (e) => {
+  //   const file = e.target.files[0];
+  //   setPreviewImage(file);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setValidationErrors({});
-
-    // const urlEndings = [".png", ".jpg", ".jpeg"];
-    // const urlEnding3 = url.slice(-4);
-    // const urlEnding4 = url.slice(-5);
 
     const errors = {};
     if (!name) errors.name = "Name is required";
@@ -60,8 +56,6 @@ const EditEventForm = () => {
     if (new Date(startDate).getTime() <= new Date().getTime()) errors.startDate = "Event start must be in the future";
     if (new Date(startDate).getTime() > new Date(endDate).getTime()) errors.endDate = "Event end must be after the start";
     if (!endDate) errors.endDate = "Event end is required";
-    // if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4))
-    //   errors.imageUrl = "Image URL must end in .png, .jpg, or .jpeg";
     if (description.length < 30) errors.description = "Description must be at least 30 characters long";
 
     if (Object.values(errors).length) {
@@ -80,11 +74,6 @@ const EditEventForm = () => {
         endDate,
       };
 
-      // const newEventImgBody = {
-      //   url,
-      //   preview: true
-      // }
-
       await dispatch(thunkUpdateEvent(eventId, updatedEventReqBody))
         .then(async (updatedEvent) => {
           // await dispatch(thunkUpdateEventPreviewImage(eventId, previewImage))
@@ -94,13 +83,6 @@ const EditEventForm = () => {
           const data = await res.json()
           setValidationErrors(data.errors)
         })
-      // if (updatedEvent.errors) {
-      //   // set validation errors
-      //   setValidationErrors(updatedEvent.errors)
-      // } else {
-      //   // dispatch the image to the new group's id
-      //   // the dispatch needs the group id AND the body
-      // }
     }
   };
 
@@ -218,17 +200,6 @@ const EditEventForm = () => {
         {"imageUrl" in validationErrors && (
           <p className="errors">{validationErrors.imageUrl}</p>
         )} */}
-        {/* <label htmlFor="preview">
-      <p>
-        Set this image as a preview of the Event:
-        <input
-          name='preview'
-          type="checkbox"
-          value={preview}
-          onChange={() => setPreview(!preview)}
-        />
-      </p>
-    </label> */}
       {/* </div> */}
       <div>
         <label htmlFor="description">
