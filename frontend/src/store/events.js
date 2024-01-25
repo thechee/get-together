@@ -61,21 +61,9 @@ export const thunkLoadEvents = () => async (dispatch) => {
   const response = await fetch('/api/events')
   const events = await response.json()
 
-  // const detailedEvents = []
-  // // loop over events
-  // events?.Events.forEach(async event => {
-  //   // for each event, dispatch thunkEventDetails
-  //   const detailedEvent = await dispatch(thunkEventDetails(event.id))
-  //   // push into new array
-  //   detailedEvents.push(detailedEvent)
-  // })
-  // console.log('events:', events)
-  // console.log(detailedEvents)
-  // console.log(Promise.allSettled(detailedEvents))
-  
-  // dispatch the new array to loadEvents
-  // dispatch(loadEvents(detailedEvents))
-  dispatch(loadEvents(events.Events))
+  if (response.ok) {
+    dispatch(loadEvents(events.Events))
+  }
 }
 
 export const thunkEventDetails = (eventId) => async (dispatch) => {
@@ -107,44 +95,7 @@ export const thunkCreateEvent = (groupId, event) => async (dispatch) => {
   }
 }
 
-export const thunkUpdateEvent = (eventId, event) => async (dispatch) => {
-  const response = await csrfFetch(`/api/events/${eventId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(event)
-  })
-
-  if (response.ok) {
-    const event = await response.json()
-    dispatch(updateEvent(eventId, event))
-    return event;
-  } else {
-    const error = await response.json()
-    return error;
-  }
-}
-
 export const thunkAddEventPreviewImage = (eventId, image) => async (dispatch) => {
-  const formData = new FormData();
-  formData.append('image', image)
-
-  const response = await csrfFetch(`/api/events/${eventId}/previewImage`, {
-    method: 'POST',
-    body: formData
-  })
-
-  if (response.ok) {
-    const resImage = await response.json()
-    await dispatch(addEventPreview(eventId, resImage))
-    return resImage;
-  } else {
-    throw response
-  }
-}
-
-export const thunkUpdateEventPreviewImage = (eventId, image) => async (dispatch) => {
   const formData = new FormData();
   formData.append('image', image)
 
@@ -177,6 +128,43 @@ export const thunkAddEventImages = (eventId, images) => async (dispatch) => {
     return resImages;
   } else {
     throw response
+  }
+}
+
+export const thunkUpdateEventPreviewImage = (eventId, image) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append('image', image)
+
+  const response = await csrfFetch(`/api/events/${eventId}/previewImage`, {
+    method: 'POST',
+    body: formData
+  })
+
+  if (response.ok) {
+    const resImage = await response.json()
+    await dispatch(addEventPreview(eventId, resImage))
+    return resImage;
+  } else {
+    throw response
+  }
+}
+
+export const thunkUpdateEvent = (eventId, event) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(event)
+  })
+
+  if (response.ok) {
+    const event = await response.json()
+    dispatch(updateEvent(eventId, event))
+    return event;
+  } else {
+    const error = await response.json()
+    return error;
   }
 }
 
@@ -226,14 +214,26 @@ const eventReducer = (state = {}, action) => {
       return eventsState;
     }
     case ADD_EVENT_PREVIEW: {
-      return { 
-        ...state,
-        [action.eventId]: {
-          ...state[action.eventId],
-          EventImages: [
-            ...state[action.eventId].EventImages,
-            action.image
-          ]
+      if (state[action.eventId].EventImages) {
+        return { 
+          ...state,
+          [action.eventId]: {
+            ...state[action.eventId],
+            EventImages: [
+              ...state[action.eventId].EventImages,
+              action.image
+            ]
+          }
+        }
+      } else {
+        return { 
+          ...state,
+          [action.eventId]: {
+            ...state[action.eventId],
+            EventImages: [
+              action.image
+            ]
+          }
         }
       }
     }
@@ -248,14 +248,6 @@ const eventReducer = (state = {}, action) => {
           ]
         }
       }
-      // if ("EventImages" in eventsState[action.eventId]) {
-      //   eventsState[action.eventId].EventImages.push(action.image)
-      // } else {
-      //   eventsState[action.eventId].EventImages = [action.image]
-      // }
-      // const newArr = [action.image]
-      // eventsState[action.eventId].EventImages = newArr
-      // return eventsState;
     }
     case DELETE_EVENT: {
       const eventsState = { ...state };

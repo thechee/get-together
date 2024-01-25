@@ -352,7 +352,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
 router.post('/:eventId/images', requireAuth, multipleMulterUpload('images'), async (req, res) => {
   const { eventId } = req.params
   const { user } = req;
-  const { url, preview } = req.body
+  // const { url, preview } = req.body
 
   const event = await Event.findByPk(eventId)
   if(!event) {
@@ -422,7 +422,6 @@ router.post('/:eventId/images', requireAuth, multipleMulterUpload('images'), asy
 router.post('/:eventId/previewImage', requireAuth, singleMulterUpload('image'), async (req, res) => {
   const { eventId } = req.params
   const { user } = req;
-  const { url, preview } = req.body
 
   const event = await Event.findByPk(eventId)
   if(!event) {

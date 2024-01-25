@@ -22,9 +22,7 @@ const EventsListItem = ({ eventId, owned, attending }) => {
   if (event.previewImage) {
     preview = event.previewImage;
   } else if (event.EventImages) {
-    eventImagesPreview = event.EventImages.find(
-      (image) => image.preview === true
-    );
+    eventImagesPreview = event.EventImages.find(image => image.preview === true);
   }
 
   let date;

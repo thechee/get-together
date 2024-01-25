@@ -6,7 +6,8 @@ export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
 export const LOAD_GROUP_DETAILS = 'groups/LOAD_GROUP_DETAILS';
 export const LOAD_GROUP_EVENTS = 'groups/LOAD_GROUP_EVENTS';
 export const CREATE_GROUP = 'groups/CREATE_GROUP';
-export const ADD_IMAGE = 'groups/ADD_IMAGE';
+export const ADD_GROUP_PREVIEW = 'groups/ADD_GROUP_PREVIEW';
+export const ADD_GROUP_IMAGES = 'groups/ADD_GROUP_IMAGES';
 export const EDIT_GROUP = 'groups/EDIT_GROUP';
 export const DELETE_GROUP = 'groups/DELETE_GROUP';
 export const LOAD_MEMBERS = 'groups/LOAD_MEMBERS';
@@ -33,10 +34,16 @@ export const createGroup = (group) => ({
   group
 })
 
-export const addImage = (groupId, image) => ({
-  type: ADD_IMAGE,
+export const addGroupPreview = (groupId, image) => ({
+  type: ADD_GROUP_PREVIEW,
   groupId,
   image
+})
+
+export const addGroupImages = (groupId, images) => ({
+  type: ADD_GROUP_IMAGES,
+  groupId,
+  images
 })
 
 export const editGroup = (groupId, group) => ({
@@ -97,27 +104,43 @@ export const thunkCreateGroup = (group) => async (dispatch) => {
     dispatch(createGroup(group))
     return group;
   } else {
-    const error = await response.json()
-    return error
+    throw response
   }
 }
 
-export const thunkAddImage = (groupId, image) => async (dispatch) => {
-  const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+export const thunkAddGroupPreviewImage = (groupId, image) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append('image', image)
+
+  const response = await csrfFetch(`/api/groups/${groupId}/previewImage`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(image)
+    body: formData
   })
 
   if (response.ok) {
-    const group = await response.json()
-    await dispatch(addImage(groupId, image))
-    return group;
+    const resImage = await response.json()
+    await dispatch(addGroupPreview(groupId, resImage))
+    return resImage;
   } else {
-    const error = await response.json()
-    return error
+    throw response;
+  }
+}
+
+export const thunkAddGroupImages = (groupId, images) => async (dispatch) => {
+  const formData = new FormData();
+  Array.from(images).forEach(image => formData.append('images', image))
+
+  const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+    method: 'POST',
+    body: formData
+  })
+
+  if (response.ok) {
+    const resImages = await response.json()
+    await dispatch(addGroupImages(groupId, resImages))
+    return resImages;
+  } else {
+    throw response;
   }
 }
 
@@ -217,14 +240,41 @@ const groupReducer = (state = {}, action) => {
       groupsState[action.group.id] = action.group
       return groupsState;
     }
-    case ADD_IMAGE: {
-      const groupsState = { ...state };
-      if ("GroupImages" in groupsState[action.groupId]) {
-        groupsState[action.groupId].GroupImages.push(action.image)
+    case ADD_GROUP_PREVIEW: {
+      if (state[action.groupId].GroupImages) {
+        return { 
+          ...state,
+          [action.eventId]: {
+            ...state[action.groupId],
+            GroupImages: [
+              ...state[action.groupId].GroupImages,
+              action.image
+            ]
+          }
+        }
       } else {
-        groupsState[action.groupId].GroupImages = [action.image]
+        return { 
+          ...state,
+          [action.groupId]: {
+            ...state[action.groupId],
+            GroupImages: [
+              action.image
+            ]
+          }
+        }
       }
-      return groupsState;
+    }
+    case ADD_GROUP_IMAGES: {
+      return { 
+        ...state,
+        [action.groupId]: {
+          ...state[action.groupId],
+          GroupImages: [
+            ...state[action.groupId].GroupImages,
+            ...action.images
+          ]
+        }
+      }
     }
     case EDIT_GROUP: {
       const groupsState = { ...state };

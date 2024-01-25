@@ -5,7 +5,7 @@ const { requireAuth } = require('../../utils/auth')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
-const { multipleFilesUpload, multipleMulterUpload, retrievePrivateFile } = require("../../awsS3");
+const { singleFileUpload, singleMulterUpload, multipleFilesUpload, multipleMulterUpload } = require("../../awsS3");
 
 const validateGroupData = [
   check('name')
@@ -430,10 +430,9 @@ router.get('/', async (req, res) => {
   })
 })
 
-router.post('/:groupId/images', requireAuth, async (req, res) => {
+router.post('/:groupId/images', requireAuth, multipleMulterUpload('images'), async (req, res) => {
   const { user } = req;
   const { groupId } = req.params;
-  const { url, preview } = req.body;
 
   const group = await Group.findByPk(groupId)
   if (!group) {
@@ -444,16 +443,50 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
   }
 
   if (user.id === group.organizerId) {
-    let newImage = await group.createGroupImage({
-      url,
-      preview
-    })
-    newImage = newImage.toJSON()
+    const data = await multipleFilesUpload({ files: req.files, public: true })
+    let images = await Promise.all(data.map(image => group.createGroupImage({ url: image, preview: false })))
+
+    const imagesArr = [...images]  
+    return res.json([
+      ...imagesArr
+    ])
+
+    // let newImage = await group.createGroupImage({
+    //   url,
+    //   preview
+    // })
+    // newImage = newImage.toJSON()
+    // return res.json({
+    //   id: newImage.id,
+    //   url: newImage.url,
+    //   preview: newImage.preview
+    // })
+  } else {
+    res.status(403);
     return res.json({
-      id: newImage.id,
-      url: newImage.url,
-      preview: newImage.preview
+      message: "Forbidden"
     })
+  }
+})
+
+
+router.post('/:groupId/previewImage', requireAuth, singleMulterUpload('image'), async (req, res) => {
+  const { user } = req;
+  const { groupId } = req.params;
+
+  const group = await Group.findByPk(groupId)
+  if (!group) {
+    res.status(404);
+    return res.json({
+        message: "Group couldn't be found"
+    })
+  }
+
+  if (user.id === group.organizerId) {
+    const data = await singleFileUpload({ file: req.file, public: true })
+    let image = await group.createGroupImage({ url: data, preview: true })
+
+    return res.json(image)
   } else {
     res.status(403);
     return res.json({
