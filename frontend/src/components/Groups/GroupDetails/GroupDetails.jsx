@@ -16,6 +16,8 @@ const GroupDetails = () => {
   const eventsState = useSelector(state => state.events)
   let events = useSelector(state => state.groups[groupId]?.Events)
   const group = groups[groupId]
+
+  const numEvents = Object.values(eventsState).filter(event => event.groupId == groupId).length
   
   useEffect(() => {
     if (!group?.Organizer) dispatch(thunkGroupDetails(groupId))
@@ -24,9 +26,9 @@ const GroupDetails = () => {
   }, [dispatch, groupId, group?.Organizer])
   
   useEffect(() => {
-    if (!group?.Events) dispatch(thunkLoadGroupEvents(groupId))
+    if (!group?.Events || group.Events.length !== numEvents) dispatch(thunkLoadGroupEvents(groupId))
     return () => null;
-  }, [dispatch, groupId, group?.Events])
+  }, [dispatch, groupId, numEvents, group?.Events])
   
   useEffect(() => {
     if (!group?.Members && user) dispatch(thunkLoadMembers(groupId))
@@ -67,7 +69,7 @@ const GroupDetails = () => {
       </div>
       <section className='group-landing'>
   
-        <div>
+        <div className='group-detail-image-div'>
           <img className='group-image' src={groupPreviewImage?.url} alt="" />
         </div>
 
@@ -79,7 +81,7 @@ const GroupDetails = () => {
             <h4>Organized by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
             </div>
             <div className='group-info-buttons'>
-              {user && !isOwner && !isMember && <button 
+              {!isOwner && !isMember && <button 
                 id='join-group'
                 onClick={() => alert('Feature Coming Soon...')}>
                 Join this group

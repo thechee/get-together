@@ -8,15 +8,16 @@ const ManageGroups = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.session.user);
   const userGroupsObj = useSelector((state) => state.session.user.Groups);
-  let userGroups
-  if (userGroupsObj) {
-    userGroups = Object.values(userGroupsObj)
-  } 
-
+  
   useEffect(() => {
     dispatch(thunkLoadUserGroups())
   }, [dispatch])
-
+  
+  let userGroups;
+  if (userGroupsObj) {
+    userGroups = Object.values(userGroupsObj)
+  } 
+  
   return (
     <div className="user-groups-content">
       <h2>Manage Groups</h2>
@@ -27,7 +28,7 @@ const ManageGroups = () => {
           {userGroups?.length ? (
             userGroups?.map((group) => (
               <GroupListItem
-                group={group}
+                groupId={group.id}
                 isOwner={user.id == group.organizerId}
                 isMember={user.id != group.organizerId}
                 key={group.id}

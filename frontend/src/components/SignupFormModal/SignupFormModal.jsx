@@ -64,13 +64,13 @@ function SignupFormModal() {
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} className="sign-up-form">
         <p className="required-input">* - required input</p>
-        {errors.firstName && <p className="error">{errors.firstName}</p>}
-        {errors.lastName && <p className="error">{errors.lastName}</p>}
-        {errors.email && <p className="error">The provided email is invalid.</p>}
-        {errors.username && <p className="error">Username must be unique.</p>}
-        {errors.password && <p className="error">{errors.password}</p>}
-        {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
-        <label htmlFor="firstName">First Name <span className="required-input">*</span></label>
+        {errors.firstName && <p className="error shake-horizontal">{errors.firstName}</p>}
+        {errors.lastName && <p className="error shake-horizontal">{errors.lastName}</p>}
+        {errors.email && <p className="error shake-horizontal">The provided email is invalid.</p>}
+        {errors.username && <p className="error shake-horizontal">Username must be unique.</p>}
+        {errors.password && <p className="error shake-horizontal">{errors.password}</p>}
+        {errors.confirmPassword && <p className="error shake-horizontal">{errors.confirmPassword}</p>}
+        <label htmlFor="firstName">First Name <span className="required-input shake-horizontal">*</span></label>
         <input
           name="firstName"
           type="text"

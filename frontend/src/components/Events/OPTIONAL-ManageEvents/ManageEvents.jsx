@@ -6,24 +6,24 @@ import { thunkLoadUserEvents } from "../../../store/session";
 
 const ManageEvents = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.session.user)
-  const events = useSelector((state) => state.session.user.Events);
+  const userEvents = useSelector((state) => state.session.user.Events);
+
+  useEffect(() => {
+    dispatch(thunkLoadUserEvents())
+  }, [dispatch])
 
   let ownedEvents;
   let attendingEvents;
 
-  if (events) {
-    ownedEvents = Object.values(events.ownedEvents);
-    attendingEvents = Object.values(events.attendingEvents);
+  if (userEvents) {
+    ownedEvents = Object.values(userEvents.ownedEvents);
+    attendingEvents = Object.values(userEvents.attendingEvents);
   }
 
   ownedEvents?.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
   attendingEvents?.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
 
   // if (!userEventsArr) return null;
-  useEffect(() => {
-    if (!user.Events) dispatch(thunkLoadUserEvents())
-  }, [dispatch, user])
 
   return (
     <div className="user-groups-content">

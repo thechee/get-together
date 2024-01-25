@@ -59,7 +59,7 @@ function LoginFormModal() {
     <div className='log-in'>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
-        {errors && (<p className='error'>The provided credentials were invalid.</p>)}
+        {errors && (<p className='error shake-horizontal'>The provided credentials were invalid.</p>)}
         <label htmlFor='credential'>
           Username or Email
         </label>
@@ -67,7 +67,6 @@ function LoginFormModal() {
             type="text"
             name='credential'
             value={credential}
-            // placeholder='Username or Email'
             onChange={(e) => setCredential(e.target.value)}
             required
           />
@@ -78,7 +77,6 @@ function LoginFormModal() {
             type="password"
             name='password'
             value={password}
-            // placeholder='Password'
             onChange={(e) => setPassword(e.target.value)}
             required
           />

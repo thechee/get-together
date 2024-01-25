@@ -38,8 +38,7 @@ p.error {
   margin-top: 5px;
   color: white;
   background-color: #E76F51;
-  border: 1.5px solid black;  
-  box-shadow: 3px 3px black;
+  border: 1.5px solid black;
 }
 
 #signup-buttondisabled {
