@@ -37,10 +37,11 @@ function Layout() {
 const router = createBrowserRouter([
   {
     element: <Layout />,
+    errorElement: <NoMatch />,
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <Home />,
       },
       {
         path: 'groups',
@@ -107,10 +108,10 @@ const router = createBrowserRouter([
           }
         ]
       },
-      {
-        path: '*',
-        element: <NoMatch />
-      }
+      // {
+      //   path: '*',
+      //   element: <NoMatch />
+      // }
     ]
   }
 ]);
