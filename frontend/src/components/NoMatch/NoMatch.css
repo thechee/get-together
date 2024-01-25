@@ -1,4 +1,10 @@
 .four-oh-four {
-  margin: 5rem auto;
+  margin: 3rem auto;
   text-align: center;
+  font-size: xx-large;
+  animation: tracking-in-contract-bck 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+h1.four-oh-four {
+  font-size: 500%;
 }

@@ -83,14 +83,6 @@ const CreateGroupForm = () => {
             setValidationErrors(data)
           }
         });
-
-      //   if (createdGroup.errors) {
-      //     // set validation errors
-      //     setValidationErrors(createdGroup.errors)
-      //   } else {
-      //     // dispatch the image to the new group's id
-      //     // the dispatch needs the group id AND the body
-      //   }
     }
   };
 
@@ -182,14 +174,13 @@ const CreateGroupForm = () => {
             </select>
           </label>
           <div className="errors-div">
-            {/* <span className="errors" id='group-error-city'>{"city" in validationErrors ? `${validationErrors.city}` : ''}</span> */}
             {"city" in validationErrors && (
-              <span className="errors" id="group-error-city">
+              <span className="errors shake-horizontal" id="group-error-city">
                 {validationErrors.city}
               </span>
             )}
             {"state" in validationErrors && (
-              <span className="errors" id="group-error-state">
+              <span className="errors shake-horizontal" id="group-error-state">
                 {validationErrors.state}
               </span>
             )}
@@ -215,7 +206,7 @@ const CreateGroupForm = () => {
           </label>
           <div className="errors-div">
             {"name" in validationErrors && (
-              <span className="errors">{validationErrors.name}</span>
+              <span className="errors shake-horizontal">{validationErrors.name}</span>
             )}
           </div>
         </div>
@@ -245,7 +236,7 @@ const CreateGroupForm = () => {
           ></textarea>
           <div className="errors-div">
             {"about" in validationErrors && (
-              <span className="errors">{validationErrors.about}</span>
+              <span className="errors shake-horizontal">{validationErrors.about}</span>
             )}
           </div>
         </div>
@@ -271,7 +262,7 @@ const CreateGroupForm = () => {
           </label>
           <div className="errors-div">
             {"type" in validationErrors && (
-              <span className="errors">{validationErrors.type}</span>
+              <span className="errors shake-horizontal">{validationErrors.type}</span>
             )}
           </div>
           <label htmlFor="privacy">
@@ -293,7 +284,7 @@ const CreateGroupForm = () => {
           </label>
           <div className="errors-div">
             {"privacy" in validationErrors && (
-              <span className="errors">{validationErrors.privacy}</span>
+              <span className="errors shake-horizontal">{validationErrors.privacy}</span>
             )}
           </div>
           {/* <label htmlFor="imageUrl">
@@ -315,7 +306,7 @@ const CreateGroupForm = () => {
           </label>
           <div className="errors-div">
             {"previewImage" in validationErrors && (
-              <span className="errors">{validationErrors.previewImage}</span>
+              <span className="errors shake-horizontal">{validationErrors.previewImage}</span>
             )}
           </div>
           <label>

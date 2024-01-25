@@ -67,7 +67,7 @@ const GroupDetails = () => {
       </div>
       <section className='group-landing'>
   
-        <div>
+        <div className='group-detail-image-div'>
           <img className='group-image' src={groupPreviewImage?.url} alt="" />
         </div>
 
@@ -79,7 +79,7 @@ const GroupDetails = () => {
             <h4>Organized by {group?.Organizer?.firstName} {group?.Organizer?.lastName}</h4>
             </div>
             <div className='group-info-buttons'>
-              {user && !isOwner && !isMember && <button 
+              {!isOwner && !isMember && <button 
                 id='join-group'
                 onClick={() => alert('Feature Coming Soon...')}>
                 Join this group

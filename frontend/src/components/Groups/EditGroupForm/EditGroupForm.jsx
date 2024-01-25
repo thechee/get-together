@@ -32,9 +32,6 @@ const EditGroupForm = () => {
     e.preventDefault()
 
     const errors = {};
-    // const urlEndings = ['.png', '.jpg', '.jpeg']
-    // const urlEnding3 = imageUrl.slice(-4)
-    // const urlEnding4 = imageUrl.slice(-5)
 
     if (!city) errors.city = "City is required"
     if (!state) errors.state = "State is required"
@@ -42,7 +39,6 @@ const EditGroupForm = () => {
     if (about.length < 30) errors.about = 'Description must be at least 30 characters long'
     if (type == 'placeholder' || !type) errors.type = 'Group Type is required'
     if (privacy == 'placeholder') errors.privacy = 'Visibility Type is required'
-    // if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg'
 
     setValidationErrors(errors)
 
@@ -57,18 +53,11 @@ const EditGroupForm = () => {
         state,
       }
 
-      // const newImageReqBody = {
-      //   url: imageUrl,
-      //   preview: true
-      // }
-      
       const editedGroup = await dispatch(thunkEditGroup(groupId, newGroupReqBody))
       
       if (editedGroup.errors) {
-        // set validation errors
         setValidationErrors(editedGroup.errors)
       } else {
-        // the dispatch needs the group id AND the body
         // await dispatch(thunkAddImage(groupId, newImageReqBody))
         navigate(`/groups/${groupId}`)
       }
@@ -94,8 +83,8 @@ const EditGroupForm = () => {
           <label>
             <input type="text" id='group-state' placeholder='STATE' value={state} onChange={e => setState(e.target.value)}/>
           </label>
-          {"city" in validationErrors && <p className='errors'>{validationErrors.city}</p>}
-          {"state" in validationErrors && <p className='errors'>{validationErrors.state}</p>}
+          {"city" in validationErrors && <p className='errors shake-horizontal'>{validationErrors.city}</p>}
+          {"state" in validationErrors && <p className='errors shake-horizontal'>{validationErrors.state}</p>}
         </div>
         <div>
           <h2>What will your group&apos;s name be?</h2>
@@ -105,7 +94,7 @@ const EditGroupForm = () => {
           <label>
             <input type="text" id='group-name' placeholder='What is your group name?' value={name} onChange={e => setName(e.target.value)}/>
           </label>
-          {"name" in validationErrors && <p className='errors'>{validationErrors.name}</p>}
+          {"name" in validationErrors && <p className='errors shake-horizontal'>{validationErrors.name}</p>}
         </div>
         <div>
           <h2>Describe the purpose of your group.</h2>
@@ -122,7 +111,7 @@ const EditGroupForm = () => {
             value={about}
             onChange={e => setAbout(e.target.value)}
           ></textarea>
-          {"about" in validationErrors && <p className='errors'>{validationErrors.about}</p>}
+          {"about" in validationErrors && <p className='errors shake-horizontal'>{validationErrors.about}</p>}
         </div>
         <div id='final-steps-div'>
           <h2>Final steps...</h2>
@@ -140,7 +129,7 @@ const EditGroupForm = () => {
               <option value="Online">Online</option>
             </select>
           </label>
-          {"type" in validationErrors && <p className='errors'>{validationErrors.type}</p>}
+          {"type" in validationErrors && <p className='errors shake-horizontal'>{validationErrors.type}</p>}
           <label htmlFor="privacy">
             <p>
               Is this group private or public?
@@ -154,7 +143,7 @@ const EditGroupForm = () => {
               <option value={true}>Private</option>
             </select>
           </label>
-          {"privacy" in validationErrors && <p className='errors'>{validationErrors.privacy}</p>}
+          {"privacy" in validationErrors && <p className='errors shake-horizontal'>{validationErrors.privacy}</p>}
           {/* <label htmlFor="imageUrl">
             <p>
               Please add an image url for your group below:
