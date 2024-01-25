@@ -27,7 +27,7 @@ function SignupFormModal() {
           firstName,
           lastName,
           password,
-          image
+          image,
         })
       )
         .then(closeModal)
@@ -37,11 +37,11 @@ function SignupFormModal() {
             setErrors(data.errors);
           }
         });
+    } else {
+      return setErrors({
+        confirmPassword: "The passwords must match",
+      });
     }
-    return setErrors({
-      confirmPassword:
-        "Confirm Password field must be the same as the Password field",
-    });
   };
 
   const buttonStatus =
@@ -54,8 +54,8 @@ function SignupFormModal() {
       ? "disabled"
       : "";
 
-  const updateFile = e => {
-    const file = e.target.files[0]
+  const updateFile = (e) => {
+    const file = e.target.files[0];
     if (file) setImage(file);
   };
 
@@ -63,80 +63,69 @@ function SignupFormModal() {
     <div className="sign-up-form-container">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} className="sign-up-form">
-        {errors.email && (
-          <p className="error">The provided email is invalid.</p>
-        )}
+        <p className="required-input">* - required input</p>
+        {errors.firstName && <p className="error">{errors.firstName}</p>}
+        {errors.lastName && <p className="error">{errors.lastName}</p>}
+        {errors.email && <p className="error">The provided email is invalid.</p>}
         {errors.username && <p className="error">Username must be unique.</p>}
-        <label htmlFor="firstName">First Name</label>
+        {errors.password && <p className="error">{errors.password}</p>}
+        {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+        <label htmlFor="firstName">First Name <span className="required-input">*</span></label>
         <input
           name="firstName"
           type="text"
           value={firstName}
-          // placeholder='First Name'
           onChange={(e) => setFirstName(e.target.value)}
           required
         />
-        {errors.firstName && <p>{errors.firstName}</p>}
-        <label htmlFor="lastName">Last Name</label>
+        <label htmlFor="lastName">Last Name <span className="required-input">*</span></label>
         <input
           name="lastName"
           type="text"
           value={lastName}
-          // placeholder="Last Name"
           onChange={(e) => setLastName(e.target.value)}
           required
         />
-        {errors.lastName && <p>{errors.lastName}</p>}
-        <label htmlFor="email">
-          Email
-        </label>
-          <input
-            name="email"
-            type="text"
-            value={email}
-            // placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        <label htmlFor="username">
-          Username
-        </label>
-          <input
-            name="username"
-            type="text"
-            value={username}
-            // placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+        <label htmlFor="email">Email <span className="required-input">*</span></label>
+        <input
+          name="email"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <label htmlFor="username">Username <span className="required-input">*</span></label>
+        <input
+          name="username"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
         <label htmlFor="password">
-          Password
+          Password <span className="required-input">*</span>
         </label>
           <input
             name="password"
             type="password"
             value={password}
-            // placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        {errors.password && <p>{errors.password}</p>}
         <label htmlFor="confirmPassword">
-          Confirm Password
+          Confirm Password <span className="required-input">*</span>
         </label>
           <input
             name="confirmPassword"
             type="password"
             value={confirmPassword}
-            // placeholder="Confirm Password"
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <label>
-          Profile Avatar
-          <input type="file" onChange={updateFile} />
+          Profile Picture
         </label>
+          <input type="file" onChange={updateFile} />
         <button id={`signup-button${buttonStatus}`} type="submit">
           Sign Up
         </button>

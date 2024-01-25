@@ -44,8 +44,8 @@ const CreateGroupForm = () => {
 
     if (!city) errors.city = "City is required";
     if (!state) errors.state = "State is required";
-    if (state.length !== 2)
-      errors.state = "State must be formatted as a two-letter abbreviation";
+    if (state == 'placeholder')
+      errors.state = "State is required";
     if (!name) errors.name = "Name is required";
     if (about.length < 30)
       errors.about = "Description must be at least 30 characters long";
@@ -53,8 +53,8 @@ const CreateGroupForm = () => {
     if (privacy == "placeholder" || !privacy)
       errors.privacy = "Visibility Type is required";
     // if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg'
-    // if (!previewImage)
-    //   errors.previewImage = "A main image for the group is required";
+    if (!previewImage)
+      errors.previewImage = "A main image for the group is required";
 
     if (Object.values(errors).length) {
       setValidationErrors(errors);
@@ -126,7 +126,7 @@ const CreateGroupForm = () => {
               onChange={(e) => setState(e.target.value)}
             >
               <option disabled value={"placeholder"}>
-                (select one)
+                State
               </option>
               <option value="AL">Alabama</option>
               <option value="AK">Alaska</option>
