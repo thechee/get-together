@@ -5,7 +5,8 @@ export const LOAD_EVENTS = 'events/LOAD_EVENTS';
 export const LOAD_EVENT_DETAILS = 'events/LOAD_EVENT_DETAILS'
 export const CREATE_EVENT = 'events/CREATE_EVENT'
 export const UPDATE_EVENT = 'events/UPDATE_EVENT'
-export const ADD_EVENT_IMAGE = 'events/ADD_EVENT_IMAGE'
+export const ADD_EVENT_PREVIEW = 'events/ADD_EVENT_PREVIEW'
+export const ADD_EVENT_IMAGES = 'events/ADD_EVENT_IMAGES'
 export const DELETE_EVENT = 'events/DELETE_EVENT'
 export const DELETE_ASSOCIATED_EVENTS = 'events/DELETE_ASSOCIATED_EVENTS'
 
@@ -31,10 +32,16 @@ export const updateEvent = (eventId, event) => ({
   event
 })
 
-export const addEventImage = (eventId, image) => ({
-  type: ADD_EVENT_IMAGE,
+export const addEventPreview = (eventId, image) => ({
+  type: ADD_EVENT_PREVIEW,
   eventId,
   image
+})
+
+export const addEventImages = (eventId, images) => ({
+  type: ADD_EVENT_IMAGES,
+  eventId,
+  images
 })
 
 export const deleteEvent = (eventId) => ({
@@ -54,21 +61,9 @@ export const thunkLoadEvents = () => async (dispatch) => {
   const response = await fetch('/api/events')
   const events = await response.json()
 
-  // const detailedEvents = []
-  // // loop over events
-  // events?.Events.forEach(async event => {
-  //   // for each event, dispatch thunkEventDetails
-  //   const detailedEvent = await dispatch(thunkEventDetails(event.id))
-  //   // push into new array
-  //   detailedEvents.push(detailedEvent)
-  // })
-  // console.log('events:', events)
-  // console.log(detailedEvents)
-  // console.log(Promise.allSettled(detailedEvents))
-  
-  // dispatch the new array to loadEvents
-  // dispatch(loadEvents(detailedEvents))
-  dispatch(loadEvents(events.Events))
+  if (response.ok) {
+    dispatch(loadEvents(events.Events))
+  }
 }
 
 export const thunkEventDetails = (eventId) => async (dispatch) => {
@@ -100,6 +95,60 @@ export const thunkCreateEvent = (groupId, event) => async (dispatch) => {
   }
 }
 
+export const thunkAddEventPreviewImage = (eventId, image) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append('image', image)
+
+  const response = await csrfFetch(`/api/events/${eventId}/previewImage`, {
+    method: 'POST',
+    body: formData
+  })
+
+  if (response.ok) {
+    const resImage = await response.json()
+    await dispatch(addEventPreview(eventId, resImage))
+    return resImage;
+  } else {
+    throw response
+  }
+}
+
+export const thunkAddEventImages = (eventId, images) => async (dispatch) => {
+  const formData = new FormData();
+  Array.from(images).forEach(image => formData.append('images', image))
+
+  const response = await csrfFetch(`/api/events/${eventId}/images`, {
+    method: 'POST',
+    body: formData
+  })
+
+  if (response.ok) {
+    const resImages = await response.json()
+    await dispatch(addEventImages(eventId, resImages))
+    return resImages;
+  } else {
+    throw response
+  }
+}
+
+export const thunkUpdateEventPreviewImage = (eventId, image) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append('image', image)
+
+  const response = await csrfFetch(`/api/events/${eventId}/previewImage`, {
+    method: 'POST',
+    body: formData
+  })
+
+  if (response.ok) {
+    const resImage = await response.json()
+    await dispatch(addEventPreview(eventId, resImage))
+    return resImage;
+  } else {
+    throw response
+  }
+}
+
 export const thunkUpdateEvent = (eventId, event) => async (dispatch) => {
   const response = await csrfFetch(`/api/events/${eventId}`, {
     method: 'PUT',
@@ -116,25 +165,6 @@ export const thunkUpdateEvent = (eventId, event) => async (dispatch) => {
   } else {
     const error = await response.json()
     return error;
-  }
-}
-
-export const thunkAddEventImage = (eventId, image) => async (dispatch) => {
-  const response = await csrfFetch(`/api/events/${eventId}/images`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(image)
-  })
-
-  if (response.ok) {
-    const group = await response.json()
-    await dispatch(addEventImage(eventId, image))
-    return group;
-  } else {
-    const error = await response.json()
-    return error
   }
 }
 
@@ -183,16 +213,41 @@ const eventReducer = (state = {}, action) => {
       eventsState[action.eventId] = { ...eventsState[action.eventId], ...action.event} 
       return eventsState;
     }
-    case ADD_EVENT_IMAGE: {
-      const eventsState = { ...state }
-      // if ("EventImages" in eventsState[action.eventId]) {
-      //   eventsState[action.eventId].EventImages.push(action.image)
-      // } else {
-      //   eventsState[action.eventId].EventImages = [action.image]
-      // }
-      const newArr = [action.image]
-      eventsState[action.eventId].EventImages = newArr
-      return eventsState;
+    case ADD_EVENT_PREVIEW: {
+      if (state[action.eventId].EventImages) {
+        return { 
+          ...state,
+          [action.eventId]: {
+            ...state[action.eventId],
+            EventImages: [
+              ...state[action.eventId].EventImages,
+              action.image
+            ]
+          }
+        }
+      } else {
+        return { 
+          ...state,
+          [action.eventId]: {
+            ...state[action.eventId],
+            EventImages: [
+              action.image
+            ]
+          }
+        }
+      }
+    }
+    case ADD_EVENT_IMAGES: {
+      return { 
+        ...state,
+        [action.eventId]: {
+          ...state[action.eventId],
+          EventImages: [
+            ...state[action.eventId].EventImages,
+            ...action.images
+          ]
+        }
+      }
     }
     case DELETE_EVENT: {
       const eventsState = { ...state };

@@ -12,16 +12,27 @@ const GroupDetails = () => {
   const dispatch = useDispatch()
   const { groupId } = useParams()
   const user = useSelector(state => state.session.user)
-  const group = useSelector(state => state.groups[groupId])
+  const groups = useSelector(state => state.groups)
   const eventsState = useSelector(state => state.events)
   let events = useSelector(state => state.groups[groupId]?.Events)
+  const group = groups[groupId]
   
   useEffect(() => {
-    dispatch(thunkGroupDetails(groupId))
-    dispatch(thunkLoadGroupEvents(groupId))
-    dispatch(thunkLoadMembers(groupId))
-  }, [dispatch, groupId])
+    if (!group?.Organizer) dispatch(thunkGroupDetails(groupId))
+
+    return () => null;
+  }, [dispatch, groupId, group?.Organizer])
   
+  useEffect(() => {
+    if (!group?.Events) dispatch(thunkLoadGroupEvents(groupId))
+    return () => null;
+  }, [dispatch, groupId, group?.Events])
+  
+  useEffect(() => {
+    if (!group?.Members && user) dispatch(thunkLoadMembers(groupId))
+    return () => null;
+  }, [dispatch, groupId, group?.Members, user])
+
   if (!eventsState) return null
   
   const isOwner = user?.id == group?.organizerId;

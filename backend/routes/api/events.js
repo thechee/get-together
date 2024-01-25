@@ -5,6 +5,7 @@ const { requireAuth } = require('../../utils/auth')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
+const { multipleFilesUpload, multipleMulterUpload, singleFileUpload, singleMulterUpload } = require("../../awsS3");
 
 const validateQueryParameters = [
   check('page')
@@ -265,10 +266,6 @@ router.get('/', validateQueryParameters, async (req, res) => {
   })
   } else matchingDate = eventList;
 
-
-  // console.log(matchingDate)
-  // console.log(eventList)
-
   matchingDate.forEach(event => {
     if (event.EventImages[0]) {
       event.previewImage = event.EventImages[0].url;
@@ -352,10 +349,10 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
   })
 })
 
-router.post('/:eventId/images', requireAuth, async (req, res) => {
+router.post('/:eventId/images', requireAuth, multipleMulterUpload('images'), async (req, res) => {
   const { eventId } = req.params
   const { user } = req;
-  const { url, preview } = req.body
+  // const { url, preview } = req.body
 
   const event = await Event.findByPk(eventId)
   if(!event) {
@@ -371,7 +368,7 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
       model: Membership
     }
   })
-
+  
   const cohost = await User.findByPk(user.id, {
     include: {
       model: Membership,
@@ -391,19 +388,73 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
   })
   
   const host = currentUser.id == group.organizerId
-
+  
+  
   if (host || cohost || attendee.length) {
-    const image = await event.createEventImage({
-      url,
-      preview
-    })
+    const data = await multipleFilesUpload({ files: req.files, public: true })
+    const images = await Promise.all(data.map(image => 
+      event.createEventImage({ url: image, preview: false })))
+    
+    const imagesArr = [...images]
+  
+    return res.json([
+      ...imagesArr
+    ]);
+    // const image = await event.createEventImage({
+    //   url,
+    //   preview
+    // })
 
-    imageObj = image.toJSON()
+    // const imageObj = image.toJSON()
+    // return res.json({
+    //   id: imageObj.id,
+    //   url: imageObj.url,
+    //   preview: imageObj.preview
+    // })
+  } else {
+    res.status(403);
     return res.json({
-      id: imageObj.id,
-      url: imageObj.url,
-      preview: imageObj.preview
+      message: "Forbidden"
     })
+  }
+})
+
+router.post('/:eventId/previewImage', requireAuth, singleMulterUpload('image'), async (req, res) => {
+  const { eventId } = req.params
+  const { user } = req;
+
+  const event = await Event.findByPk(eventId)
+  if(!event) {
+    res.status(404)
+    return res.json({
+      message: "Event couldn't be found"
+    })
+  }
+  const eventObj = event.toJSON()
+  const currentUser = await User.findByPk(user.id)
+  const group = await Group.findByPk(eventObj.groupId, {
+    include: {
+      model: Membership
+    }
+  })
+  
+  const cohost = await User.findByPk(user.id, {
+    include: {
+      model: Membership,
+      where: {
+        groupId: eventObj.groupId,
+        status: 'co-host'
+      }
+    }
+  });
+  
+  const host = currentUser.id == group.organizerId
+  
+  if (host || cohost) {
+    const data = await singleFileUpload({ file: req.file, public: true })
+    const image = await event.createEventImage({ url: data, preview: true })
+  
+    return res.json(image)
   } else {
     res.status(403);
     return res.json({
@@ -592,7 +643,6 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
       message: "Attendance between the user and the event does not exist"
     })
   }
-
 
   // ERROR 403 Only user or organizer may delete attendance
   //"message": "Only the User or organizer may delete an Attendance"

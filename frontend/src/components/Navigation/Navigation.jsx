@@ -10,6 +10,7 @@ import './Navigation.css';
 /*{isLoaded} belongs in Navigation parameter*/
 function Navigation() {
   const sessionUser = useSelector(state => state.session.user);
+  
   return (
     <nav>
       <div className='nav-bar-logo'>
