@@ -16,6 +16,8 @@ const GroupDetails = () => {
   const eventsState = useSelector(state => state.events)
   let events = useSelector(state => state.groups[groupId]?.Events)
   const group = groups[groupId]
+
+  const numEvents = Object.values(eventsState).filter(event => event.groupId == groupId).length
   
   useEffect(() => {
     if (!group?.Organizer) dispatch(thunkGroupDetails(groupId))
@@ -24,9 +26,9 @@ const GroupDetails = () => {
   }, [dispatch, groupId, group?.Organizer])
   
   useEffect(() => {
-    if (!group?.Events) dispatch(thunkLoadGroupEvents(groupId))
+    if (!group?.Events || group.Events.length !== numEvents) dispatch(thunkLoadGroupEvents(groupId))
     return () => null;
-  }, [dispatch, groupId, group?.Events])
+  }, [dispatch, groupId, numEvents, group?.Events])
   
   useEffect(() => {
     if (!group?.Members && user) dispatch(thunkLoadMembers(groupId))

@@ -11,16 +11,20 @@ const GroupListItem = ({ groupId, isOwner, isMember }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const group = useSelector(state => state.groups[groupId])
-
+  
   useEffect(() => {
-    if (isOwner || isMember) dispatch(thunkLoadUserGroupEvents(group.id))
-  }, [dispatch, group.id, isMember, isOwner])
+    if (isOwner || isMember) dispatch(thunkLoadUserGroupEvents(groupId))
+  }, [dispatch, groupId, isMember, isOwner])
 
   useEffect(()=> {
-    if (!group?.Events) dispatch(thunkLoadGroupEvents(group.id))
-  }, [dispatch, group.id, group?.Events])
+    if (!group?.Events) dispatch(thunkLoadGroupEvents(groupId))
+  }, [dispatch, groupId, group?.Events])
 
-  const previewImage = group.previewImage
+  if (!group) return null;
+  let previewImage;
+  if (group.previewImage) previewImage = group.previewImage
+  if (!group.previewImage && group.GroupImages) previewImage = group.GroupImages.find(image => image.preview == true).url
+  // if (group.GroupImages) previewImage = group.GroupImages.find(image => image.preview === true)
 
   return (
     <li>
