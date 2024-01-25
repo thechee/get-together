@@ -17,11 +17,17 @@ const GroupDetails = () => {
   let events = useSelector(state => state.groups[groupId]?.Events)
   
   useEffect(() => {
-    dispatch(thunkGroupDetails(groupId))
-    dispatch(thunkLoadGroupEvents(groupId))
-    dispatch(thunkLoadMembers(groupId))
-  }, [dispatch, groupId])
+    if (!group?.Organizer) dispatch(thunkGroupDetails(groupId))
+  }, [dispatch, groupId, group?.Organizer])
   
+  useEffect(() => {
+    if (!group?.Events) dispatch(thunkLoadGroupEvents(groupId))
+  }, [dispatch, groupId, group?.Events])
+  
+  useEffect(() => {
+    if (!group?.Members) dispatch(thunkLoadMembers(groupId))
+  }, [dispatch, groupId, group?.Members])
+
   if (!eventsState) return null
   
   const isOwner = user?.id == group?.organizerId;

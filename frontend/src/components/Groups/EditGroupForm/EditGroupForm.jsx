@@ -25,8 +25,8 @@ const EditGroupForm = () => {
   }
   
   useEffect(() => {
-    dispatch(thunkGroupDetails(groupId))
-  }, [dispatch, groupId])
+    if (!group?.Organizer) dispatch(thunkGroupDetails(groupId))
+  }, [dispatch, groupId, group?.Organizer])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
