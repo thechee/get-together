@@ -19,7 +19,6 @@
 .group-management-btns-container button {
   color: white;
   background-color: gray;
-  box-shadow: 3px 3px black;
   padding: .5rem 1rem;
   margin: 0 .5rem;
   cursor: pointer;
@@ -29,7 +28,6 @@
 #unjoin-btn {
   color: white;
   background-color: lightgray;
-  box-shadow: 3px 3px black;
   cursor: pointer;
 }
 
