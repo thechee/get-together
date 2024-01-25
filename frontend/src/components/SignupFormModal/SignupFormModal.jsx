@@ -18,8 +18,9 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setErrors({})
+
     if (password === confirmPassword) {
-      setErrors({});
       return dispatch(
         sessionActions.thunkSignup({
           email,
@@ -34,7 +35,13 @@ function SignupFormModal() {
         .catch(async (res) => {
           const data = await res.json();
           if (data?.errors) {
-            setErrors(data.errors);
+            setErrors({})
+            const backendErrors = {}
+            if (data.errors.firstName) backendErrors.firstName = 'First name must be only letters'
+            if (data.errors.lastName) backendErrors.lastName = 'Last name must be only letters'
+            if (data.errors.username) backendErrors.username = data.errors.username
+            if (data.errors.email) backendErrors.email = data.errors.email
+            setErrors(backendErrors);
           }
         });
     } else {
