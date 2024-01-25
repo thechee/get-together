@@ -10,15 +10,15 @@ const EventsListItem = ({ eventId, owned, attending }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const event = useSelector((state) => state.events[eventId]);
+  
+  useEffect(() => {
+    if (eventId && !event?.description) dispatch(thunkEventDetails(eventId));
+  }, [dispatch, eventId, event?.description]);
+  
+  if (!event) return null;
+  
   let preview;
   let eventImagesPreview;
-
-  useEffect(() => {
-    if (eventId) dispatch(thunkEventDetails(eventId));
-  }, [dispatch, eventId]);
-
-  if (!event) return null;
-
   if (event.previewImage) {
     preview = event.previewImage;
   } else if (event.EventImages) {

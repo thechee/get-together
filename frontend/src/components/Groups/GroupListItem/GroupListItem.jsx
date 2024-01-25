@@ -2,21 +2,25 @@ import { Link, useNavigate } from "react-router-dom";
 import OpenModalButton from "../../OpenModalButton";
 import DeleteGroupModal from "../DeleteGroupModal";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { thunkLoadGroupEvents } from "../../../store/groups";
 import { thunkLoadUserGroupEvents } from "../../../store/session";
 import "./GroupListItem.css";
 
-const GroupListItem = ({ group, isOwner, isMember }) => {
+const GroupListItem = ({ groupId, isOwner, isMember }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const group = useSelector(state => state.groups[groupId])
 
   useEffect(() => {
-    dispatch(thunkLoadGroupEvents(group.id))
     if (isOwner || isMember) dispatch(thunkLoadUserGroupEvents(group.id))
   }, [dispatch, group.id, isMember, isOwner])
 
-  const previewImage = group.previewImage || group.GroupImages.find(image => image.preview === true);
+  useEffect(()=> {
+    if (!group?.Events) dispatch(thunkLoadGroupEvents(group.id))
+  }, [dispatch, group.id, group?.Events])
+
+  const previewImage = group.previewImage
 
   return (
     <li>
