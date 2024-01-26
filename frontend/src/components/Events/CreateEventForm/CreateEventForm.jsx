@@ -55,8 +55,6 @@ const CreateEventForm = () => {
     e.preventDefault();
 
     setValidationErrors({});
-    console.log("entered startDate", new Date(startDate).getTime())
-    console.log("current time", new Date().getTime())
 
     const errors = {};
     if (!name) errors.name = "Name is required";
