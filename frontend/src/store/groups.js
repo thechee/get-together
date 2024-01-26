@@ -173,7 +173,7 @@ export const thunkDeleteGroup = (group) => async (dispatch) => {
 
   if (response.ok) {
     const message = await response.json()
-    group.Events.forEach(event => {
+    await group.Events.forEach(event => {
       dispatch(deleteAssociatedEvents(event.id))
     })
     dispatch(deleteGroup(group.id))

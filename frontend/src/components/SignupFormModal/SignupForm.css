@@ -39,6 +39,7 @@ p.error {
   color: white;
   background-color: #E76F51;
   border: 1.5px solid black;
+  cursor: pointer;
 }
 
 #signup-buttondisabled {
