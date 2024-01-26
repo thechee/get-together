@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       // onDelete: 'CASCADE',
       // hooks: true
     },
-    url: DataTypes.STRING,
+    url: DataTypes.TEXT,
     preview: DataTypes.BOOLEAN
   }, {
     sequelize,
