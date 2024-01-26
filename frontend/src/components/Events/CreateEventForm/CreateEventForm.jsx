@@ -55,10 +55,8 @@ const CreateEventForm = () => {
     e.preventDefault();
 
     setValidationErrors({});
-
-    // const urlEndings = ['.png', '.jpg', '.jpeg'];
-    // const urlEnding3 = url.slice(-4);
-    // const urlEnding4 = url.slice(-5);
+    console.log("entered startDate", new Date(startDate).getTime())
+    console.log("current time", new Date().getTime())
 
     const errors = {};
     if (!name) errors.name = "Name is required";
@@ -69,14 +67,14 @@ const CreateEventForm = () => {
     if (price == "placeholder" || !price) errors.price = "Price is required";
     // if (price.startsWith('0') && price.length > 1) errors.price = 'Price should be a valid'
     if (!startDate) errors.startDate = "Event start is required";
-    if (new Date(startDate).getTime() <= new Date().getTime())
+    if (new Date(startDate).getTime() <= new Date().getTime()) {
       errors.startDate = "Event start must be in the future";
+    }
     if (new Date(startDate).getTime() > new Date(endDate).getTime())
       errors.endDate = "Event end must be after the start";
     if (!endDate) errors.endDate = "Event end is required";
     if (!previewImage)
       errors.previewImage = "A main image for the event is required";
-    // if (!urlEndings.includes(urlEnding3) && !urlEndings.includes(urlEnding4)) errors.imageUrl = 'Image URL must end in .png, .jpg, or .jpeg';
     // if (images.length === 0) errors.images = 'At least 1 image is required'
     if (description.length < 30)
       errors.description = "Description must be at least 30 characters long";
@@ -97,11 +95,6 @@ const CreateEventForm = () => {
         startDate,
         endDate,
       };
-
-      // const newEventImgBody = {
-      //   url,
-      //   preview: true
-      // }
 
       await dispatch(thunkCreateEvent(groupId, newEventReqBody))
         .then(async (createdEvent) => {

@@ -17,8 +17,8 @@ const GroupListItem = ({ groupId, isOwner, isMember }) => {
   }, [dispatch, groupId, isMember, isOwner])
 
   useEffect(()=> {
-    if (!group?.Events) dispatch(thunkLoadGroupEvents(groupId))
-  }, [dispatch, groupId, group?.Events])
+    dispatch(thunkLoadGroupEvents(groupId))
+  }, [dispatch, groupId])
 
   if (!group) return null;
   let previewImage;
