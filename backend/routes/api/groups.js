@@ -469,7 +469,6 @@ router.post('/:groupId/images', requireAuth, multipleMulterUpload('images'), asy
   }
 })
 
-
 router.post('/:groupId/previewImage', requireAuth, singleMulterUpload('image'), async (req, res) => {
   const { user } = req;
   const { groupId } = req.params;
@@ -544,6 +543,8 @@ router.post('/:groupId/events', requireAuth, validateEventData, async (req, res)
   const { groupId } = req.params
   const { user } = req;
   let { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+
+  startDate = startDate.toISOString();
 
   const group = await Group.findByPk(groupId)
   if (!group) {
