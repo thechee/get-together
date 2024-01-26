@@ -23,7 +23,6 @@
 
 .group-section button {
   background-color: #E76F51;
-  box-shadow: 3px 3px black;
   color: white;
   font-size: large;
   padding: .5rem 1rem;
@@ -52,10 +51,6 @@
 
 #comma-span {
   margin: 0 .5rem 0 .25rem;
-}
-
-#group-state {
-  /* width: 5rem; */
 }
 
 #group-error-state {
