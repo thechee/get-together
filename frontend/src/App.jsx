@@ -46,6 +46,7 @@ const router = createBrowserRouter([
       {
         path: 'groups',
         element: <Outlet />,
+        errorElement: <NoMatch />,
         children: [
           {
             index: true,

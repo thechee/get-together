@@ -56,7 +56,7 @@ nav {
 #profile-image {
   height: 50px;
   width: 50px;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 50%;
 }
 
@@ -85,7 +85,7 @@ nav {
   border: 1px solid lightgray;
   background-color: white;
   position: relative;
-  top: 35px;
+  top: 40px;
 }
 
 .user-dropdown > li{
