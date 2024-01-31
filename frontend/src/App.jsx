@@ -10,8 +10,9 @@ import { Modal } from './context/Modal';
 import { thunkLoadGroups } from './store/groups';
 import { thunkLoadEvents } from './store/events';
 import NoMatch from './components/NoMatch/NoMatch';
+import { csrfFetch } from './store/csrf';
 
-function Layout() {
+export function Layout() {
   const dispatch = useDispatch();
   const [ isLoaded, setIsLoaded ] = useState(false)
 
@@ -46,11 +47,11 @@ const router = createBrowserRouter([
       {
         path: 'groups',
         element: <Outlet />,
-        errorElement: <NoMatch />,
         children: [
           {
             index: true,
             element: <GroupsList />,
+            errorElement: <NoMatch />,
           },
           {
             path: 'new',
@@ -59,6 +60,16 @@ const router = createBrowserRouter([
           {
             path: ':groupId',
             element: <Outlet />,
+            loader: async ({params}) => {
+              const res = await csrfFetch(`/api/groups/${params.groupId}`)
+              
+              if (res.status === 404) {
+                throw new Response("This group cannot be found", { status: 404})
+              }
+
+              const page = await res.json()
+              return page
+            },
             children: [
               {
                 index: true,
@@ -86,12 +97,27 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <EventsList />
+            element: <EventsList />,
+            loader: async () => {
+              const res = await csrfFetch(`api/events`)
+
+              const events = await res.json()
+              return events;
+            }
           },
           {
             path: ':eventId',
             element: <Outlet />,
+            loader: async ({params}) => {
+              const res = await csrfFetch(`/api/events/${params.eventId}`)
+              
+              if (res.status === 404) {
+                throw new Response("This event cannot be found", { status: 404})
+              }
 
+              const page = await res.json()
+              return page
+            },
             children: [
               {
                 index: true,
